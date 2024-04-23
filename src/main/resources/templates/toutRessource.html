@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>espace de responsable</title>
+    <style>
+        /* Style pour le menu */
+        #sidebar {
+            background-color: #333;
+            padding: 20px;
+            color: gray;
+        }
+
+        #sidebar h3 {
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        #sidebar ul li a {
+            color: gray;
+        }
+
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/propositions">Propositions</a>
+            </li>
+            <li>
+                <a href="/livraison">Livraison</a>
+            </li>
+            <li>
+                <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Page content -->
+    <div id="content" style="margin-top: 20px;">
+        <!-- Top-navbar-start -->
+        <div class="top-navbar">
+            <div class="xd-topbar">
+                <div class="row">
+                    <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                        <div class="xp-searchbar">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Chercher demande par Id" name="id">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit" id="button-addon2">Go</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                        <div class="xp-profilebar text-right">
+                            <nav class="navbar p-0">
+                                <ul class="nav navbar-nav flex-row ml-auto">
+                                    <li class="dropdown nav-item active">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <span class="material-icons">notifications</span>
+                                            <span class="notification">4</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="material-icons">question_answer</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown nav-item">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <img src="img/user.jpg" style="width:40px; border-radius:50%;"/>
+                                            <span class="xp-user-live"></span>
+                                        </a>
+                                        <ul class="dropdown-menu small-menu">
+                                            <li><a href="#">
+                                                <span class="material-icons">person_outline</span>
+                                                Profile
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">settings</span>
+                                                Settings
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Logout
+                                            </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Hanane</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Bouchouikra</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- Main-content-start -->
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">Liste de tous les besoins de différents départements :</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Numero inventaire</th>
+                                        <th>Marque</th>
+                                        <th>CPU / Vitesse d'impression</th>
+                                        <th>Departement</th>
+                                        <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="ressource : ${ressources}">
+                                        <td th:text="${ressource.getClass().simpleName}"></td>
+                                        <td th:text="${ressource.numeroInventaire}"></td>
+                                        <td>
+                                            <span th:if="${ressource != null && ressource.marque != null}" th:text="${ressource.marque}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.cpu}"></span>
+                                            <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.vitesseImpression}"></span>
+                                        </td>
+                                        <td th:text="${ressource.departement.nom}"></td>
+                                    <td>
+                   <!-- Bouton pour éditer la ressource -->
+                  <a style="color: blue; cursor: pointer;" class="fas fa-pencil-alt edit-ressource-btn">
+        <i id="ressourceId" th:text="${ressource.id}" ></i> 
+    </a>
+                        <!-- Bouton de suppression avec confirmation -->
+                       <a style="color: red;"  th:href="@{/deleteRessource/{id}(id=${ressource.id})}">
+                        <i class="fas fa-trash ms-4"></i>
+                        </a>
+                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- Modal -->
+<div class="modal" id="ressourceDetailsModal" tabindex="-1" aria-labelledby="ressourceDetailsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ressourceDetailsModalLabel">Modifier les détails de la ressource</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire pour éditer un ordinateur -->
+                <form th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur'}"
+                      action="/editerOrdinateur" method="post">
+                    <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
+                    <!-- Autres champs pour éditer un ordinateur -->
+                    <div class="mb-3">
+                        <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
+                        <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
+                               th:value="${ressource.numeroInventaire}">
+                    </div>
+                    <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
+                    <div class="mb-3" th:if="${ressource.marque != null}">
+                        <label for="editMarque" class="form-label">Marque</label>
+                        <input type="text" class="form-control" id="editMarque" name="marque"
+                               th:value="${ressource.marque}">
+                    </div>
+                    <!-- Afficher d'autres champs selon les besoins -->
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+
+                <!-- Formulaire pour éditer une imprimante -->
+                <form th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante'}"
+                      action="/editerImprimante" method="post">
+                    <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
+                    <!-- Autres champs pour éditer une imprimante -->
+                    <div class="mb-3">
+                        <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
+                        <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
+                               th:value="${ressource.numeroInventaire}">
+                    </div>
+                    <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
+                    <div class="mb-3" th:if="${ressource.marque != null}">
+                        <label for="editMarque" class="form-label">Marque</label>
+                        <input type="text" class="form-control" id="editMarque" name="marque"
+                               th:value="${ressource.marque}">
+                    </div>
+                    <!-- Afficher d'autres champs selon les besoins -->
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="closeModalBtn" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Main-content-end -->
+        <!-- Footer-design -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="footer-in">
+                    <p class="mb-0">&copy; 2023/2024 Master SDSI. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    // Ouvrir la modal de modification lorsque le bouton "Modifier" est cliqué
+    $('.edit-ressource-btn').click(function() {
+        var ressourceId = $(this).closest('tr').find('#ressourceId').text();
+
+        // Utiliser AJAX pour récupérer les données de la ressource depuis votre backend
+        $.ajax({
+            type: 'GET',
+            url: '/detailsRessource/' + ressourceId,
+            success: function(data) {
+                // Remplacer le contenu de la modal par les données récupérées
+                $('#ressourceDetailsModal .modal-content').html(data);
+                // Afficher la modal
+                $('#ressourceDetailsModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.error('Erreur lors du chargement des données de la ressource :', error);
+            }
+        });
+    });
+
+    // Envoyer une requête AJAX pour mettre à jour la ressource lorsque le bouton "Enregistrer les modifications" est cliqué
+    $('#updateRessourceBtn').click(function() {
+        var ressourceId = $('#editRessourceId').val();
+        var numeroInventaire = $('#editNumeroInventaire').val();
+        var marque = $('#editMarque').val();
+
+        // Effectuer votre logique AJAX ici pour mettre à jour la ressource
+        $.ajax({
+            type: 'POST',
+            url: '/updateRessource', // Assurez-vous que l'URL correspond à votre endpoint de mise à jour de ressource
+            data: {
+                id: ressourceId,
+                numeroInventaire: numeroInventaire,
+                marque: marque
+            },
+            success: function(response) {
+                $('#ressourceDetailsModal').modal('hide');
+                window.location.reload(); // Recharger la page pour afficher les mises à jour
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
+
+</script>
+
+</body>
+</html>

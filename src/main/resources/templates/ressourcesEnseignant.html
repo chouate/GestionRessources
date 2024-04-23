@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Ressources de l'Enseignant</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+
+</head>
+<body>
+
+
+    <div layout:fragment="content1">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-4 p-0 d-flex justify-content-lg-start justify-content-center">
+                                <h2 class="ml-lg-2">Besoins de département</h2>
+                                <span>Demande N° : <span th:text="${demande.getId()}"></span></span>
+                            </div>
+                            <div class="col-sm-8 p-0 d-flex justify-content-lg-end justify-content-center">
+                                <!--
+                                <a href="#addOrdinateurBesionModal" class="btn btn-success" data-toggle="modal">
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Ordinateur</span>
+                                </a>
+                                -->
+                                <a th:href="@{'/formOrdinateurBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Ordinateur</span>
+                                </a>
+                                <a th:href="@{'/formImprimanteBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Imprimante</span>
+                                </a>
+
+                                <!--
+                                <a href="#addImprimanteBesionModal" class="btn btn-success" data-toggle="modal">
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Imprimante</span>
+                                </a>
+                                -->
+                                <a  class="btn btn-secondary" data-toggle="modal">
+                                    <i class="material-icons">&#xE30A;</i> <span>Ordinateur</span></a>
+                                <a  class="btn btn-secondary" data-toggle="modal">
+                                    <i class="material-icons">&#xE3B9;</i> <span>Imprimante</span></a>
+                                <a  class="btn btn-secondary" data-toggle="modal">
+                                    <i class="material-icons">&#xE2C6;</i> <span>Tous les Besoins</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="container mt-4">
+                    <h1>Ressources de l'Enseignant</h1>
+
+                    <!-- Bouton pour retourner à la liste des enseignants -->
+                    <a class="btn btn-primary" th:href="@{/enseignants}">Afficher tous les enseignants</a>
+
+                    <!-- Affichage des ressources avec des cartes (cards) -->
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div th:each="ressource : ${ressources}">
+                                <div class="card mb-3">
+                                    <div class="card-header">Ressource</div>
+                                    <div class="card-body">
+
+                                        <!-- Affichage des propriétés spécifiques selon le type de ressource -->
+                                        <div th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
+                                            <strong>CPU:</strong> <span th:text="${ressource.cpu}"></span><br>
+                                            <strong>RAM:</strong> <span th:text="${ressource.ram} Go"></span><br>
+                                            <strong>Disque Dur:</strong> <span th:text="${ressource.disqueDur} Go"></span><br>
+                                            <strong>Écran:</strong> <span th:text="${ressource.ecran}"></span>
+                                        </div>
+
+                                        <div th:if="${ressource.getClass().simpleName == 'Imprimante'}">
+                                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesseImpression} ppm"></span><br>
+                                            <strong>Résolution:</strong> <span th:text="${ressource.resolution} DPI"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div><!-- row end -->
+
+
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

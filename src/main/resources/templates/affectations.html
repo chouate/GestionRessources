@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>espace de responsable</title>
+    <style>
+		.gray-bg {
+			color: crimson;
+    background-color: darkslategray; 
+    font-size: 20px;/* Ou la couleur grise de votre choix */
+}
+
+        /* Style pour le menu */
+        #sidebar {
+            background-color: #333;
+            padding: 20px;
+            color: gray;
+        }
+
+        #sidebar h3 {
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        #sidebar ul li a {
+            color: gray;
+        }
+
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/propositions">Propositions</a>
+            </li>
+            <li>
+                <a href="/livraison">Livraison</a>
+            </li>
+            <li>
+                <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Page content -->
+    <div id="content" style="margin-top: 20px;">
+        <!-- Top-navbar-start -->
+        <div class="top-navbar">
+            <div class="xd-topbar">
+                <div class="row">
+                    <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                        <div class="xp-searchbar">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Chercher demande par Id" name="id">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit" id="button-addon2">Go</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                        <div class="xp-profilebar text-right">
+                            <nav class="navbar p-0">
+                                <ul class="nav navbar-nav flex-row ml-auto">
+                                    <li class="dropdown nav-item active">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <span class="material-icons">notifications</span>
+                                            <span class="notification">4</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="material-icons">question_answer</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown nav-item">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <img src="img/user.jpg" style="width:40px; border-radius:50%;"/>
+                                            <span class="xp-user-live"></span>
+                                        </a>
+                                        <ul class="dropdown-menu small-menu">
+                                            <li><a href="#">
+                                                <span class="material-icons">person_outline</span>
+                                                Profile
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">settings</span>
+                                                Settings
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Logout
+                                            </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Hanane</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Bouchouikra</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+<div class="container">
+    <div class="table-title mt-4">
+        <h2 class="text-center">Modifier les Affectations des ressources avec les départements</h2>
+    </div>
+
+    <form action="/modifierAffectation" method="post">
+        <!-- Utilisation de la grille pour organiser les affectations -->
+        <div class="row row-cols-1 row-cols-md-2">
+            <!-- Boucle sur toutes les affectations -->
+            <div th:each="affectation : ${listeAffectations}" class="col mt-3">
+                <input type="hidden" name="affectationId_departement" th:value="${affectation.key.id}" />
+                <!-- Nom du département -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Nom du département: <span th:text="${affectation.key.nom}"></span></h4>
+                        <!-- Boucle sur toutes les ressources -->
+                        <div th:each="ressource : ${ressources}">
+                            <input type="hidden" name="affectationId_ressource" th:value="${affectation.key.id + '_' + ressource.id}" />
+                            <div th:switch="${ressource.getClass().simpleName}">
+                                <!-- Si la ressource est un Ordinateur -->
+                                <div th:case="Ordinateur">
+                                    <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
+                                        th:checked="${affectation.value.contains(ressource)}">
+                                    <label class="form-check-label">
+                                        <h6>Ordinateur</h6>
+                                        <p>
+                                            <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
+                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
+                                            <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br></span>
+                                        </p>
+                                    </label>
+                                </div>
+                                <!-- Si la ressource est une Imprimante -->
+                                <div th:case="Imprimante">
+                                    <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
+                                        th:checked="${affectation.value.contains(ressource)}">
+                                    <label class="form-check-label">
+                                        <h6>Imprimante</h6>
+                                        <p>
+                                            <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
+                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
+                                            <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br></span>
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-danger mt-4">Modifier les affectations</button>
+    </form>
+</div>
+
+        <!-- Main-content-end -->
+        <!-- Footer-design -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="footer-in">
+                    <p class="mb-0">&copy; 2023/2024 Master SDSI. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="col-md-6 offset-3">
+        <form method="post" th:action="@{save}">
+            <div>
+                <label for="dateDebut" >date Début</label>
+                <input id="dateDebut" type="date" name="dateDebut" th:value="${demande.getDateDebut()}">
+                <span class="text-danger" th:errors="${demande.dateDebut}"></span>
+            </div>
+            <div>
+                <label>date fin</label>
+                <input type="date" name="dateFin" th:value="${demande.getDateFin()}">
+                <span class="text-danger" th:errors="${demande.dateFin}"></span>
+            </div>
+            <div>
+                <label>date Réunion</label>
+                <input type="date" name="dateReunion" th:value="${demande.getDateReunion()}">
+                <span class="text-danger" th:errors="${demande.dateReunion}"></span>
+            </div>
+            <div>
+                <input type="checkbox" name="" th:checked="${true}">
+                <label>Notifier Enseignants</label>
+            </div>
+            <button  type="submit" class="btn btn-primary">Ajouter</button>
+
+        </form>
+    </div>
+
+
+</body>
+</html>

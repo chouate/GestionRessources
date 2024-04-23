@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>Liste Enseignants</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+
+        /* Style pour chaque besoin */
+        .besoin {
+            margin-bottom: 20px; /* Espacement entre chaque besoin */
+            border: 1px solid #dee2e6; /* Bordure */
+            border-radius: 5px; /* Coins arrondis */
+            transition: border-color 0.3s ease; /* Transition pour le changement de couleur de la bordure */
+            cursor: pointer; /* Curseur au survol */
+        }
+
+        /* Style pour changer la bordure au survol */
+        .besoin:hover {
+            border-color: #007bff; /* Bordure bleue au survol */
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Ombre au survol */
+        }
+
+        /* Style pour l'image */
+        .besoin-image {
+            float: left; /* Alignement à gauche */
+            margin-right: 10px; /* Espacement à droite */
+        }
+
+        /* Style pour la description du besoin */
+        .besoin-description {
+            overflow: hidden; /* Pour éviter que le texte déborde */
+        }
+
+        /* Style pour le titre */
+        .besoin-title {
+            font-weight: bold;
+            margin-bottom: 5px; /* Espacement en bas */
+        }
+
+        /* Style pour les boutons Modifier et Supprimer */
+        .besoin-buttons {
+            text-align: right; /* Alignement à droite */
+            margin-top: 10px; /* Espacement en haut */
+        }
+
+        /* Style pour les boutons à l'intérieur du besoin */
+        .besoin-buttons .btn {
+            margin-left: 5px; /* Espacement entre les boutons */
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+
+    <div layout:fragment="content1">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-4 p-0 d-flex justify-content-lg-start justify-content-center">
+                                <h2 class="ml-lg-2">Liste Enseignants</h2>
+                                <span>Demande N° : <span th:text="${demande.getId()}"></span></span>
+                            </div>
+                            <div class="col-sm-8 p-0 d-flex justify-content-lg-end justify-content-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-5">
+                <div class="row">
+                    <!-- Vérifiez si la liste des enseignants est vide -->
+                    <div th:if="${#lists.isEmpty(enseignants)}" class="col-12">
+                        <!-- Si la liste est vide, afficher une carte avec un message -->
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Aucun enseignant trouvé</h5>
+                                <p class="card-text">Il n'y a pas d'enseignant associé à cette demande.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Si la liste n'est pas vide, affichez les enseignants -->
+                    <div th:unless="${#lists.isEmpty(enseignants)}">
+                        <div class="row">
+                            <!-- Itérer sur les enseignants et afficher des cartes pour chaque enseignant -->
+                            <div th:each="enseignant : ${enseignants}" class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <!-- Cercle avec la première lettre du prénom -->
+                                        <div class="circle bg-primary text-white">
+                                            <h3 th:text="${enseignant.prenom[0]}"></h3>
+                                        </div>
+                                        <!-- Afficher le nom et le prénom -->
+                                        <h5 class="card-title" th:text="${enseignant.prenom} + ' ' + ${enseignant.nom}"></h5>
+                                        <a th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}" class="btn btn-primary">Tout afficher</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div><!-- row end -->
+
+
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Accueil - Gestion des Appels d'Offres</title>
+    <style>
+        body, html {
+            height: 100%;
+        }
+        .welcome-message {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .welcome-description {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        .navbar {
+            background-color: #343a40; /* Couleur de fond de la barre de navigation */
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff; /* Couleur du texte dans la barre de navigation */
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #f8f9fa; /* Couleur du texte au survol dans la barre de navigation */
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="mb-3" th:if="${ ressource.getClass().simpleName == 'Ordinateur'}">
+        <h2>Modifier les détails de la ressource</h2>
+        <form action="/editerOrdinateur" method="post">
+            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}"> 
+            <div class="mb-3" th:if="${ressource != null}">
+                <label for="typeInput" class="form-label">Editer Ordinateur</label>
+              
+            </div>
+            <div class="mb-3" th:if="${ressource != null and ressource.numeroInventaire != null}">
+                <label for="numeroInventaireInput" class="form-label">Numero inventaire</label>
+                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource.numeroInventaire}">
+            </div>
+            <div class="mb-3" th:if="${ressource.marque != null}">
+                <label for="marqueInput" class="form-label">Marque</label>
+                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource.marque}">
+            </div>
+            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Ordinateur' and ressource.cpu != null}">
+                <label for="cpuInput" class="form-label">CPU</label>
+                <input type="text" class="form-control" id="cpuInput" name="cpu" th:value="${ressource.cpu}">
+            </div>
+             <div class="mb-3" th:if="${ressource != null and ressource.ram != null}">
+                <label for="ramInput" class="form-label">RAM</label>
+                <input type="text" class="form-control" id="ramInput" name="ram" th:value="${ressource.ram}">
+            </div>
+            <div class="mb-3" th:if="${ressource != null and ressource.ecran != null}">
+                <label for="ecranInput" class="form-label">Écran</label>
+                <input type="text" class="form-control" id="ecranInput" name="ecran" th:value="${ressource.ecran}">
+            </div>
+           <div class="mb-3" th:if="${ressource != null and ressource.departement != null}">
+                 <label for="departementInput" class="form-label">Département</label>
+                 <input type="hidden" name="departement.id" th:value="${ressource.departement.id}">
+                <input type="text" class="form-control" id="departementInput" name="departement.nom" th:value="${ressource.departement.nom}">
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+        <div class="mb-3"  th:if="${ ressource.getClass().simpleName == 'Imprimante'}">
+        <form action="/editerImprimante" method="post">
+            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}"> 
+            <div class="mb-3" th:if="${ressource != null}">
+                <label for="typeInput" class="form-label">Editer Ordinateur</label>
+              
+            </div>
+            <div class="mb-3" th:if="${ressource != null and ressource.numeroInventaire != null}">
+                <label for="numeroInventaireInput" class="form-label">Numero inventaire</label>
+                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource.numeroInventaire}">
+            </div>
+            <div class="mb-3"th:if="${ressource.marque != null}">
+                <label for="marqueInput" class="form-label">Marque</label>
+                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource.marque}">
+            </div>
+            
+            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Imprimante' and ressource.vitesseImpression != null}">
+                <label for="vitesseImpressionInput" class="form-label">Vitesse d'impression</label>
+                <input type="text" class="form-control" id="vitesseImpressionInput" name="vitesseImpression" th:value="${ressource.vitesseImpression}">
+            </div>
+           <div class="mb-3" th:if="${ressource != null and ressource.departement != null}">
+                 <label for="departementInput" class="form-label">Département</label>
+                 <input type="hidden" name="departement.id" th:value="${ressource.departement.id}">
+                <input type="text" class="form-control" id="departementInput" name="departement.nom" th:value="${ressource.departement.nom}">
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Ajout de Bootstrap JS (optionnel, mais nécessaire pour certaines fonctionnalités) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
