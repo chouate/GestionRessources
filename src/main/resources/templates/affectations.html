@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>espace de responsable</title>
     <style>
-		.gray-bg {
-			color: crimson;
-    background-color: darkslategray; 
-    font-size: 20px;/* Ou la couleur grise de votre choix */
-}
+        .gray-bg {
+            color: crimson;
+            background-color: darkslategray;
+            font-size: 20px;/* Ou la couleur grise de votre choix */
+        }
 
         /* Style pour le menu */
         #sidebar {
@@ -31,7 +31,7 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -135,60 +135,61 @@
                 </div>
             </div>
         </div>
-<div class="container">
-    <div class="table-title mt-4">
-        <h2 class="text-center">Modifier les Affectations des ressources avec les départements</h2>
-    </div>
+        <div class="container">
+            <div class="table-title mt-4">
+                <h2 class="text-center">Modifier les Affectations des ressources avec les départements</h2>
+            </div>
 
-    <form action="/modifierAffectation" method="post">
-        <!-- Utilisation de la grille pour organiser les affectations -->
-        <div class="row row-cols-1 row-cols-md-2">
-            <!-- Boucle sur toutes les affectations -->
-            <div th:each="affectation : ${listeAffectations}" class="col mt-3">
-                <input type="hidden" name="affectationId_departement" th:value="${affectation.key.id}" />
-                <!-- Nom du département -->
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Nom du département: <span th:text="${affectation.key.nom}"></span></h4>
-                        <!-- Boucle sur toutes les ressources -->
-                        <div th:each="ressource : ${ressources}">
-                            <input type="hidden" name="affectationId_ressource" th:value="${affectation.key.id + '_' + ressource.id}" />
-                            <div th:switch="${ressource.getClass().simpleName}">
-                                <!-- Si la ressource est un Ordinateur -->
-                                <div th:case="Ordinateur">
-                                    <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
-                                        th:checked="${affectation.value.contains(ressource)}">
-                                    <label class="form-check-label">
-                                        <h6>Ordinateur</h6>
-                                        <p>
-                                            <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
-                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
-                                            <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br></span>
-                                        </p>
-                                    </label>
-                                </div>
-                                <!-- Si la ressource est une Imprimante -->
-                                <div th:case="Imprimante">
-                                    <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
-                                        th:checked="${affectation.value.contains(ressource)}">
-                                    <label class="form-check-label">
-                                        <h6>Imprimante</h6>
-                                        <p>
-                                            <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
-                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
-                                            <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br></span>
-                                        </p>
-                                    </label>
+            <form action="/modifierAffectation" method="post">
+                <!-- Utilisation de la grille pour organiser les affectations -->
+                <div class="row row-cols-1 row-cols-md-2">
+                    <!-- Boucle sur toutes les affectations -->
+                    <div th:each="affectation : ${listeAffectations}" class="col mt-3">
+                        <input type="hidden" name="affectationId_departement" th:value="${affectation.key.id}" />
+                        <!-- Nom du département -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Nom du département: <span th:text="${affectation.key.nom}"></span></h4>
+                                <!-- Boucle sur toutes les ressources -->
+                                <div th:each="ressource : ${ressources}">
+                                    <input type="hidden" name="affectationId_ressource" th:value="${affectation.key.id + '_' + ressource.id}" />
+                                    <div th:switch="${ressource.getClass().simpleName}" th:if="${ressource != null and ressource.enseignant != null and ressource.enseignant.chefDepartement != null and ressource.enseignant.chefDepartement.departement != null and ressource.enseignant.chefDepartement.departement.id.equals(affectation.key.id)}"
+                                    >
+                                        <!-- Si la ressource est un Ordinateur -->
+                                        <div th:case="Ordinateur">
+                                            <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
+                                                   th:checked="${affectation.value.contains(ressource)}">
+                                            <label class="form-check-label">
+                                                <h6>Ordinateur</h6>
+                                                <p>
+                                                    <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
+                                                    <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
+                                                    <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br></span>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <!-- Si la ressource est une Imprimante -->
+                                        <div th:case="Imprimante">
+                                            <input type="checkbox" name="ressourceIds" th:value="${ressource.id + '_' + affectation.key.id}" class="form-check-input"
+                                                   th:checked="${affectation.value.contains(ressource)}">
+                                            <label class="form-check-label">
+                                                <h6>Imprimante</h6>
+                                                <p>
+                                                    <span th:if="${ressource.numeroInventaire != null}">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br></span>
+                                                    <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br></span>
+                                                    <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br></span>
+                                                </p>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <button type="submit" class="btn btn-danger mt-4">Modifier les affectations</button>
+            </form>
         </div>
-        <button type="submit" class="btn btn-danger mt-4">Modifier les affectations</button>
-    </form>
-</div>
 
         <!-- Main-content-end -->
         <!-- Footer-design -->

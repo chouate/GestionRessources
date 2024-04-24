@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PropositionRepository extends JpaRepository<Proposition, Long>{
 	public List<Proposition> findAll() ;
+
+	public List<Proposition> findByAppelOffreId(Long id);
+
 }

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -34,7 +35,7 @@ public class Demande {
     private Boolean EnvoyerResponsable ;
     private Boolean old;
 
-
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "chefDepartement_id", columnDefinition = "bigint default 1")
     private Enseignant enseignant;

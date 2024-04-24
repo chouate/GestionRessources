@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <title>espace de responsable</title>
     <style>
-		/* CSS personnalisé */
-.custom-btn {
-    position: absolute;
-    bottom: 20px; /* Ajustez cette valeur selon vos besoins */
-    left: 50%; /* Pour centrer les boutons horizontalement */
-    transform: translateX(-50%); /* Pour centrer les boutons horizontalement */
-}
+        /* CSS personnalisé */
+        .custom-btn {
+            position: absolute;
+            bottom: 20px; /* Ajustez cette valeur selon vos besoins */
+            left: 50%; /* Pour centrer les boutons horizontalement */
+            transform: translateX(-50%); /* Pour centrer les boutons horizontalement */
+        }
 
-/* Ajoutez une classe pour les contenus de formulaire */
-.form-content {
-    margin-bottom: 20px; /* Espace en bas du formulaire */
-}
+        /* Ajoutez une classe pour les contenus de formulaire */
+        .form-content {
+            margin-bottom: 20px; /* Espace en bas du formulaire */
+        }
 
         /* Style pour le menu */
         #sidebar {
@@ -37,50 +37,50 @@
             font-weight: bold;
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
-/* Ajoutez ces styles pour la personnalisation de la barre de défilement */
-/* Styles pour la barre de défilement */
-/* Supprimez cette ligne */
+        /* Ajoutez ces styles pour la personnalisation de la barre de défilement */
+        /* Styles pour la barre de défilement */
+        /* Supprimez cette ligne */
 
 
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<!-- CSS personnalisé -->
-<link rel="stylesheet" href="css/custom.css">
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Google Material Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
 <div class="wrapper">
     <!-- Sidebar -->
-<div id="sidebar">
-    <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
-    <ul class="list-unstyled components">
-        <li>
-            <a href="/propositions">Propositions</a>
-        </li>
-        <li>
-            <a href="/livraison">Livraison</a>
-        </li>
-        <li>
-            <a href="/listeNoir">Liste Noire</a>
-        </li>
-    </ul>
-    <!-- Nouvel élément de liste -->
-    <ul >
-        <li>
-            <a href="/appelOffres">Créer un appel d'offres</a>
-        </li>
-    </ul>
-</div>
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/propositions">Propositions</a>
+            </li>
+            <li>
+                <a href="/livraison">Livraison</a>
+            </li>
+            <li>
+                <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+        <!-- Nouvel élément de liste -->
+        <ul >
+            <li>
+                <a href="/appelOffres">Créer un appel d'offres</a>
+            </li>
+        </ul>
+    </div>
 
     <!-- Page content -->
     <div id="content" style="margin-top: 20px;">
@@ -160,58 +160,58 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-wrapper">
-  <div class="table-title">
-    <div class="row">
-        <div class="col-sm-8 p-0 flex justify-content-lg-start justify-content-center">
-            <div class="links">
-                <a href="/ressourceLivree" class="link" style="color: wheat; margin-right: 10px;">Ressource Livree</a>
-                <a href="/toutRessource" class="link" style="color: wheat; margin-right: 10px;">Tout Ressources</a>
-              <a href="#myModal" id="fournisseurLink" class="link" style="color: wheat; margin-right: 10px;" >Fournisseur</a>
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-8 p-0 flex justify-content-lg-start justify-content-center">
+                                    <div class="links">
+                                        <a href="/ressourceLivree" class="link" style="color: wheat; margin-right: 10px;">Ressource Livree</a>
+                                        <a href="/toutRessource" class="link" style="color: wheat; margin-right: 10px;">Tout Ressources</a>
+                                        <a href="#myModal" id="fournisseurLink" class="link" style="color: wheat; margin-right: 10px;" >Fournisseur</a>
 
-                <a href="/affectations" class="link" style="color: wheat;">Les Affectations</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <div style="margin-top: 30px; margin-bottom: 10px;">
-		<h4>les ressources correspond au proposition deja selectionne avec le fournisseur:
-			<span style="color: red;"  th:text="${propositionMateriels != null and propositionMateriels.size() > 0 ? propositionMateriels[0].proposition.fournisseur.name : ''}"></spanth:text="${propositionMateriels != null and propositionMateriels.size() > 0 ? propositionMateriels[0].proposition.fournisseur.name : ''}">
-		</h4>
-	</div>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Quantité</th>
-                    <th>Prix Unitaire</th>
-                     <th>livree (oui ou non)</th>
-                    <th>Attribuer un code barre</th>
-                   
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Utilisez Thymeleaf pour itérer sur la liste des ressources avec statut 1 -->
-                <tr th:each="propositionMateriel : ${propositionMateriels}">
-                    <td th:text="${propositionMateriel.ressource.id}"></td>
-                    <td th:text="${propositionMateriel.quantite}"></td>
-                    <td th:text="${propositionMateriel.prixUnitaire}"></td>
-                  <td th:text="${propositionMateriel.ressource.livree ? 'oui' : 'non'}"></td>
-                    <td>
-                        <form th:action="@{/attribuerCodeBarre}" method="post" onsubmit="return confirmSelection()">
-                            <input type="hidden" name="ressourceId" th:value="${propositionMateriel.ressource.id}">
-                            <div class="mb-3">
-                                <label for="codeBarre" class="form-label">Code Barre</label>
-                                <input type="text" id="codeBarre" name="codeBarre" class="form-control" required>
+                                        <a href="/affectations" class="link" style="color: wheat;">Les Affectations</a>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-danger">Attribuer un code barre</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        </div>
+
+                        <div style="margin-top: 30px; margin-bottom: 10px;">
+                            <h4>les ressources correspond au proposition deja selectionne avec le fournisseur:
+                                <span style="color: red;"  th:text="${propositionMateriels != null and propositionMateriels.size() > 0 ? propositionMateriels[0].proposition.fournisseur.name : ''}"></spanth:text="${propositionMateriels != null and propositionMateriels.size() > 0 ? propositionMateriels[0].proposition.fournisseur.name : ''}">
+                            </h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>livree (oui ou non)</th>
+                                    <th>Attribuer un code barre</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Utilisez Thymeleaf pour itérer sur la liste des ressources avec statut 1 -->
+                                <tr th:each="propositionMateriel : ${propositionMateriels}">
+                                    <td th:text="${propositionMateriel.ressource.id}"></td>
+                                    <td th:text="${propositionMateriel.quantite}"></td>
+                                    <td th:text="${propositionMateriel.prixUnitaire}"></td>
+                                    <td th:text="${propositionMateriel.ressource.livree ? 'oui' : 'non'}"></td>
+                                    <td>
+                                        <form th:action="@{/attribuerCodeBarre}" method="post" onsubmit="return confirmSelection()">
+                                            <input type="hidden" name="ressourceId" th:value="${propositionMateriel.ressource.id}">
+                                            <div class="mb-3">
+                                                <label for="codeBarre" class="form-label">Code Barre</label>
+                                                <input type="text" id="codeBarre" name="codeBarre" class="form-control" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-danger">Attribuer un code barre</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="d-flex justify-content-between">
                             <div class="hint-text">showing <b th:text="${currentPage}"></b> out of <b th:text="${totalPages}"></b></div>
                             <ul class="nav nav-pills">
@@ -243,50 +243,50 @@
 </div>
 <!-- Section pour afficher les détails du fournisseur -->
 <section id="fournisseurDetails" class="modal" style="overflow-y: auto;">
-   <div style="background-color: white; width: 50%; margin: 50px auto; padding: 20px; border-radius: 10px; position: relative;" class="modal-content">
- <!-- Ajoutez position: relative; ici -->
+    <div style="background-color: white; width: 50%; margin: 50px auto; padding: 20px; border-radius: 10px; position: relative;" class="modal-content">
+        <!-- Ajoutez position: relative; ici -->
         <h2>Modifier les détails du fournisseur et de la société</h2>
         <form action="/editerFournisseur" method="post">
             <input type="hidden" name="id" th:value="${fournisseur.id}">
             <div class="modal-content"> <!-- Ajoutez une classe modal-content ici -->
                 <div class="mb-3">
-            <label for="nameInput" class="form-label">Nom du Fournisseur</label>
-            <input type="text" class="form-control" id="nameInput" name="name" th:value="${fournisseur.name}">
-        </div>
-        <div class="mb-3">
-            <label for="locationInput" class="form-label">Localisation</label>
-            <input type="text" class="form-control" id="locationInput" name="location" th:value="${fournisseur.location}">
-        </div>
-        <div class="mb-3">
-            <label for="contactPersonInput" class="form-label">Personne de Contact</label>
-            <input type="text" class="form-control" id="contactPersonInput" name="contactPerson" th:value="${fournisseur.contactPerson}">
-        </div>
-        <div class="mb-3">
-            <label for="contactEmailInput" class="form-label">Email de Contact</label>
-            <input type="email" class="form-control" id="contactEmailInput" name="contactEmail" th:value="${fournisseur.contactEmail}">
-        </div>
-        <h3>Modifier les détails de la société</h3>
-        <input type="hidden" name="societe.societeId" th:value="${fournisseur.societe != null ? fournisseur.societe.societeId : ''}">
-        <div class="mb-3">
-            <label for="lieuInput" class="form-label">Lieu de la Société</label>
+                    <label for="nameInput" class="form-label">Nom du Fournisseur</label>
+                    <input type="text" class="form-control" id="nameInput" name="name" th:value="${fournisseur.name}">
+                </div>
+                <div class="mb-3">
+                    <label for="locationInput" class="form-label">Localisation</label>
+                    <input type="text" class="form-control" id="locationInput" name="location" th:value="${fournisseur.location}">
+                </div>
+                <div class="mb-3">
+                    <label for="contactPersonInput" class="form-label">Personne de Contact</label>
+                    <input type="text" class="form-control" id="contactPersonInput" name="contactPerson" th:value="${fournisseur.contactPerson}">
+                </div>
+                <div class="mb-3">
+                    <label for="contactEmailInput" class="form-label">Email de Contact</label>
+                    <input type="email" class="form-control" id="contactEmailInput" name="contactEmail" th:value="${fournisseur.contactEmail}">
+                </div>
+                <h3>Modifier les détails de la société</h3>
+                <input type="hidden" name="societe.societeId" th:value="${fournisseur.societe != null ? fournisseur.societe.societeId : ''}">
+                <div class="mb-3">
+                    <label for="lieuInput" class="form-label">Lieu de la Société</label>
 
-            <input type="text" class="form-control" id="lieuInput" name="societe.lieu" th:value="${fournisseur.societe != null ? fournisseur.societe.lieu : ''}">
+                    <input type="text" class="form-control" id="lieuInput" name="societe.lieu" th:value="${fournisseur.societe != null ? fournisseur.societe.lieu : ''}">
 
-        </div>
-        <div class="mb-3">
-            <label for="adresseInput" class="form-label">Adresse de la Société</label>
-          <input type="text" class="form-control" id="adresseInput" name="societe.adresse" th:value="${fournisseur.societe != null ? fournisseur.societe.adresse : ''}">
+                </div>
+                <div class="mb-3">
+                    <label for="adresseInput" class="form-label">Adresse de la Société</label>
+                    <input type="text" class="form-control" id="adresseInput" name="societe.adresse" th:value="${fournisseur.societe != null ? fournisseur.societe.adresse : ''}">
 
-        </div>
-        <div class="mb-3">
-            <label for="siteInput" class="form-label">Site Web de la Société</label>
-            <input type="text" class="form-control" id="siteInput" name="societe.site" th:value="${fournisseur.societe != null ? fournisseur.societe.site : ''}">
-        </div>
-        <div class="mb-3">
-            <label for="gerantInput" class="form-label">Nom du Gérant</label>
-            <input type="text" class="form-control" id="gerantInput" name="societe.gerant" th:value="${fournisseur.societe != null ? fournisseur.societe.gerant : ''}">
-        </div>
- </div>
+                </div>
+                <div class="mb-3">
+                    <label for="siteInput" class="form-label">Site Web de la Société</label>
+                    <input type="text" class="form-control" id="siteInput" name="societe.site" th:value="${fournisseur.societe != null ? fournisseur.societe.site : ''}">
+                </div>
+                <div class="mb-3">
+                    <label for="gerantInput" class="form-label">Nom du Gérant</label>
+                    <input type="text" class="form-control" id="gerantInput" name="societe.gerant" th:value="${fournisseur.societe != null ? fournisseur.societe.gerant : ''}">
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
         <button id="closeModalBtn" class="btn btn-secondary custom-btn">Fermer</button>

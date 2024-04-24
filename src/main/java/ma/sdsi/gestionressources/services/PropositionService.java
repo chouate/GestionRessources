@@ -43,10 +43,10 @@ public class PropositionService {
        
     }
 
-    public List<Proposition> getAllPropositions() {
+    public List<Proposition> getAllPropositions(Long id) {
         List<ListeNoir> listeNoir = this.getAllListeNoir();
         List<Proposition> liste = new ArrayList<>();
-        List<Proposition> all = propositionRepository.findAll();
+        List<Proposition> all = propositionRepository.findByAppelOffreId(id);
         
         for (Proposition p : all) {
             boolean isInListeNoir = false;

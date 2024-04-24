@@ -34,66 +34,61 @@
 <body>
 
 <div class="container">
-    <div class="mb-3" th:if="${ ressource.getClass().simpleName == 'Ordinateur'}">
+    <div class="mb-3" th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
         <h2>Modifier les détails de la ressource</h2>
         <form action="/editerOrdinateur" method="post">
-            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}"> 
+            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}">
             <div class="mb-3" th:if="${ressource != null}">
                 <label for="typeInput" class="form-label">Editer Ordinateur</label>
-              
             </div>
-            <div class="mb-3" th:if="${ressource != null and ressource.numeroInventaire != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="numeroInventaireInput" class="form-label">Numero inventaire</label>
-                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource.numeroInventaire}">
+                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource != null ? ressource.numeroInventaire : ''}">
             </div>
-            <div class="mb-3" th:if="${ressource.marque != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="marqueInput" class="form-label">Marque</label>
-                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource.marque}">
+                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource != null ? ressource.marque : ''}">
             </div>
-            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Ordinateur' and ressource.cpu != null}">
+            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Ordinateur'}">
                 <label for="cpuInput" class="form-label">CPU</label>
-                <input type="text" class="form-control" id="cpuInput" name="cpu" th:value="${ressource.cpu}">
+                <input type="text" class="form-control" id="cpuInput" name="cpu" th:value="${ressource != null ? ressource.cpu : ''}">
             </div>
-             <div class="mb-3" th:if="${ressource != null and ressource.ram != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="ramInput" class="form-label">RAM</label>
-                <input type="text" class="form-control" id="ramInput" name="ram" th:value="${ressource.ram}">
+                <input type="text" class="form-control" id="ramInput" name="ram" th:value="${ressource != null ? ressource.ram : ''}">
             </div>
-            <div class="mb-3" th:if="${ressource != null and ressource.ecran != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="ecranInput" class="form-label">Écran</label>
-                <input type="text" class="form-control" id="ecranInput" name="ecran" th:value="${ressource.ecran}">
+                <input type="text" class="form-control" id="ecranInput" name="ecran" th:value="${ressource != null ? ressource.ecran : ''}">
             </div>
-           <div class="mb-3" th:if="${ressource != null and ressource.departement != null}">
-                 <label for="departementInput" class="form-label">Département</label>
-                 <input type="hidden" name="departement.id" th:value="${ressource.departement.id}">
-                <input type="text" class="form-control" id="departementInput" name="departement.nom" th:value="${ressource.departement.nom}">
+            <div class="mb-3" th:if="${ressource != null}">
+                <label for="disqueDur" class="form-label">disque Dur</label>
+                <input type="text" class="form-control" id="disqueDur" name="disqueDur" th:value="${ressource != null ? ressource.disqueDur : ''}">
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>
-        <div class="mb-3"  th:if="${ ressource.getClass().simpleName == 'Imprimante'}">
+    <div class="mb-3" th:if="${ressource.getClass().simpleName == 'Imprimante'}">
         <form action="/editerImprimante" method="post">
-            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}"> 
+            <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}">
             <div class="mb-3" th:if="${ressource != null}">
-                <label for="typeInput" class="form-label">Editer Ordinateur</label>
-              
+                <label for="typeInput" class="form-label">Editer Imprimante</label>
             </div>
-            <div class="mb-3" th:if="${ressource != null and ressource.numeroInventaire != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="numeroInventaireInput" class="form-label">Numero inventaire</label>
-                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource.numeroInventaire}">
+                <input type="text" class="form-control" id="numeroInventaireInput" name="numeroInventaire" th:value="${ressource != null ? ressource.numeroInventaire : ''}">
             </div>
-            <div class="mb-3"th:if="${ressource.marque != null}">
+            <div class="mb-3" th:if="${ressource != null}">
                 <label for="marqueInput" class="form-label">Marque</label>
-                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource.marque}">
+                <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource != null ? ressource.marque : ''}">
             </div>
-            
-            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Imprimante' and ressource.vitesseImpression != null}">
+            <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Imprimante'}">
                 <label for="vitesseImpressionInput" class="form-label">Vitesse d'impression</label>
-                <input type="text" class="form-control" id="vitesseImpressionInput" name="vitesseImpression" th:value="${ressource.vitesseImpression}">
+                <input type="text" class="form-control" id="vitesseImpressionInput" name="vitesseImpression" th:value="${ressource != null ? ressource.vitesseImpression : ''}">
             </div>
-           <div class="mb-3" th:if="${ressource != null and ressource.departement != null}">
-                 <label for="departementInput" class="form-label">Département</label>
-                 <input type="hidden" name="departement.id" th:value="${ressource.departement.id}">
-                <input type="text" class="form-control" id="departementInput" name="departement.nom" th:value="${ressource.departement.nom}">
+            <div class="mb-3" th:if="${ressource != null}">
+                <label for="resolutionInput" class="form-label">resolution</label>
+                <input type="text" class="form-control" id="resolutionInput" name="resolution" th:value="${ressource != null ? ressource.resolution : ''}">
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
@@ -101,7 +96,7 @@
 </div>
 
 
-    <!-- Ajout de Bootstrap JS (optionnel, mais nécessaire pour certaines fonctionnalités) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Ajout de Bootstrap JS (optionnel, mais nécessaire pour certaines fonctionnalités) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -20,13 +21,9 @@ public  class Ressource {
 
     @ManyToOne
     private Demande demande;
-
+    @ToString.Exclude
     @ManyToOne
     private Enseignant enseignant;
-
-    @ManyToOne
-    @JoinColumn(name = "departement_id")
-    private Departement departement;
 
 
 }

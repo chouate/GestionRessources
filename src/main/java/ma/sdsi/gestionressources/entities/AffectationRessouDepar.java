@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 import java.io.Serializable;
@@ -14,11 +15,13 @@ import java.io.Serializable;
 public class AffectationRessouDepar implements Serializable {
 
     @Id
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "ressource_id", referencedColumnName = "id")
     private Ressource ressource;
 
     @Id
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "departement_id", referencedColumnName = "id")
     private Departement departement;

@@ -21,6 +21,7 @@ public class AffectResouDeparteService {
 	@Transactional
     public void assignRessourceToDepartement(Ressource ressource, Departement departement) {
     	AffectationRessouDepar affectationRessource = new AffectationRessouDepar();
+    	affectationRessource.setPersonne(ressource.getEnseignant().getChefDepartement().getNom()+" "+ressource.getEnseignant().getChefDepartement().getPrenom());
         affectationRessource.setRessource(ressource);
         affectationRessource.setDepartement(departement);
 

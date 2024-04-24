@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>espace de responsable</title>
     <style>
-		.gray-bg {
-			color: crimson;
-    background-color: darkslategray; 
-    font-size: 20px;/* Ou la couleur grise de votre choix */
-}
+        .gray-bg {
+            color: crimson;
+            background-color: darkslategray;
+            font-size: 20px;/* Ou la couleur grise de votre choix */
+        }
 
         /* Style pour le menu */
         #sidebar {
@@ -31,7 +31,7 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -135,66 +135,73 @@
                 </div>
             </div>
         </div>
-     <div class="container">
-    <div class="table-title" style="margin-top: 12px;">
-        <div class="row">
-            <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                <h2 class="ml-lg-2">Liste des ressources livrées avec les départements</h2>
+        <div class="container">
+            <div class="table-title" style="margin-top: 12px;">
+                <div class="row">
+                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                        <h3 class="ml-lg-2">Effectuez les affectations en vous assurant que le département affecté correspond au département auquel appartient la ressource.</h3>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <form action="/affecterRessDepart" method="post">
-        <h2 class="text-center">Liste de tous les ressources livrées :</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="gray-bg">Type de ressource</th>
-                    <th class="gray-bg">Numero inventaire</th>
-                    <th class="gray-bg">Marque / CPU / Vitesse d'impression</th>
-                    <th class="gray-bg">Departement</th>
-                    <th class="gray-bg">Sélectionner</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="ressource : ${ressources}">
-                    <td th:text="${ressource.getClass().simpleName}"></td>
-                    <td th:text="${ressource.numeroInventaire}"></td>
-                    <td>
-                        <span th:if="${ressource.marque != null}" th:text="${ressource.marque}"></span>
-                        <p>
-                            <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" class="detail-info">CPU: <span th:text="${ressource.cpu}"></span><br></span>
-                            <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" class="detail-info">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br></span>
-                            <!-- Autres conditions pour d'autres propriétés spécifiques à certaines ressources -->
-                        </p>
-                    </td>
-                    <td th:text="${ressource.departement != null ? ressource.departement.nom : ''}"></td>
-                    <td>
-                        <input type="checkbox" name="ressourceIds" th:value="${ressource.id}" class="form-check-input">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <h4 class="mt-4">Liste de département :</h4>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="gray-bg">Nom du département</th>
-                    <th class="gray-bg">Sélectionner</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="departement : ${departements}">
-                    <td th:text="${departement.nom}"></td>
-                    <td>
-                        <input type="radio" name="departementId" th:value="${departement.id}" class="form-check-input">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-danger mt-4">Affecter</button>
-    </form>
-</div>
+            <form action="/affecterRessDepart" method="post">
+                <h2 class="text-center">Liste de tous les ressources livrées :</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="gray-bg">Type de ressource</th>
+                        <th class="gray-bg">Numero inventaire</th>
+                        <th class="gray-bg">Marque </th>
+                        <th class="gray-bg">CPU / Vitesse d'impression</th>
+                        <th class="gray-bg">Departement</th>
+                        <th class="gray-bg">Sélectionner</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ressource : ${ressources}">
+                        <td th:if="${ressource != null}" th:text="${ressource.getClass().simpleName}"></td>
+                        <td th:if="${ressource != null && ressource.numeroInventaire != null}" th:text="${ressource.numeroInventaire}"></td>
+                        <td>
+                            <span th:if="${ressource != null && ressource.marque != null}" th:text="${ressource.marque}"></span></td>
+                        <td>
+                            <p>
+                                <span th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" class="detail-info">CPU: <span th:text="${ressource.cpu}"></span><br></span>
+                                <span th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" class="detail-info"> <span th:text="${ressource.vitesseImpression}"></span><br></span>
+                                <!-- Autres conditions pour d'autres propriétés spécifiques à certaines ressources -->
+                            </p>
+                        </td>
+                        <td>
+                            <span th:if="${ressource != null && ressource.enseignant != null && ressource.enseignant.chefDepartement != null && ressource.enseignant.chefDepartement.departement != null}" th:text="${ressource.enseignant.chefDepartement.departement.nom}"></span>
+
+                        </td>
+
+                        <td>
+                            <input th:if="${ressource != null and ressource.id != null}" type="checkbox" name="ressourceIds" th:value="${ressource.id}" class="form-check-input">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h4 class="mt-4">Liste de département :</h4>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="gray-bg">Nom du département</th>
+                        <th class="gray-bg">Sélectionner</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="departement : ${departements}">
+                        <td th:text="${departement.nom}"></td>
+                        <td>
+                            <input type="radio" name="departementId" th:value="${departement.id}" class="form-check-input">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-danger mt-4">Affecter</button>
+            </form>
+        </div>
+
 
 
         <!-- Main-content-end -->

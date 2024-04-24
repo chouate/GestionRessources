@@ -25,7 +25,7 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -41,26 +41,26 @@
 
 <div class="wrapper">
     <!-- Sidebar -->
-<div id="sidebar">
-    <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
-    <ul class="list-unstyled components">
-        <li>
-            <a href="/propositions">Propositions</a>
-        </li>
-        <li>
-            <a href="/livraison">Livraison</a>
-        </li>
-        <li>
-            <a href="/listeNoir">Liste Noire</a>
-        </li>
-    </ul>
-    <!-- Nouvel élément de liste -->
-    <ul >
-        <li>
-            <a href="/appelOffres">Créer un appel d'offres</a>
-        </li>
-    </ul>
-</div>
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/propositions">Propositions</a>
+            </li>
+            <li>
+                <a href="/livraison">Livraison</a>
+            </li>
+            <li>
+                <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+        <!-- Nouvel élément de liste -->
+        <ul >
+            <li>
+                <a href="/appelOffres">Créer un appel d'offres</a>
+            </li>
+        </ul>
+    </div>
 
 
     <!-- Page content -->
@@ -137,62 +137,63 @@
             </div>
         </div>
         <!-- Main-content-start -->
-  <div class="container">
-    <h1 class="mt-4 mb-3">Créer un nouvel appel d'offres</h1>
-    <form id="appelOffreForm" th:action="@{/createAppelOffre}" method="post" onsubmit="return validateForm()">
-        <div class="form-group">
-            <label for="startDate">Date de début :</label>
-            <input type="date" class="form-control" name="startDate" required />
+        <div class="container">
+            <h1 class="mt-4 mb-3">Créer un nouvel appel d'offres</h1>
+            <form id="appelOffreForm" th:action="@{/createAppelOffre}" method="post" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="startDate">Date de début :</label>
+                    <input type="date" class="form-control" name="startDate" required />
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Date de fin :</label>
+                    <input type="date" class="form-control" name="endDate" required />
+                </div>
+
+                <!-- Affichage de la liste des ressources -->
+                <div class="row">
+                    <h2 class="text-center" style="margin-left: 20px;">Liste de tous les besoins provenant de différents départements qui ne correspondent pas à une offre d'appel</h2>
+                    <div class="col-md-6" th:each="ressource, iterStat : ${ressources}">
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <!-- Utilisez des conditions pour afficher les détails spécifiques à chaque type de ressource -->
+                                <div th:switch="${ressource.getClass().simpleName}" class="my-4">
+                                    <!-- Si la ressource est un Ordinateur -->
+                                    <div th:case="Ordinateur" class="card p-4" th:if="${ressource != null}">
+                                        <h3 class="text-center">Ordinateur</h3>
+                                        <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
+                                        <p>
+                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
+                                            <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br /></span>
+                                            <span>ram:<span th:text="${ressource.ram}"></span><br /></span>
+                                            <span>disque Dur:<span th:text="${ressource.disqueDur}"></span><br /></span>
+                                            <!-- Ajoutez d'autres détails spécifiques à l'ordinateur -->
+                                        </p>
+                                    </div>
+
+                                    <!-- Si la ressource est une Imprimante -->
+                                    <div th:case="Imprimante" class="card p-4" th:if="${ressource != null}">
+                                        <h3 class="text-center">Imprimante</h3>
+                                        <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
+                                        <p>
+                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
+                                            <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br /></span>
+                                            <!-- Ajoutez d'autres détails spécifiques à l'imprimante -->
+                                            <span>resolution:<span th:text="${ressource.resolution}"></span><br /></span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Champ caché avec l'ID du département -->
+                                    <input th:if="${ressource != null && ressource.demande != null}   " type="hidden" name="demandeIds" th:value="${#lists.isEmpty(demandeIds) ? ressource.demande.id : demandeIds + ',' + ressource.demande.id}" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Créer l'appel d'offres</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="endDate">Date de fin :</label>
-            <input type="date" class="form-control" name="endDate" required />
-        </div>
-
-        <!-- Affichage de la liste des ressources -->
-        <div class="row">
-            <h2 class="text-center" style="margin-left: 20px;">Liste de tous les besoins de différents départements :</h2>
-            <div class="col-md-6" th:each="ressource, iterStat : ${ressources}">
-				
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <!-- Utilisez des conditions pour afficher les détails spécifiques à chaque type de ressource -->
-                        <div th:switch="${ressource.getClass().simpleName}" class="my-4">
-                            <!-- Si la ressource est un Ordinateur -->
-                            <div th:case="Ordinateur" class="card p-4">
-                                <h3 class="text-center">Ordinateur</h3>
-                                <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
-                                <p>
-                                    <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
-                                    <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br /></span>
-                                    <span>Departement:<span th:text="${ressource.departement.nom}"></span><br /></span>
-                                    <!-- Ajoutez d'autres détails spécifiques à l'ordinateur -->
-                                </p>
-                            </div>
-
-                            <!-- Si la ressource est une Imprimante -->
-                            <div th:case="Imprimante" class="card p-4">
-                                <h3 class="text-center">Imprimante</h3>
-                                <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
-                                <p>
-                                    <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
-                                    <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br /></span>
-                                    <!-- Ajoutez d'autres détails spécifiques à l'imprimante -->
-                                    <span>Departement:<span th:text="${ressource.departement.nom}"></span><br /></span>
-                                </p>
-                            </div>
-
-                            <!-- Champ caché avec l'ID du département -->
-                            <input type="hidden" name="demandeIds" th:value="${#lists.isEmpty(demandeIds) ? ressource.demande.id : demandeIds + ',' + ressource.demande.id}" />
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Créer l'appel d'offres</button>
-    </form>
-</div>
 
         <!-- Main-content-end -->
         <!-- Footer-design -->

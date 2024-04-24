@@ -32,80 +32,80 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/listeNoir">Liste Noire</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/propositions">Propositions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/livraison">Livraison</a>
-                    </li>
-                </ul>
-                <div>
-                    <a class="nav-link" href="/appelOffres">Nouvelle Appel d'Offre</a>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/listeNoir">Liste Noire</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/propositions">Propositions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/livraison">Livraison</a>
+                </li>
+            </ul>
+            <div>
+                <a class="nav-link" href="/appelOffres">Nouvelle Appel d'Offre</a>
             </div>
         </div>
-    </nav>
-    <div class="container">
+    </div>
+</nav>
+<div class="container">
     <div class="mb-3">
-    <h2>Modifier les détails du fournisseur et de la société</h2>
-    <form action="/editerFournisseur" method="post">
-        <input type="hidden" name="id" th:value="${fournisseur.id}">
-        <div class="mb-3">
-            <label for="nameInput" class="form-label">Nom du Fournisseur</label>
-            <input type="text" class="form-control" id="nameInput" name="name" th:value="${fournisseur.name}">
-        </div>
-        <div class="mb-3">
-            <label for="locationInput" class="form-label">Localisation</label>
-            <input type="text" class="form-control" id="locationInput" name="location" th:value="${fournisseur.location}">
-        </div>
-        <div class="mb-3">
-            <label for="contactPersonInput" class="form-label">Personne de Contact</label>
-            <input type="text" class="form-control" id="contactPersonInput" name="contactPerson" th:value="${fournisseur.contactPerson}">
-        </div>
-        <div class="mb-3">
-            <label for="contactEmailInput" class="form-label">Email de Contact</label>
-            <input type="email" class="form-control" id="contactEmailInput" name="contactEmail" th:value="${fournisseur.contactEmail}">
-        </div>
-        <h3>Modifier les détails de la société</h3>
-        <input type="hidden" name="societe.societeId" th:value="${fournisseur.societe != null ? fournisseur.societe.societeId : ''}">
-        <div class="mb-3">
-            <label for="lieuInput" class="form-label">Lieu de la Société</label>
+        <h2>Modifier les détails du fournisseur et de la société</h2>
+        <form action="/editerFournisseur" method="post">
+            <input type="hidden" name="id" th:value="${fournisseur.id}">
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Nom du Fournisseur</label>
+                <input type="text" class="form-control" id="nameInput" name="name" th:value="${fournisseur.name}">
+            </div>
+            <div class="mb-3">
+                <label for="locationInput" class="form-label">Localisation</label>
+                <input type="text" class="form-control" id="locationInput" name="location" th:value="${fournisseur.location}">
+            </div>
+            <div class="mb-3">
+                <label for="contactPersonInput" class="form-label">Personne de Contact</label>
+                <input type="text" class="form-control" id="contactPersonInput" name="contactPerson" th:value="${fournisseur.contactPerson}">
+            </div>
+            <div class="mb-3">
+                <label for="contactEmailInput" class="form-label">Email de Contact</label>
+                <input type="email" class="form-control" id="contactEmailInput" name="contactEmail" th:value="${fournisseur.contactEmail}">
+            </div>
+            <h3>Modifier les détails de la société</h3>
+            <input type="hidden" name="societe.societeId" th:value="${fournisseur.societe != null ? fournisseur.societe.societeId : ''}">
+            <div class="mb-3">
+                <label for="lieuInput" class="form-label">Lieu de la Société</label>
 
-            <input type="text" class="form-control" id="lieuInput" name="societe.lieu" th:value="${fournisseur.societe != null ? fournisseur.societe.lieu : ''}">
+                <input type="text" class="form-control" id="lieuInput" name="societe.lieu" th:value="${fournisseur.societe != null ? fournisseur.societe.lieu : ''}">
 
-        </div>
-        <div class="mb-3">
-            <label for="adresseInput" class="form-label">Adresse de la Société</label>
-          <input type="text" class="form-control" id="adresseInput" name="societe.adresse" th:value="${fournisseur.societe != null ? fournisseur.societe.adresse : ''}">
+            </div>
+            <div class="mb-3">
+                <label for="adresseInput" class="form-label">Adresse de la Société</label>
+                <input type="text" class="form-control" id="adresseInput" name="societe.adresse" th:value="${fournisseur.societe != null ? fournisseur.societe.adresse : ''}">
 
-        </div>
-        <div class="mb-3">
-            <label for="siteInput" class="form-label">Site Web de la Société</label>
-            <input type="text" class="form-control" id="siteInput" name="societe.site" th:value="${fournisseur.societe != null ? fournisseur.societe.site : ''}">
-        </div>
-        <div class="mb-3">
-            <label for="gerantInput" class="form-label">Nom du Gérant</label>
-            <input type="text" class="form-control" id="gerantInput" name="societe.gerant" th:value="${fournisseur.societe != null ? fournisseur.societe.gerant : ''}">
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-    </form>
+            </div>
+            <div class="mb-3">
+                <label for="siteInput" class="form-label">Site Web de la Société</label>
+                <input type="text" class="form-control" id="siteInput" name="societe.site" th:value="${fournisseur.societe != null ? fournisseur.societe.site : ''}">
+            </div>
+            <div class="mb-3">
+                <label for="gerantInput" class="form-label">Nom du Gérant</label>
+                <input type="text" class="form-control" id="gerantInput" name="societe.gerant" th:value="${fournisseur.societe != null ? fournisseur.societe.gerant : ''}">
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </div>
+
 </div>
 
-</div>
 
-
-    <!-- Ajout de Bootstrap JS (optionnel, mais nécessaire pour certaines fonctionnalités) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Ajout de Bootstrap JS (optionnel, mais nécessaire pour certaines fonctionnalités) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

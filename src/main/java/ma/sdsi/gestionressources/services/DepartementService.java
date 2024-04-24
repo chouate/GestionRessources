@@ -13,6 +13,7 @@ public class DepartementService {
 	@Autowired
     private DepartementRepository departementRepository;
 	public List<Departement> getAll(){
+		
 		return departementRepository.findAll();
 	}
 	public Optional<Departement> getById(Long id) {

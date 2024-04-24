@@ -25,7 +25,7 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -41,26 +41,26 @@
 
 <div class="wrapper">
     <!-- Sidebar -->
-<div id="sidebar">
-    <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
-    <ul class="list-unstyled components">
-        <li>
-            <a href="/propositions">Propositions</a>
-        </li>
-        <li>
-            <a href="/livraison">Livraison</a>
-        </li>
-        <li>
-            <a href="/listeNoir">Liste Noire</a>
-        </li>
-    </ul>
-    <!-- Nouvel élément de liste -->
-    <ul >
-        <li>
-            <a href="/appelOffres">Créer un appel d'offres</a>
-        </li>
-    </ul>
-</div>
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/propositions">Propositions</a>
+            </li>
+            <li>
+                <a href="/livraison">Livraison</a>
+            </li>
+            <li>
+                <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+        <!-- Nouvel élément de liste -->
+        <ul >
+            <li>
+                <a href="/appelOffres">Créer un appel d'offres</a>
+            </li>
+        </ul>
+    </div>
 
 
     <!-- Page content -->
@@ -137,7 +137,23 @@
             </div>
         </div>
         <!-- Main-content-start -->
-        <div class="main-content">
+        <div class="container mt-5">
+            <h3>Rechercher les Propostions par ID d'appel d'offre Correspond</h3>
+            <form action="/propositions" method="post">
+                <div class="mb-3">
+                    <label for="selectOption" class="form-label">Choisissez une option :</label>
+                    <select class="form-select" id="selectOption" name="appelOffreId"> <!-- Utilisez le nom "appelOffreId" -->
+                        <option value="">Sélectionnez...</option>
+                        <!-- Utilisez Thymeleaf pour itérer sur la liste des appels d'offres -->
+                        <option th:each="appelOffre : ${appelOffres}" th:value="${appelOffre.id}" th:text="${appelOffre.id}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Chercher</button>
+            </form>
+
+        </div>
+
+        <div class="main-content" th:if="${propositions != null}" >
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-wrapper">
@@ -150,37 +166,39 @@
                         </div>
                         <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
-                                    <th class="header-bold">Id</th>
-                                    <th class="header-bold">Date de Livraison Future</th>
-                                    <th class="header-bold">Durée de Garantie</th>
-                                    <th class="header-bold">Status</th>
-                                    <th class="header-bold">Total</th>
-                                    <th class="header-bold">Fournisseur</th>
-                                    <th class="header-bold">Actions</th>
-                                </tr>
+                            <tr>
+                                <th class="header-bold">Id</th>
+                                <th class="header-bold">Date de Livraison Future</th>
+                                <th class="header-bold">Durée de Garantie</th>
+                                <th class="header-bold">Status</th>
+                                <th class="header-bold">Total</th>
+                                <th class="header-bold">Fournisseur</th>
+                                <th class="header-bold">Actions</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="proposition : ${propositions}">
-                                    <td th:text="${proposition.id}"></td>
-                                    <td th:text="${proposition.dateLivraisonFuture}"></td>
-                                    <td th:text="${proposition.dureeGarantie}"></td>
-                                    <td th:text="${proposition.status}"></td>
-                                    <td th:text="${proposition.total}"></td>
-                                    <td th:text="${proposition.fournisseur.name}"></td>
-                                    <td th:if="${proposition.status.equals('0')}">
-                                        <form action="/selectionnerProposition" method="post" onsubmit="return confirmSelection()">
-                                            <input type="hidden" name="propositionId" th:value="${proposition.id}">
-                                            <button type="submit" class="btn btn-danger">sélectionner</button>
-                                        </form>
-                                    </td>
-                                    <td th:if="${proposition.status.equals('1')}">
-                                        <form action="/deselectionnerProposition" method="post" onsubmit="return confirmSelection()">
-                                            <input type="hidden" name="propositionId" th:value="${proposition.id}">
-                                            <button type="submit" class="btn btn-primary">désélectionner</button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr th:each="proposition : ${propositions}">
+                                <td th:text="${proposition.id}"></td>
+                                <td th:text="${proposition.dateLivraisonFuture}"></td>
+                                <td th:text="${proposition.dureeGarantie}"></td>
+                                <td th:text="${proposition.status}"></td>
+                                <td th:text="${proposition.total}"></td>
+                                <td th:text="${proposition.fournisseur.name}"></td>
+                                <td th:if="${proposition.status.equals('0')}">
+                                    <form action="/selectionnerProposition" method="post" onsubmit="return confirmSelection()">
+                                        <input type="hidden" name="propositionId" th:value="${proposition.id}">
+                                        <input type="hidden" name="appelOffreId" th:value="${proposition.appelOffre.id}">
+                                        <button type="submit" class="btn btn-danger">sélectionner</button>
+                                    </form>
+                                </td>
+                                <td th:if="${proposition.status.equals('1')}">
+                                    <form action="/deselectionnerProposition" method="post" onsubmit="return confirmSelection()">
+                                        <input type="hidden" name="propositionId" th:value="${proposition.id}">
+                                        <input type="hidden" name="appelOffreId" th:value="${proposition.appelOffre.id}">
+                                        <button type="submit" class="btn btn-primary">désélectionner</button>
+                                    </form>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-between">

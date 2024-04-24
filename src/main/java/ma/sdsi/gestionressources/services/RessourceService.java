@@ -1,5 +1,6 @@
 package ma.sdsi.gestionressources.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,9 +73,22 @@ public class RessourceService {
     public List<Ressource> getAllRessources() {
         return ressourceRepository.findAll();
     }
+    public List<Ressource> getAllRessourcesAppeOffrNull() {
+        List<Ressource> allRessources = ressourceRepository.findAll();
+        List<Ressource> ressourcesWithNullAppelOffre = new ArrayList<>();
+
+        for (Ressource r : allRessources) {
+            if (r.getDemande() == null || r.getDemande().getAppelOffre() == null) {
+                ressourcesWithNullAppelOffre.add(r);
+            }
+        }
+
+        return ressourcesWithNullAppelOffre;
+    }
 
 
-	public Optional<Ressource> findById(Long ressourceId) {
+
+    public Optional<Ressource> findById(Long ressourceId) {
 		return ressourceRepository.findById(ressourceId);
 	}
 }

@@ -26,7 +26,8 @@ public class Proposition {
 	@ManyToOne
     @JoinColumn(name = "fournisseur_id") // Nom de la colonne de la clé étrangère
     private Fournisseur fournisseur;
-
+	@ManyToOne
+	private AppelOffre appelOffre;
 	
 
 }

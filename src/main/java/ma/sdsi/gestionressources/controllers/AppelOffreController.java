@@ -34,7 +34,7 @@ public class AppelOffreController {
     }
 	@GetMapping("/appelOffres")
     public String appelOffres(Model model) {
-        List<Ressource> ressources = (List<Ressource>) ressourceService.getAllRessources(); // Obtenez tous les besoins depuis le service
+        List<Ressource> ressources = (List<Ressource>) ressourceService.getAllRessourcesAppeOffrNull(); // Obtenez tous les besoins depuis le service
         model.addAttribute("ressources", ressources); // Ajoutez les besoins à l'attribut du modèle
         return "appelOffre"; // Retournez le nom de la vue
     }

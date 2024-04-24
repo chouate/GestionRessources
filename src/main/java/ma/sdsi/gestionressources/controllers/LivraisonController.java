@@ -60,6 +60,11 @@ public class LivraisonController {
 		    public String afficherRessourceslivree(Model model) {
 		        // Récupérer les ressources avec le statut 1 dans la proposition correspondante depuis le service
 		    	List<Ressource> ressources = ressourceService.recupererRessourcesLivrées();
+		    	System.out.println("ressources livrees :"+ressources.size());
+		    	for(Ressource r:ressources) {
+		    		System.out.println("departement: " + r.getEnseignant().getChefDepartement().getDepartement());
+
+		    	}
 		    	List<Departement> departements = departementService.getAll();
 		        // Ajouter les ressources au modèle pour les transmettre à la vue
 		        model.addAttribute("ressources", ressources);
@@ -86,12 +91,19 @@ public class LivraisonController {
 		                // Assurez-vous que la ressource existe
 		                if (ressourceOptional.isPresent()) {
 		                    Ressource ressource = ressourceOptional.get();
-		                    Optional<Departement> departementOptional = departementService.getById(departementId);
-		                    // Assurez-vous que le département existe
-		                    if (departementOptional.isPresent()) {
-		                        Departement departement = departementOptional.get();
+		                    // Vérifiez si le département de la ressource correspond à celui spécifié dans la requête
+		                    if (ressource.getEnseignant() != null &&
+		                        ressource.getEnseignant().getChefDepartement() != null &&
+		                        ressource.getEnseignant().getChefDepartement().getDepartement() != null &&
+		                        ressource.getEnseignant().getChefDepartement().getDepartement().getId().equals(departementId)) {
 		                        // Effectuez l'affectation de la ressource au département
-		                        affectResouDeparteService.assignRessourceToDepartement(ressource, departement);
+		                        Optional<Departement> departementOptional = departementService.getById(departementId);
+		                        // Assurez-vous que le département existe
+		                        if (departementOptional.isPresent()) {
+		                            Departement departement = departementOptional.get();
+		                            // Effectuez l'affectation de la ressource au département
+		                            affectResouDeparteService.assignRessourceToDepartement(ressource, departement);
+		                        }
 		                    }
 		                }
 		            }

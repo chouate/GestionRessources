@@ -1,9 +1,7 @@
 package ma.sdsi.gestionressources.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,14 +14,19 @@ public class Enseignant {
     private Long id;
     private String prenom;
     private String nom;
-
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToOne(mappedBy = "chefDepartement")
+    private Departement departement;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "idChefDepartement")
     private Enseignant chefDepartement;
 
-    @OneToMany(mappedBy = "chefDepartement")
-    private List<Enseignant> enseignantsSousResponsabilite;
-
+//    @OneToMany(mappedBy = "chefDepartement")
+//    private List<Enseignant> enseignantsSousResponsabilite;
+   @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "enseignant")
     private List<Demande> demandes;
 

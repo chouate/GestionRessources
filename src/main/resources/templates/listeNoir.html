@@ -25,7 +25,7 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -52,6 +52,11 @@
             </li>
             <li>
                 <a href="/listeNoir">Liste Noire</a>
+            </li>
+        </ul>
+        <ul >
+            <li>
+                <a href="/appelOffres">Créer un appel d'offres</a>
             </li>
         </ul>
     </div>
@@ -131,58 +136,58 @@
         </div>
         <!-- Main-content-start -->
         <!-- Main-content-start -->
-<div class="main-content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                            <h2 class="ml-lg-2">Liste noire des fournisseurs</h2>
+        <div class="main-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">Liste noire des fournisseurs</h2>
+                                </div>
+                            </div>
                         </div>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fournisseur</th>
+                                <th>État</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Utilisez Thymeleaf pour itérer sur la map des fournisseurs et leur statut sur la liste noire -->
+                            <tr th:each="entry : ${listeNoir}">
+                                <td th:text="${entry.key.id}"></td>
+                                <td th:text="${entry.key.name}"></td>
+                                <td th:text="${entry.value ? 'Déjà dans la liste noire' : 'Pas dans la liste noire'}"></td> <!-- Affiche le statut -->
+                                <td>
+                                    <!-- Utilisez Thymeleaf pour conditionner l'affichage du bouton en fonction du statut -->
+                                    <th:block th:if="${entry.value}">
+                                        <form th:action="@{/eliminerListNoir}" method="post">
+                                            <input type="hidden" name="fournisseurId" th:value="${entry.key.id}">
+                                            <button type="submit" class="btn btn-danger">Éliminer de la liste noire</button>
+                                        </form>
+                                    </th:block>
+                                    <th:block th:unless="${entry.value}">
+                                        <form th:action="@{/ajouterListNoir}" method="post">
+                                            <input type="hidden" name="fournisseurId" th:value="${entry.key.id}">
+                                            <div class="mb-3">
+                                                <label for="motifInput" class="form-label">Motif</label>
+                                                <input type="text" class="form-control" name="motif" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Ajouter à la liste noire</button>
+                                        </form>
+                                    </th:block>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Fournisseur</th>
-                            <th>État</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Utilisez Thymeleaf pour itérer sur la map des fournisseurs et leur statut sur la liste noire -->
-                        <tr th:each="entry : ${listeNoir}">
-                            <td th:text="${entry.key.id}"></td>
-                            <td th:text="${entry.key.name}"></td>
-                            <td th:text="${entry.value ? 'Déjà dans la liste noire' : 'Pas dans la liste noire'}"></td> <!-- Affiche le statut -->
-                            <td>
-                                <!-- Utilisez Thymeleaf pour conditionner l'affichage du bouton en fonction du statut -->
-                                <th:block th:if="${entry.value}">
-                                    <form th:action="@{/eliminerListNoir}" method="post">
-                                        <input type="hidden" name="fournisseurId" th:value="${entry.key.id}">
-                                        <button type="submit" class="btn btn-danger">Éliminer de la liste noire</button>
-                                    </form>
-                                </th:block>
-                                <th:block th:unless="${entry.value}">
-                                    <form th:action="@{/ajouterListNoir}" method="post">
-                                        <input type="hidden" name="fournisseurId" th:value="${entry.key.id}">
-                                        <div class="mb-3">
-                                            <label for="motifInput" class="form-label">Motif</label>
-                                            <input type="text" class="form-control" name="motif" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Ajouter à la liste noire</button>
-                                    </form>
-                                </th:block>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
-    </div>
-</div>
 
         <!-- Main-content-end -->
         <!-- Footer-design -->

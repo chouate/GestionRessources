@@ -1,9 +1,7 @@
 package ma.sdsi.gestionressources.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import java.util.List;
@@ -16,11 +14,9 @@ public class Departement {
     private Long id;
     private String nom;
 
-    
-    @OneToMany(mappedBy = "departement") // Correction de mappedBy ici pour la relation avec Ressource
-    private List<Ressource> ressources;
-
     // Relation OneToOne pour le chef de département
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne
     @JoinColumn(name = "chef_depart_id") // Nom de la colonne de jointure
     private Enseignant chefDepartement;  // Chef de département

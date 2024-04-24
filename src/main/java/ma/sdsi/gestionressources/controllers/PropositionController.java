@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ma.sdsi.gestionressources.entities.AppelOffre;
 import ma.sdsi.gestionressources.entities.Fournisseur;
 import ma.sdsi.gestionressources.entities.ListeNoir;
 import ma.sdsi.gestionressources.entities.Proposition;
+import ma.sdsi.gestionressources.services.AppelOffreService;
 import ma.sdsi.gestionressources.services.FournisseurService;
 import ma.sdsi.gestionressources.services.PropositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +27,60 @@ public class PropositionController {
 	private FournisseurService fournisseurService;
 	@Autowired
     private PropositionService propositionService;
+	@Autowired
+	private AppelOffreService appelOffreService;
+	
 	@GetMapping("/propositions")
 	public String home(Model model) {
-	    List<Proposition> propositions = propositionService.getAllPropositions(); // Obtenez toutes les propositions depuis le service
+	    List<AppelOffre> appelOffres = appelOffreService.getAllTenders(); // Obtenez toutes les propositions depuis le service    
+	    model.addAttribute("appelOffres", appelOffres); // Ajoutez les propositions triées à l'attribut du modèle
+	    return "propositions"; // Retournez le nom de la vue
+	}
+	@PostMapping("/propositions")
+	public String select(@RequestParam("appelOffreId") Long id, Model model) {
+		  List<AppelOffre> appelOffres = appelOffreService.getAllTenders(); // Obtenez toutes les propositions depuis le service    
+		    model.addAttribute("appelOffres", appelOffres); 
+	    System.out.println("voila id d offre"+id);
+	    List<Proposition> propositions = propositionService.getAllPropositions(id); // Obtenez toutes les propositions depuis le service
 	    
 	    // Triez les propositions par total
 	    Collections.sort(propositions, Comparator.comparingDouble(Proposition::getTotal));
-	    System.out.println("size of propositions"+propositions.size());
+	    System.out.println("size of propositions: " + propositions.size());
 	    
 	    model.addAttribute("propositions", propositions); // Ajoutez les propositions triées à l'attribut du modèle
 	    return "propositions"; // Retournez le nom de la vue
 	}
+
 	@PostMapping("/selectionnerProposition")
-	public String selectionnerProposition(@RequestParam("propositionId") Long propositionId, Model model) {
+	public String selectionnerProposition(@RequestParam("propositionId") Long propositionId,@RequestParam("appelOffreId") Long id, Model model) {
+		  List<AppelOffre> appelOffres = appelOffreService.getAllTenders(); // Obtenez toutes les propositions depuis le service    
+		    model.addAttribute("appelOffres", appelOffres); 
 		// Modifier le statut de la proposition à 1
 	    propositionService.modifierStatutProposition(propositionId,"1");
+        List<Proposition> propositions = propositionService.getAllPropositions(id); // Obtenez toutes les propositions depuis le service
 	    
-	    return "redirect:/propositions";
+	    // Triez les propositions par total
+	    Collections.sort(propositions, Comparator.comparingDouble(Proposition::getTotal));
+	    System.out.println("size of propositions: " + propositions.size());
+	    
+	    model.addAttribute("propositions", propositions);
+	    return "propositions";
 	}
 	@PostMapping("/deselectionnerProposition")
-	public String deselectionnerProposition(@RequestParam("propositionId") Long propositionId, Model model) {
+	public String deselectionnerProposition(@RequestParam("propositionId") Long propositionId,@RequestParam("appelOffreId") Long id, Model model) {
 		// Modifier le statut de la proposition à 1
 	    propositionService.modifierStatutProposition(propositionId,"0");
+	    List<AppelOffre> appelOffres = appelOffreService.getAllTenders(); // Obtenez toutes les propositions depuis le service    
+	    model.addAttribute("appelOffres", appelOffres); 
+ List<Proposition> propositions = propositionService.getAllPropositions(id); // Obtenez toutes les propositions depuis le service
 	    
-	    return "redirect:/propositions";
+	    // Triez les propositions par total
+	    Collections.sort(propositions, Comparator.comparingDouble(Proposition::getTotal));
+	    System.out.println("size of propositions: " + propositions.size());
+	    
+	    model.addAttribute("propositions", propositions);
+	    
+	    return "propositions";
 	}
 
 	@PostMapping("/ajouterListNoir")

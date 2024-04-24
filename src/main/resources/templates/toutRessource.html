@@ -29,7 +29,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- CSS personnalisé -->
@@ -134,7 +134,7 @@
             </div>
         </div>
         <!-- Main-content-start -->
-        <div class="main-content">
+        <div class="main-content" th:if="${ressources != null}">
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-wrapper">
@@ -148,39 +148,43 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Numero inventaire</th>
-                                        <th>Marque</th>
-                                        <th>CPU / Vitesse d'impression</th>
-                                        <th>Departement</th>
-                                        <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
-                                    </tr>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Numero inventaire</th>
+                                    <th>Marque</th>
+                                    <th>CPU / Vitesse d'impression</th>
+                                    <th>RAM/Resolution</th>
+                                    <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                                </tr>
                                 </thead>
-                                <tbody>
-                                    <tr th:each="ressource : ${ressources}">
-                                        <td th:text="${ressource.getClass().simpleName}"></td>
-                                        <td th:text="${ressource.numeroInventaire}"></td>
-                                        <td>
-                                            <span th:if="${ressource != null && ressource.marque != null}" th:text="${ressource.marque}"></span>
-                                        </td>
-                                        <td>
-                                            <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.cpu}"></span>
-                                            <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.vitesseImpression}"></span>
-                                        </td>
-                                        <td th:text="${ressource.departement.nom}"></td>
-                                    <td>
-                   <!-- Bouton pour éditer la ressource -->
-                  <a style="color: blue; cursor: pointer;" class="fas fa-pencil-alt edit-ressource-btn">
-        <i id="ressourceId" th:text="${ressource.id}" ></i> 
-    </a>
-                        <!-- Bouton de suppression avec confirmation -->
-                       <a style="color: red;"  th:href="@{/deleteRessource/{id}(id=${ressource.id})}">
-                        <i class="fas fa-trash ms-4"></i>
-                        </a>
-                        </td>
+                                <tbody  th:if="${ressources != null}">
 
-                                    </tr>
+                                <tr th:each="ressource : ${ressources}">
+                                    <td th:text="${ressource.getClass().simpleName}"></td>
+                                    <td th:text="${ressource.numeroInventaire}"></td>
+                                    <td>
+                                        <span th:if="${ressource != null && ressource.marque != null}" th:text="${ressource.marque}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.cpu}"></span>
+                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.vitesseImpression}"></span>
+                                    </td>
+                                    <td >
+                                        <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.ram}"></span>
+                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.resolution}"></span>
+                                    </td>
+                                    <td>
+                                        <!-- Bouton pour éditer la ressource -->
+                                        <a style="color: blue; cursor: pointer;" class="fas fa-pencil-alt edit-ressource-btn">
+                                            <i id="ressourceId" th:text="${ressource.id}" ></i>
+                                        </a>
+                                        <!-- Bouton de suppression avec confirmation -->
+                                        <a style="color: red;"  th:href="@{/deleteRessource/{id}(id=${ressource.id})}">
+                                            <i class="fas fa-trash ms-4"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -190,63 +194,63 @@
         </div>
 
 
-<!-- Modal -->
-<div class="modal" id="ressourceDetailsModal" tabindex="-1" aria-labelledby="ressourceDetailsModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ressourceDetailsModalLabel">Modifier les détails de la ressource</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulaire pour éditer un ordinateur -->
-                <form th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur'}"
-                      action="/editerOrdinateur" method="post">
-                    <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
-                    <!-- Autres champs pour éditer un ordinateur -->
-                    <div class="mb-3">
-                        <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
-                        <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
-                               th:value="${ressource.numeroInventaire}">
+        <!-- Modal -->
+        <div class="modal" id="ressourceDetailsModal" tabindex="-1" aria-labelledby="ressourceDetailsModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ressourceDetailsModalLabel">Modifier les détails de la ressource</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
-                    <div class="mb-3" th:if="${ressource.marque != null}">
-                        <label for="editMarque" class="form-label">Marque</label>
-                        <input type="text" class="form-control" id="editMarque" name="marque"
-                               th:value="${ressource.marque}">
-                    </div>
-                    <!-- Afficher d'autres champs selon les besoins -->
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </form>
+                    <div class="modal-body">
+                        <!-- Formulaire pour éditer un ordinateur -->
+                        <form th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur'}"
+                              action="/editerOrdinateur" method="post">
+                            <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
+                            <!-- Autres champs pour éditer un ordinateur -->
+                            <div class="mb-3">
+                                <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
+                                <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
+                                       th:value="${ressource.numeroInventaire}">
+                            </div>
+                            <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
+                            <div class="mb-3" th:if="${ressource.marque != null}">
+                                <label for="editMarque" class="form-label">Marque</label>
+                                <input type="text" class="form-control" id="editMarque" name="marque"
+                                       th:value="${ressource.marque}">
+                            </div>
+                            <!-- Afficher d'autres champs selon les besoins -->
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </form>
 
-                <!-- Formulaire pour éditer une imprimante -->
-                <form th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante'}"
-                      action="/editerImprimante" method="post">
-                    <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
-                    <!-- Autres champs pour éditer une imprimante -->
-                    <div class="mb-3">
-                        <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
-                        <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
-                               th:value="${ressource.numeroInventaire}">
+                        <!-- Formulaire pour éditer une imprimante -->
+                        <form th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante'}"
+                              action="/editerImprimante" method="post">
+                            <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
+                            <!-- Autres champs pour éditer une imprimante -->
+                            <div class="mb-3">
+                                <label for="editNumeroInventaire" class="form-label">Numero inventaire</label>
+                                <input type="text" class="form-control" id="editNumeroInventaire" name="numeroInventaire"
+                                       th:value="${ressource.numeroInventaire}">
+                            </div>
+                            <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
+                            <div class="mb-3" th:if="${ressource.marque != null}">
+                                <label for="editMarque" class="form-label">Marque</label>
+                                <input type="text" class="form-control" id="editMarque" name="marque"
+                                       th:value="${ressource.marque}">
+                            </div>
+                            <!-- Afficher d'autres champs selon les besoins -->
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </form>
                     </div>
-                    <!-- Afficher les autres champs uniquement si la valeur n'est pas null -->
-                    <div class="mb-3" th:if="${ressource.marque != null}">
-                        <label for="editMarque" class="form-label">Marque</label>
-                        <input type="text" class="form-control" id="editMarque" name="marque"
-                               th:value="${ressource.marque}">
+                    <div class="modal-footer">
+                        <button id="closeModalBtn" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fermer
+                        </button>
                     </div>
-                    <!-- Afficher d'autres champs selon les besoins -->
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="closeModalBtn" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Fermer
-                </button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 
         <!-- Main-content-end -->
@@ -261,52 +265,52 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    // Ouvrir la modal de modification lorsque le bouton "Modifier" est cliqué
-    $('.edit-ressource-btn').click(function() {
-        var ressourceId = $(this).closest('tr').find('#ressourceId').text();
+    $(document).ready(function() {
+        // Ouvrir la modal de modification lorsque le bouton "Modifier" est cliqué
+        $('.edit-ressource-btn').click(function() {
+            var ressourceId = $(this).closest('tr').find('#ressourceId').text();
 
-        // Utiliser AJAX pour récupérer les données de la ressource depuis votre backend
-        $.ajax({
-            type: 'GET',
-            url: '/detailsRessource/' + ressourceId,
-            success: function(data) {
-                // Remplacer le contenu de la modal par les données récupérées
-                $('#ressourceDetailsModal .modal-content').html(data);
-                // Afficher la modal
-                $('#ressourceDetailsModal').modal('show');
-            },
-            error: function(xhr, status, error) {
-                console.error('Erreur lors du chargement des données de la ressource :', error);
-            }
+            // Utiliser AJAX pour récupérer les données de la ressource depuis votre backend
+            $.ajax({
+                type: 'GET',
+                url: '/detailsRessource/' + ressourceId,
+                success: function(data) {
+                    // Remplacer le contenu de la modal par les données récupérées
+                    $('#ressourceDetailsModal .modal-content').html(data);
+                    // Afficher la modal
+                    $('#ressourceDetailsModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erreur lors du chargement des données de la ressource :', error);
+                }
+            });
+        });
+
+        // Envoyer une requête AJAX pour mettre à jour la ressource lorsque le bouton "Enregistrer les modifications" est cliqué
+        $('#updateRessourceBtn').click(function() {
+            var ressourceId = $('#editRessourceId').val();
+            var numeroInventaire = $('#editNumeroInventaire').val();
+            var marque = $('#editMarque').val();
+
+            // Effectuer votre logique AJAX ici pour mettre à jour la ressource
+            $.ajax({
+                type: 'POST',
+                url: '/updateRessource', // Assurez-vous que l'URL correspond à votre endpoint de mise à jour de ressource
+                data: {
+                    id: ressourceId,
+                    numeroInventaire: numeroInventaire,
+                    marque: marque
+                },
+                success: function(response) {
+                    $('#ressourceDetailsModal').modal('hide');
+                    window.location.reload(); // Recharger la page pour afficher les mises à jour
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
         });
     });
-
-    // Envoyer une requête AJAX pour mettre à jour la ressource lorsque le bouton "Enregistrer les modifications" est cliqué
-    $('#updateRessourceBtn').click(function() {
-        var ressourceId = $('#editRessourceId').val();
-        var numeroInventaire = $('#editNumeroInventaire').val();
-        var marque = $('#editMarque').val();
-
-        // Effectuer votre logique AJAX ici pour mettre à jour la ressource
-        $.ajax({
-            type: 'POST',
-            url: '/updateRessource', // Assurez-vous que l'URL correspond à votre endpoint de mise à jour de ressource
-            data: {
-                id: ressourceId,
-                numeroInventaire: numeroInventaire,
-                marque: marque
-            },
-            success: function(response) {
-                $('#ressourceDetailsModal').modal('hide');
-                window.location.reload(); // Recharger la page pour afficher les mises à jour
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
-    });
-});
 
 
 </script>

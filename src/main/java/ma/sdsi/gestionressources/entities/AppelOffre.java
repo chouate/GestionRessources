@@ -27,6 +27,8 @@ public class AppelOffre {
 
     @OneToMany(mappedBy = "appelOffre")
     private List<Demande> demandeList;
+    @OneToMany(mappedBy = "appelOffre")
+    private List<Proposition> propositionList;
 
     @ManyToOne
     private Responsable responsable;
