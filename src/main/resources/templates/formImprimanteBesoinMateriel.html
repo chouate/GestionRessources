@@ -31,25 +31,42 @@
 </head>
 <body>
 
-    <div class="col-md-6 offset-3">
-        <form method="post" th:action="@{saveImprimanteBesoin}">
-            <!-- Ajouter un champ caché pour inclure l'ID -->
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="row">
+            <div class="col-12">
+                <!-- Formulaire centré au milieu de la page -->
+                <form th:action="@{/saveImprimanteBesoin}" method="post" class="border p-4 rounded shadow-sm bg-white">
+                    <!-- Champs d'imprimante -->
+                    <input type="hidden" th:if="${demande != null}" th:name="id" th:value="${demande.id}" />
 
-            <input type="hidden" name="id" th:value="${demande.id}">
-            <div>
-                <label>Résolution</label>
-                <input type="text" name="resolution" th:value="${imprimante.resolution}">
-                <!--<span class="text-danger" th:errors="${ordinateurBesoin.getRam()}"></span>-->
+                    <div class="mb-3">
+                        <label for="resolution" class="form-label">Résolution:</label>
+                        <input type="text" id="resolution" th:name="resolution" th:value="${imprimante.resolution}" class="form-control" />
+                        <span class="text-danger" th:errors="${imprimante.resolution}"></span>
+                    </div>
+
+                    <!--
+                    <div class="mb-3">
+                        <label for="vitesseImpression" class="form-label">Vitesse d'impression:</label>
+                        <input type="number" id="vitesseImpression" th:name="vitesse" th:value="${imprimante.getVitesseImpression()}" class="form-control" />
+                        <span class="text-danger" th:errors="${imprimante.vitesseImpression}"></span>
+                    </div>
+                    -->
+                    <div class="mb-3">
+                        <label for="vitessse" class="form-label">Vitesse d'impression:</label>
+                        <input type="text" id="vitessse" th:name="vitesse" th:value="${imprimante.vitesse}" class="form-control" />
+                        <span class="text-danger" th:errors="${imprimante.vitesse}"></span>
+                    </div>
+
+
+                    <!-- Boutons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary">Annuler</a>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label>Vitesse d'impression</label>
-                <input type="text" name="vitesse" th:value="${imprimante.vitesseImpression}">
-                <!--<span class="text-danger" th:errors="${ordinateurBesoin.getRam()}"></span>-->
-            </div>
-
-            <button  type="submit" class="btn btn-primary">Ajouter</button>
-
-        </form>
+        </div>
     </div>
 
 

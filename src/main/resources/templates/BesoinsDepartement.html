@@ -86,10 +86,10 @@
 <body>
 
 
-    <div layout:fragment="content1">
+    <div class="container" layout:fragment="content1">
         <div class="row">
             <div class="col-md-12">
-                <div class="table-wrapper">
+                <div class="">
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-2 p-0 d-flex justify-content-lg-start justify-content-center">
@@ -131,47 +131,60 @@
             </div>
 
             <div class="col-md-12">
-                <!-- Afficher les besoins de la demande -->
-                <div th:each="besoin : ${demande.getRessourceList()}">
-                    <div class="besoin row">
-                        <div class="col-3">
-                            <div class="besoin-image">
-                                <img th:src="${besoin.getClass().simpleName == 'Ordinateur' ? 'img/ordinateur.png' : 'img/imprimante.jpg'}" alt="Image du besoin" class="img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-6 besoin-description">
 
-                            <!-- Afficher les caractéristiques spécifiques en fonction du type de besoin -->
-                            <div th:if="${besoin.getClass().simpleName == 'Ordinateur'}">
-                                <div class="mb-2" th:text="'CPU: ' + ${besoin.cpu}"></div>
-                                <div class="mb-2" th:text="'RAM: ' + ${besoin.ram}"></div>
-                                <div class="mb-2" th:text="'Disque dur: ' + ${besoin.disqueDur}"></div>
-                                <div th:text="'Ecran: ' + ${besoin.ecran}"></div>
-                            </div>
-                            <div th:if="${besoin.getClass().simpleName == 'Imprimante'}">
-                                <div class="mb-2" th:text="'Vitesse dimpression ' + ${besoin.vitesseImpression}"></div>
-                                <div th:text="'Résolution: ' + ${besoin.resolution}"></div>
-                            </div>
-                        </div>
-                        <div class="col-3 besoin-buttons">
-                            <!-- Lien vers le formulaire de modification du besoin -->
-                            <a th:href="@{/modifierBesoin/{id}(id=${besoin.id})}" class="btn btn-primary">
-                                Modifier
-                            </a>
-
-                            <!-- Lien pour supprimer avec confirmation -->
-                            <a th:href="@{/supprimerBesoin/{id}(id=${besoin.id})}"
-                               onclick="return confirm('Êtes-vous sûr de supprimer ?')"
-                               class="btn btn-danger">
-                                Supprimer
-                            </a>
-                        </div>
+            </div>
+        </div><!-- row end -->
+        <div style="margin-top: 20px" class="row">
+            <!-- Vérifiez si la liste des enseignants est vide -->
+            <div th:if="${#lists.isEmpty(demande.getRessourceList())}" class="col-12">
+                <!-- Si la liste est vide, afficher une carte avec un message -->
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h1 class="card-title">Aucun Besoin trouvé</h1>
+                        <p class="card-text">Il n'y a pas du besoin de département associé à cette demande.</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Afficher les besoins de la demande -->
+            <div th:each="besoin : ${demande.getRessourceList()}">
+                <div class="besoin row">
+                    <div class="col-3">
+                        <div class="besoin-image">
+                            <img th:src="${besoin.getClass().simpleName == 'Ordinateur' ? 'img/ordinateur.png' : 'img/imprimante.jpg'}" alt="Image du besoin" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-6 besoin-description">
 
-        </div><!-- row end -->
+                        <!-- Afficher les caractéristiques spécifiques en fonction du type de besoin -->
+                        <div th:if="${besoin.getClass().simpleName == 'Ordinateur'}">
+                            <div class="mb-2" th:text="'CPU : ' + ${besoin.cpu}"></div>
+                            <div class="mb-2" th:text="'RAM : ' + ${besoin.ram}"></div>
+                            <div class="mb-2" th:text="'Disque dur : ' + ${besoin.disqueDur}"></div>
+                            <div th:text="'Ecran : ' + ${besoin.ecran}"></div>
+                        </div>
+                        <div th:if="${besoin.getClass().simpleName == 'Imprimante'}">
+                            <div class="mb-2" th:text="'Vitesse Impression : ' + ${besoin.vitesse}"></div>
+                            <div th:text="'Résolution : ' + ${besoin.resolution}"></div>
+                        </div>
+                    </div>
+                    <div class="col-3 besoin-buttons">
+                        <!-- Lien vers le formulaire de modification du besoin -->
+                        <a th:href="@{/modifierBesoin/{id}(id=${besoin.id})}" class="btn btn-primary">
+                            Modifier
+                        </a>
+
+                        <!-- Lien pour supprimer avec confirmation -->
+                        <a th:href="@{/supprimerBesoin/{id}(id=${besoin.id})}"
+                           onclick="return confirm('Êtes-vous sûr de supprimer ?')"
+                           class="btn btn-danger">
+                            Supprimer
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
 
     </div>

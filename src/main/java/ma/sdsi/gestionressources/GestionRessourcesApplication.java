@@ -24,7 +24,7 @@ public class GestionRessourcesApplication {
     CommandLineRunner commandLineRunner(DemandeRepository demandeRepository, EnseignantRepository enseignantRepository){
         return  args -> {
 
-            /*
+
             Enseignant enseignant1 = new Enseignant() ;
             enseignant1.setPrenom("mehdi");
             enseignant1.setNom("echeouti");
@@ -59,7 +59,7 @@ public class GestionRessourcesApplication {
 
             // Création de nouveaux enseignants
 
-             */
+
 
 
 

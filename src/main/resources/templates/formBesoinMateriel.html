@@ -31,34 +31,45 @@
 </head>
 <body>
 
-    <div class="col-md-6 offset-3">
-        <form method="post" th:action="@{saveOrdinateurBesoin}">
-            <!-- Ajouter un champ caché pour inclure l'ID -->
-            <input type="hidden" name="id" th:value="${demande.id}">
-            <div>
-                <label for="cpu" >CPU</label>
-                <input id="cpu" type="text" name="cpu" th:value="${ordinateur.getCpu()}">
-                <!--<span class="text-danger" th:errors="${ordinateur.getCpu()}"></span>-->
-            </div>
-            <div>
-                <label>RAM</label>
-                <input type="number" name="ram" th:value="${ordinateur.getRam()}">
-                <!--<span class="text-danger" th:errors="${ordinateur.getRam()}"></span>-->
-            </div>
-            <div>
-                <label>Disque Dure</label>
-                <input type="number" name="disqueDur" th:value="${ordinateur.getDisqueDur()}">
-                <!--<span class="text-danger" th:errors="${ordinateur.getDisqueDur()}"></span>-->
-            </div>
-            <div>
-                <label for="ecran" >Ecran</label>
-                <input id="ecran" type="text" name="ecran" th:value="${ordinateur.getEcran()}">
-                <!--<span class="text-danger" th:errors="${ordinateur.getCpu()}"></span>-->
-            </div>
-            <button  type="submit" class="btn btn-primary">Ajouter</button>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="row">
+            <div class="col-12">
+                <!-- Formulaire centré au milieu de la page -->
+                <form th:action="@{/saveOrdinateurBesoin}" method="post" class="border p-4 rounded shadow-sm bg-white">
+                    <!-- Champs spécifiques à Ordinateur -->
+                    <input type="hidden" th:if="${demande != null}" th:name="id" th:value="${demande.id}" />
+                    <div class="mb-3">
+                        <label for="cpu" class="form-label">CPU:</label>
+                        <input type="text" id="cpu" th:name="cpu" th:value="${ordinateur.getCpu()}" class="form-control" />
+                        <span class="text-danger" th:errors="${ordinateur.cpu}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ram" class="form-label">RAM (Go):</label>
+                        <input type="number" id="ram" th:name="ram" th:value="${ordinateur.getRam()}" class="form-control" />
+                        <span class="text-danger" th:errors="${ordinateur.ram}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="disqueDur" class="form-label">Disque Dure (Go):</label>
+                        <input type="number" id="disqueDur" th:name="disqueDur" th:value="${ordinateur.getDisqueDur()}" class="form-control" />
+                        <span class="text-danger" th:errors="${ordinateur.disqueDur}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ecran" class="form-label">Ecran :</label>
+                        <input type="text" id="ecran" th:name="ecran" th:value="${ordinateur.getEcran()}" class="form-control" />
+                        <span class="text-danger" th:errors="${ordinateur.ecran}"></span>
+                    </div>
 
-        </form>
+                    <!-- Boutons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script> <!-- Charger le script Bootstrap -->
 
 
 </body>

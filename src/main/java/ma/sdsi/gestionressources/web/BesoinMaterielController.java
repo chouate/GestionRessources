@@ -51,13 +51,13 @@ public class BesoinMaterielController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam Long id){
         // Récupérer l'enseignant depuis la base de données
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+        Enseignant chef = enseignantRepository.findById(1L).orElse(null);
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
 
         // Ajouter l'enseignant à l'ordinateur
-        ordinateur.setEnseignant(enseignant);
+        ordinateur.setEnseignant(chef);
 
         // Ajouter la demande à l'ordinateur
         ordinateur.setDemande(demande);
@@ -93,7 +93,7 @@ public class BesoinMaterielController {
 
         // Valider et enregistrer l'imprimante
         if (bindingResult.hasErrors()) {
-            return "formBesoinMateriel";
+            return "formImprimanteBesoinMateriel";
         }
 
         besoinMaterielRepository.save(imprimante);
