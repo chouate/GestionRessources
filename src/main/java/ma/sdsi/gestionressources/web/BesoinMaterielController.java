@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BesoinMaterielController {
@@ -149,6 +151,14 @@ public class BesoinMaterielController {
         //ici récuperer l'id de chef depuis la session
         Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
         model.addAttribute("chefDepartement",enseignant);
+        // Pour chaque enseignant, calculez le total des besoins pour la demande
+        Map<Long, Integer> totalRessources = new HashMap<>();
+        for (Enseignant ens : enseignants) {
+            int total = besoinMaterielRepository.countByEnseignantIdAndDemandeId(ens.getId(),demande.getId());
+            totalRessources.put(enseignant.getId(), total);
+        }
+
+        model.addAttribute("totalRessources", totalRessources);
 
         model.addAttribute("enseignants", enseignants);
         model.addAttribute("demande",demande);
@@ -161,18 +171,36 @@ public class BesoinMaterielController {
     @GetMapping("/enseignant/{enseignantId}/demande/{demandeId}/ressources")
     public String getRessourcesByEnseignantAndDemande(@PathVariable Long enseignantId, @PathVariable Long demandeId, Model model) {
         // Récupérer les ressources associées à l'enseignant et à la demande spécifiée
-        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignantId, demandeId);
+       List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignantId, demandeId);
+        Enseignant enseignant=enseignantRepository.findById(enseignantId).orElse(null);
+        //List<Ressource> ressources = enseignant.getRessourceList();
         model.addAttribute("ressources", ressources);
 
         // Récupérer l'enseignant chef de département depuis la session (ici, en supposant que l'ID est 1)
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
-        model.addAttribute("chefDepartement", enseignant);
+        Enseignant chefDepartement = enseignantRepository.findById(1L).orElse(null);
+        model.addAttribute("chefDepartement", chefDepartement);
 
         // Récupérer la demande associée à l'ID spécifié
         Demande demande = demandeRepository.findById(demandeId).orElse(null);
         model.addAttribute("demande", demande);
 
-        return "ressourcesEnseignant";
+        return "enseignantRessources";
+    }
+    @GetMapping("enseignant/ressources")
+    public  String getRessourcesTest(Model model){
+
+        // Récupérer l'enseignant chef de département depuis la session (ici, en supposant que l'ID est 1)
+        Enseignant chefDepartement = enseignantRepository.findById(1L).orElse(null);
+        model.addAttribute("chefDepartement", chefDepartement);
+
+        // Récupérer la demande associée à l'ID spécifié
+        Demande demande = demandeRepository.findById(5L).orElse(null);
+        model.addAttribute("demande", demande);
+
+        List<Ressource> ressources = ressourceRepository.findAll();
+        model.addAttribute("ressources", ressources);
+
+        return "enseignantRessources";
     }
 
 

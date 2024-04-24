@@ -9,4 +9,5 @@ public interface BesoinMaterielRepository extends JpaRepository<Ressource,Long> 
 
     //Page<Demande> findByChefDepartementId(Long chefDepartementId, Pageable pageable);
     //Page<Demande> findByEnseignantId(Long besoinMaterielId, Pageable pageable);
+    int countByEnseignantIdAndDemandeId(Long enseignantId, Long demandeId);
 }

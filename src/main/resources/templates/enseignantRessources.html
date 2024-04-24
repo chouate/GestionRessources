@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1>Ressources de l'Enseignant</h1>
+    <!-- Affichage des ressources avec des cartes (cards) -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div th:each="ressource : ${ressources}">
+                <div class="card mb-3">
+                    <div class="card-header">Ressource</div>
+                    <div class="card-body">
+                        <!-- Affichage des propriétés spécifiques selon le type de ressource -->
+                        <div th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
+                            <strong>CPU:</strong> <span th:text="${ressource.cpu}"></span><br>
+                            <strong>RAM:</strong> <span th:text="${ressource.ram}"></span><br>
+                            <strong>Disque Dur:</strong> <span th:text="${ressource.disqueDur}"></span><br>
+                            <strong>Écran:</strong> <span th:text="${ressource.ecran}"></span>
+                        </div>
+
+                        <div th:if="${ressource.getClass().simpleName == 'Imprimante'}">
+                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesseImpression}"></span><br>
+                            <strong>Résolution:</strong> <span th:text="${ressource.resolution}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bouton pour retourner à la liste des enseignants -->
+    <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
+</div>
+
+
+
+</body>
+</html>

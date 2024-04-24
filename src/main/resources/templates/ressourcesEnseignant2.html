@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -84,7 +84,7 @@
                     <h1>Ressources de l'Enseignant</h1>
 
                     <!-- Bouton pour retourner à la liste des enseignants -->
-                    <a class="btn btn-primary" th:href="@{/consulterBesoinEnseignant}">Afficher tous les enseignants</a>
+                    <a class="btn btn-primary" th:href="@{/enseignants}">Afficher tous les enseignants</a>
 
                     <!-- Affichage des ressources avec des cartes (cards) -->
                     <div class="row mt-4">
@@ -93,17 +93,18 @@
                                 <div class="card mb-3">
                                     <div class="card-header">Ressource</div>
                                     <div class="card-body">
+
                                         <!-- Affichage des propriétés spécifiques selon le type de ressource -->
                                         <div th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
                                             <strong>CPU:</strong> <span th:text="${ressource.cpu}"></span><br>
-                                            <strong>RAM:</strong> <span th:text="${ressource.ram}"></span><br>
-                                            <strong>Disque Dur:</strong> <span th:text="${ressource.disqueDur}"></span><br>
+                                            <strong>RAM:</strong> <span th:text="${ressource.ram} Go"></span><br>
+                                            <strong>Disque Dur:</strong> <span th:text="${ressource.disqueDur} Go"></span><br>
                                             <strong>Écran:</strong> <span th:text="${ressource.ecran}"></span>
                                         </div>
 
                                         <div th:if="${ressource.getClass().simpleName == 'Imprimante'}">
-                                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesseImpression}"></span><br>
-                                            <strong>Résolution:</strong> <span th:text="${ressource.resolution}"></span>
+                                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesseImpression} ppm"></span><br>
+                                            <strong>Résolution:</strong> <span th:text="${ressource.resolution} DPI"></span>
                                         </div>
                                     </div>
                                 </div>

@@ -9,6 +9,28 @@
             font-weight: bold;
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
+        /* Utilisation de Flexbox pour assurer la structure de la page */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* Assurez-vous que la hauteur de la page est de 100% */
+            display: flex;
+            flex-direction: column; /* Assurez-vous que le footer reste en bas */
+        }
+
+        .main-content {
+            flex: 1; /* Permet au contenu de prendre tout l'espace restant */
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0; /* Reste en bas de la page */
+            width: 100%; /* Prend toute la largeur de l'écran */
+            /* background-color: #f1f1f1;  Choisissez une couleur qui s'intègre avec le reste du design */
+            text-align: center;
+            padding: 10px; /* Ajouter du remplissage pour un espacement adéquat */
+            border-top: 1px solid #ddd; /* Optionnel, pour un effet de séparation */
+        }
     </style>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -90,7 +112,9 @@
                         <!-- End XP Col -->
 
                         <!-- Start XP Col -->
+
                         <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                            <!--
                             <div class="xp-searchbar">
                                 <form>
                                     <div class="input-group">
@@ -103,7 +127,9 @@
                                     </div>
                                 </form>
                             </div>
+                             -->
                         </div>
+
                         <!-- End XP Col -->
 
                         <!-- Start XP Col -->

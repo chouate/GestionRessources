@@ -86,63 +86,71 @@
 <body>
 
 
-    <div layout:fragment="content1">
-        <div class="row">
+    <div class="container" layout:fragment="content1">
+        <div  class="row">
             <div class="col-md-12">
-                <div class="table-wrapper">
+                <div class="">
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-4 p-0 d-flex justify-content-lg-start justify-content-center">
                                 <h2 class="ml-lg-2">Liste Enseignants</h2>
-                                <span>Demande N° : <span th:text="${demande.getId()}"></span></span>
                             </div>
                             <div class="col-sm-8 p-0 d-flex justify-content-lg-end justify-content-center">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container mt-5">
-                <div class="row">
-                    <!-- Vérifiez si la liste des enseignants est vide -->
-                    <div th:if="${#lists.isEmpty(enseignants)}" class="col-12">
-                        <!-- Si la liste est vide, afficher une carte avec un message -->
-                        <div class="card text-center">
-                            <div class="card-body">
-                                <h5 class="card-title">Aucun enseignant trouvé</h5>
-                                <p class="card-text">Il n'y a pas d'enseignant associé à cette demande.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Si la liste n'est pas vide, affichez les enseignants -->
-                    <div th:unless="${#lists.isEmpty(enseignants)}">
-                        <div class="row">
-                            <!-- Itérer sur les enseignants et afficher des cartes pour chaque enseignant -->
-                            <div th:each="enseignant : ${enseignants}" class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body text-center">
-                                        <!-- Cercle avec la première lettre du prénom -->
-                                        <div class="circle bg-primary text-white">
-                                            <h3 th:text="${enseignant.prenom[0]}"></h3>
+                                <div class="xp-searchbar">
+                                    <form>
+                                        <div class="input-group">
+                                            <input type="search" class="form-control"
+                                                   placeholder="Search">
+                                            <div class="input-group-append">
+                                                <button class="btn" type="submit"
+                                                        id="button-addon2">GO</button>
+                                            </div>
                                         </div>
-                                        <!-- Afficher le nom et le prénom -->
-                                        <h5 class="card-title" th:text="${enseignant.prenom} + ' ' + ${enseignant.nom}"></h5>
-                                        <a th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}" class="btn btn-primary">Tout afficher</a>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div><!-- row end -->
 
+        <div style="margin-top: 20px" class="row">
+            <!-- Vérifiez si la liste des enseignants est vide -->
+            <div th:if="${#lists.isEmpty(enseignants)}" class="col-12">
+                <!-- Si la liste est vide, afficher une carte avec un message -->
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h1 class="card-title">Aucun enseignant trouvé</h1>
+                        <p class="card-text">Il n'y a pas d'enseignant associé à cette demande.</p>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Si la liste n'est pas vide, affichez les enseignants -->
+            <div th:unless="${#lists.isEmpty(enseignants)}">
+                <div class="row">
+                    <!-- Itérer sur les enseignants et afficher des cartes pour chaque enseignant -->
+                    <div th:each="enseignant : ${enseignants}" class="col-md-3">
+                        <div class="card">
+                            <div class="card-body d-flex flex-column align-items-center"> <!-- Utiliser align-items-center pour centrer horizontalement -->
+                                <!-- Afficher le nom et le prénom -->
+                                <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                                    th:text="${enseignant.prenom} + ' ' + ${enseignant.nom}"></h5>
+                                <!-- Cercle avec la première lettre du prénom -->
+                                <div style="width: 72px; height: 72px; border-radius: 50%;" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center ">
+                                    <h3 th:text="${enseignant.prenom[0]}"></h3> <!-- Utiliser justify-content-center et align-items-center pour centrer le contenu -->
+                                </div>
+                                <!-- Afficher le total des besoins -->
+                                <p style="color: #7c9192" th:text="'Total : '+ ${enseignant.getRessourceList().size()} "></p>
+
+                                <a th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}" class="btn btn-link">Tout afficher</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 

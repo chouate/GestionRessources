@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -92,26 +92,17 @@
                 <div class="table-wrapper">
                     <div class="table-title">
                         <div class="row">
-                            <div class="col-sm-4 p-0 d-flex justify-content-lg-start justify-content-center">
+                            <div class="col-sm-2 p-0 d-flex justify-content-lg-start justify-content-center">
                                 <h2 class="ml-lg-2">Besoins de département</h2>
-                                <span>Demande N° : <span th:text="${demande.getId()}"></span></span>
+                                <!--<span>Demande N° : <span th:text="${demande.getId()}"></span></span>-->
                             </div>
-                            <div class="col-sm-8 p-0 d-flex justify-content-lg-end justify-content-center">
+                            <div class="col-sm-10 p-0 d-flex justify-content-lg-end justify-content-center">
                                 <!--
                                 <a href="#addOrdinateurBesionModal" class="btn btn-success" data-toggle="modal">
                                     <i class="material-icons">&#xE147;</i>
                                     <span>Add Ordinateur</span>
                                 </a>
                                 -->
-                                <a th:href="@{'/formOrdinateurBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
-                                    <i class="material-icons">&#xE147;</i>
-                                    <span>Add Ordinateur</span>
-                                </a>
-                                <a th:href="@{'/formImprimanteBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
-                                    <i class="material-icons">&#xE147;</i>
-                                    <span>Add Imprimante</span>
-                                </a>
-
                                 <!--
                                 <a href="#addImprimanteBesionModal" class="btn btn-success" data-toggle="modal">
                                     <i class="material-icons">&#xE147;</i>
@@ -124,6 +115,15 @@
                                     <i class="material-icons">&#xE3B9;</i> <span>Imprimante</span></a>
                                 <a  class="btn btn-secondary" data-toggle="modal">
                                     <i class="material-icons">&#xE2C6;</i> <span>Tous les Besoins</span></a>
+
+                                <a th:href="@{'/formOrdinateurBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Ordinateur</span>
+                                </a>
+                                <a th:href="@{'/formImprimanteBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                    <i class="material-icons">&#xE147;</i>
+                                    <span>Add Imprimante</span>
+                                </a>
                             </div>
                         </div>
                     </div>
