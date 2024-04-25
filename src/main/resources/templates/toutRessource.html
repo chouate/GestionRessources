@@ -167,11 +167,11 @@
                                     </td>
                                     <td>
                                         <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.cpu}"></span>
-                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.vitesseImpression}"></span>
+                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesse != null}" th:text="${ressource.vitesse}"></span>
                                     </td>
                                     <td >
                                         <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.ram}"></span>
-                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" th:text="${ressource.resolution}"></span>
+                                        <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesse != null}" th:text="${ressource.resolution}"></span>
                                     </td>
                                     <td>
                                         <!-- Bouton pour éditer la ressource -->

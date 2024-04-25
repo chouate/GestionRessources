@@ -177,7 +177,7 @@
                                         <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
                                         <p>
                                             <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
-                                            <span th:if="${ressource.vitesseImpression != null}">Vitesse d'impression: <span th:text="${ressource.vitesseImpression}"></span><br /></span>
+                                            <span th:if="${ressource.vitesse != null}">Vitesse d'impression: <span th:text="${ressource.vitesse}"></span><br /></span>
                                             <!-- Ajoutez d'autres détails spécifiques à l'imprimante -->
                                             <span>resolution:<span th:text="${ressource.resolution}"></span><br /></span>
                                         </p>
