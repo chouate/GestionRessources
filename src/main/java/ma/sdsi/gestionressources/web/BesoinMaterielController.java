@@ -44,7 +44,7 @@ public class BesoinMaterielController {
         return "redirect:/index?page="+page;
     }
     @PostMapping("/saveOrdinateurBesoin")
-    public  String ajouter1(
+    public  String ajouterOrdinateur(
             Model model,
             @Valid Ordinateur ordinateur,
             BindingResult bindingResult,
@@ -55,7 +55,7 @@ public class BesoinMaterielController {
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
-
+        model.addAttribute("demande", demande);
         // Ajouter l'enseignant à l'ordinateur
         ordinateur.setEnseignant(chef);
 
@@ -84,7 +84,7 @@ public class BesoinMaterielController {
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
-
+        model.addAttribute("demande", demande);
         // Ajouter l'enseignant à l'imprimante
         imprimante.setEnseignant(enseignant);
 

@@ -151,23 +151,34 @@
                 <div class="besoin row">
                     <div class="col-3">
                         <div class="besoin-image">
-                            <img th:src="${besoin.getClass().simpleName == 'Ordinateur' ? 'img/ordinateur.png' : 'img/imprimante.jpg'}" alt="Image du besoin" class="img-fluid">
+                            <img
+                                    style="width: 100px;height: 100px;object-fit: cover;object-position: center;"
+                                    th:src="${besoin.getClass().simpleName == 'Ordinateur' ? 'img/ordinateur.png' : 'img/imprimante.png'}"
+                                    alt="Image du besoin"
+                                    class="img-fluid"
+                            >
                         </div>
                     </div>
                     <div class="col-6 besoin-description">
-
-                        <!-- Afficher les caractéristiques spécifiques en fonction du type de besoin -->
-                        <div th:if="${besoin.getClass().simpleName == 'Ordinateur'}">
-                            <div class="mb-2" th:text="'CPU : ' + ${besoin.cpu}"></div>
-                            <div class="mb-2" th:text="'RAM : ' + ${besoin.ram}"></div>
-                            <div class="mb-2" th:text="'Disque dur : ' + ${besoin.disqueDur}"></div>
-                            <div th:text="'Ecran : ' + ${besoin.ecran}"></div>
+                        <div th:if="${besoin.getClass().simpleName == 'Ordinateur'}" class="row">
+                            <!-- Diviser la section en deux colonnes de largeur égale -->
+                            <div class="col-6">
+                                <div  class="mb-2" th:text="'CPU : ' + ${besoin.cpu}"></div>
+                                <div class="mb-2" th:text="'RAM : ' + ${besoin.ram}"></div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-2" th:text="'Disque dur : ' + ${besoin.disqueDur}"></div>
+                                <div th:text="'Ecran : ' + ${besoin.ecran}"></div>
+                            </div>
                         </div>
+
                         <div th:if="${besoin.getClass().simpleName == 'Imprimante'}">
+                            <!-- Si c'est une imprimante, on garde les éléments originaux -->
                             <div class="mb-2" th:text="'Vitesse Impression : ' + ${besoin.vitesse}"></div>
                             <div th:text="'Résolution : ' + ${besoin.resolution}"></div>
                         </div>
                     </div>
+
                     <div class="col-3 besoin-buttons">
                         <!-- Lien vers le formulaire de modification du besoin -->
                         <a th:href="@{/modifierBesoin/{id}(id=${besoin.id})}" class="btn btn-primary">
