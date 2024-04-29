@@ -20,11 +20,11 @@ public class Imprimante extends Ressource {
      */
 
     @NotBlank // La résolution ne doit pas être vide
-    @Size(max=10) // La résolution ne doit pas excéder 10 caractères
+    @Size(max=1000) // La résolution ne doit pas excéder 10 caractères
     private String resolution; // Résolution de l'imprimante en DPI (points par pouce)
 
     @Min(1) // La vitesse minimale d'impression
-    @Max(500) // La vitesse maximale d'impression
+    @Max(1000) // La vitesse maximale d'impression
     private String vitesse; // En pages par minute
 
 }

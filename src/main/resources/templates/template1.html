@@ -61,7 +61,7 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3><img src="img/logo.png" class="img-fluid"/>
+                <h3><img style="border: #0b2e13" src="img/logo.jpg" class="img-fluid"/>
                    <!-- <span>Géstion des ressources</span> -->
                     <span >Demande N° : <span th:text="${demande.getId()}"></span></span>
                 </h3>
@@ -72,15 +72,19 @@
                 </li>
 
                 <li class="">
-                    <a  th:href="@{/consulterBesoinDepartement2(id=${demande.id})}"><i class="material-icons"></i><span>Besoins du département</span></a>
+                    <a  th:href="@{/consulterBesoinDepartement(id=${demande.id})}"><i class="material-icons"></i><span>Besoins du département</span></a>
                 </li>
 
                 <li  class="">
                     <a th:href="@{/consulterBesoinEnseignant(id=${demande.id})}"><i class="material-icons"></i><span>Besoin des enseignants</span></a>
                 </li>
-
-                <li  class="">
-                    <a href="#"><i class="material-icons"></i><span>Récapitulatif</span></a>
+                <!-- Afficher le bouton "Envoyer Responsable" si le champ `EnvoyerResponsable` est false -->
+                <li th:if="${!demande.EnvoyerResponsable}">
+                    <a th:href="@{/envoyerResponsable(id=${demande.id})}"><i class="material-icons"></i><span>Envoyer Responsable</span></a>
+                </li>
+                <!-- Afficher le bouton "Désactivé" si le champ `EnvoyerResponsable` est true -->
+                <li th:if="${demande.EnvoyerResponsable}">
+                    <a href="#" class="disabled  red"><i class="material-icons"></i><span class="text-success">Demande Envoyée</span></a>
                 </li>
 
             </ul>
@@ -165,8 +169,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item dropdown">
-                                            <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <img src="img/user.jpg" style="width:40px; border-radius:50%;"/>
+                                            <a style="" class="nav-link" href="#" data-toggle="dropdown">
+                                                <img  src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">

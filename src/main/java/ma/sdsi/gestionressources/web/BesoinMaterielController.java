@@ -10,9 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class BesoinMaterielController {
@@ -21,17 +20,20 @@ public class BesoinMaterielController {
     private BesoinMaterielRepository besoinMaterielRepository;
     private ImprimanteBesoinRepository imprimanteBesoinRepository;
     private RessourceRepository ressourceRepository;
+    private OrdinateurBesoinRepository ordinateurBesoinRepository;
 
     @Autowired
     public BesoinMaterielController(BesoinMaterielRepository besoinMaterielRepository, EnseignantRepository enseignantRepository,
                                     DemandeRepository demandeRepository,
                                     ImprimanteBesoinRepository imprimanteBesoinRepository,
-                                    RessourceRepository ressourceRepository) {
+                                    RessourceRepository ressourceRepository,
+                                    OrdinateurBesoinRepository ordinateurBesoinRepository) {
         this.besoinMaterielRepository = besoinMaterielRepository;
         this.enseignantRepository =enseignantRepository;
         this.demandeRepository = demandeRepository;
         this.imprimanteBesoinRepository=imprimanteBesoinRepository;
         this.ressourceRepository = ressourceRepository;
+        this.ordinateurBesoinRepository = ordinateurBesoinRepository;
 
     }
 
@@ -64,13 +66,13 @@ public class BesoinMaterielController {
 
         // Valider et enregistrer l'ordinateur
         if (bindingResult.hasErrors()) {
-            return "formBesoinMateriel";
+            return "ViewschefDepartement/formBesoinMateriel";
         }
 
         besoinMaterielRepository.save(ordinateur);
 
         // Rediriger vers la page BesoinDepartement
-        return "redirect:/consulterBesoinDepartement2?id="+id;
+        return "redirect:/consulterBesoinDepartement?id="+id;
     }
     @PostMapping("/saveImprimanteBesoin")
     public  String ajouterImrimante(
@@ -93,13 +95,13 @@ public class BesoinMaterielController {
 
         // Valider et enregistrer l'imprimante
         if (bindingResult.hasErrors()) {
-            return "formImprimanteBesoinMateriel";
+            return "ViewschefDepartement/formImprimanteBesoinMateriel";
         }
 
         besoinMaterielRepository.save(imprimante);
 
         // Rediriger vers la page BesoinDepartement
-        return "redirect:/consulterBesoinDepartement2?id="+id;
+        return "redirect:/consulterBesoinDepartement?id="+id;
     }
 
     @GetMapping("/formOrdinateurBesoinMateriel")
@@ -114,7 +116,7 @@ public class BesoinMaterielController {
         model.addAttribute("ordinateur", ordinateur);
 
         // Retourner la vue formBesoinMateriel
-        return "formBesoinMateriel";
+        return "ViewschefDepartement/formBesoinMateriel";
     }
     @GetMapping("/formImprimanteBesoinMateriel")
     public String formImprimanteBesoinMateriel(Model model,@RequestParam Long id){
@@ -126,17 +128,35 @@ public class BesoinMaterielController {
         model.addAttribute("imprimante", imprimante);
 
         // Retourner la vue formBesoinMateriel
-        return "formImprimanteBesoinMateriel";
+        return "ViewschefDepartement/formImprimanteBesoinMateriel";
     }
 
-    @GetMapping("/consulterBesoinDepartement2")
+    @GetMapping("/consulterBesoinDepartement")
     public  String consulterBesoinDepartement(Model model,@RequestParam Long id){
         Demande demande = demandeRepository.findById(id).orElse(null);
         model.addAttribute("demande",demande);
         //ici récuperer l'id de chef depuis la session
         Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+
+
+        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(1L,demande.getId());
+        // Compteurs pour ordinateurs et imprimantes
+        int nbrOrdinateurs = 0;
+        int nbrImprimantes = 0;
+
+        // Compter le nombre d'ordinateurs et d'imprimantes
+        for (Ressource ressource : ressources) {
+            if (ressource instanceof Ordinateur) {
+                nbrOrdinateurs++;
+            } else if (ressource instanceof Imprimante) {
+                nbrImprimantes++;
+            }
+        }
+        model.addAttribute("nbrOrdinateurs", nbrOrdinateurs);
+        model.addAttribute("nbrImprimantes", nbrImprimantes);
+        model.addAttribute("ressources",ressources);
         model.addAttribute("chefDepartement",enseignant);
-        return "BesoinsDepartement";
+        return "ViewschefDepartement/BesoinsDepartement";
     }
 
 
@@ -152,18 +172,26 @@ public class BesoinMaterielController {
         Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
         model.addAttribute("chefDepartement",enseignant);
         // Pour chaque enseignant, calculez le total des besoins pour la demande
-        Map<Long, Integer> totalRessources = new HashMap<>();
+        //Map<Long, Integer> totalRessources = new HashMap<>();
+
+        // Créez une liste pour les totaux
+        List<Integer> totalRessources = new ArrayList<>();
         for (Enseignant ens : enseignants) {
-            int total = besoinMaterielRepository.countByEnseignantIdAndDemandeId(ens.getId(),demande.getId());
-            totalRessources.put(enseignant.getId(), total);
+            //int total = besoinMaterielRepository.countByEnseignantIdAndDemandeId(ens.getId(),demande.getId());
+            int total = ressourceRepository.findByEnseignantIdAndDemandeId(ens.getId(),demande.getId()).size();
+            System.out.println(" ens ID : " +ens.getId());
+            System.out.println("total ens : " +total);
+            //totalRessources.put(enseignant.getId(), total);
+            totalRessources.add(total);
         }
+        System.out.println("Total Ressources: " + totalRessources);
 
         model.addAttribute("totalRessources", totalRessources);
 
         model.addAttribute("enseignants", enseignants);
         model.addAttribute("demande",demande);
 
-        return "listeEnseignants"; // Nom de la vue
+        return "ViewschefDepartement/listeEnseignants"; // Nom de la vue
     }
 
 
@@ -173,6 +201,7 @@ public class BesoinMaterielController {
         // Récupérer les ressources associées à l'enseignant et à la demande spécifiée
        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignantId, demandeId);
         Enseignant enseignant=enseignantRepository.findById(enseignantId).orElse(null);
+        model.addAttribute("enseignant", enseignant);
         //List<Ressource> ressources = enseignant.getRessourceList();
         model.addAttribute("ressources", ressources);
 
@@ -184,23 +213,7 @@ public class BesoinMaterielController {
         Demande demande = demandeRepository.findById(demandeId).orElse(null);
         model.addAttribute("demande", demande);
 
-        return "enseignantRessources";
-    }
-    @GetMapping("enseignant/ressources")
-    public  String getRessourcesTest(Model model){
-
-        // Récupérer l'enseignant chef de département depuis la session (ici, en supposant que l'ID est 1)
-        Enseignant chefDepartement = enseignantRepository.findById(1L).orElse(null);
-        model.addAttribute("chefDepartement", chefDepartement);
-
-        // Récupérer la demande associée à l'ID spécifié
-        Demande demande = demandeRepository.findById(5L).orElse(null);
-        model.addAttribute("demande", demande);
-
-        List<Ressource> ressources = ressourceRepository.findAll();
-        model.addAttribute("ressources", ressources);
-
-        return "enseignantRessources";
+        return "ViewschefDepartement/enseignantRessources";
     }
 
 
@@ -221,7 +234,7 @@ public class BesoinMaterielController {
         Long demandeId = besoin.getDemande().getId();
 
         // Rediriger vers la page de la demande après suppression
-        return "redirect:/consulterBesoinDepartement2?id=" + demandeId;
+        return "redirect:/consulterBesoinDepartement?id=" + demandeId;
     }
 
     @GetMapping("/modifierBesoin/{id}")
@@ -237,67 +250,72 @@ public class BesoinMaterielController {
         model.addAttribute("besoin", besoin);
 
         // Retourner le nom du template à utiliser pour l'affichage
-        return "formModifierBesoin";
+        return "ViewschefDepartement/formModifierBesoin";
     }
 
-    @PostMapping("/modifierBesoin")
-    public String modifierBesoin(@Valid Ressource besoin, BindingResult bindingResult, Model model) {
+    @PostMapping("/modifierBesoinOrdinateur")
+    public String modifierBesoinOrdinateur(@Valid Ordinateur besoin, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("besoin", besoin);
-            return "formModifierBesoin";
+            return "ViewschefDepartement/formModifierBesoin";
         }
 
-        // Récupérer la demande associée au besoin modifié
-        Demande demande = besoin.getDemande();
-
-        // Vérifier si la demande est null ou non
-        if (demande == null) {
-            // Gérer le cas où la demande est null
-            // Par exemple, rediriger vers une page d'erreur ou afficher un message à l'utilisateur
-            return "redirect:/error";
-        }
-
-        // Sauvegarder les modifications du besoin
-        besoinMaterielRepository.save(besoin);
+        ordinateurBesoinRepository.save(besoin);
 
         // Redirection après la modification
-        return "redirect:/consulterBesoinDepartement2?id=" + demande.getId();
+        return "redirect:/consulterBesoinDepartement?id="+besoin.getDemande().getId() ;
     }
-
-
-
-
-
-    //---------------------------------------------------------------------------------
-    /*
-    @GetMapping("/supprimerBesoin")
-    public String supprimer( Long id, int page) {
-        System.out.println("Suppression de la demande avec l'ID : " + id);
-        Optional<Demande> demandeOptional = demandeRepository.findById(id);
-        if (demandeOptional.isPresent()) {
-            demandeRepository.deleteById(id);
-            System.out.println("Demande supprimée avec succès !");
-        } else {
-            System.out.println("Demande non trouvée avec l'ID : " + id);
+    @PostMapping("/modifierBesoinImprimante")
+    public String modifierBesoinImprimante(@Valid Imprimante besoin, BindingResult bindingResult, Model model) {
+        model.addAttribute("besoin",new Imprimante());
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("besoin", besoin);
+            return "ViewschefDepartement/formModifierBesoin";
         }
-        return "redirect:/index?page="+page;
-    }
-    */
 
+        imprimanteBesoinRepository.save(besoin);
 
-
-    @GetMapping("/editBesoin")
-    public  String editDemande(Model model, long id, int page){
-        model.addAttribute("currentPage",page);
-        Demande demande = demandeRepository.findById(id).orElse(null);
-        if(demande==null)
-            throw new RuntimeException("Demande introuvable");
-        model.addAttribute("demande",demande);
-        return "editDemande";
+        // Redirection après la modification
+        return "redirect:/consulterBesoinDepartement?id="+besoin.getDemande().getId() ;
     }
 
-    //--------------------------------------------------------------------------------------------
 
+    // Méthode de suppression
+    @GetMapping("/ressource/delete/{id}")
+    public String deleteRessource(@PathVariable Long id) {
+        Ressource ressource = ressourceRepository.findById(id).orElse(null);
+        Long enseignantId = ressource.getEnseignant().getId();
+        Long demandeId = ressource.getDemande().getId();
+        ressourceRepository.deleteById(id);
+        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+    }
+
+    // Méthode pour afficher la page de modification
+    @GetMapping("/ressource/edit/{id}")
+    public String editRessource(@PathVariable Long id, Model model) {
+        Ressource ressource = ressourceRepository.findById(id).orElse(null);
+        model.addAttribute("ressource", ressource);
+        return "ViewschefDepartement/editBesoinEnsParChef"; // Nom de la page de modification
+    }
+
+
+    @PostMapping("/ressourceOrdinateur/edit")
+    public String updateOrdinateurBesoin(@ModelAttribute Ordinateur besoinOrdinateur) {
+
+        Long enseignantId = besoinOrdinateur.getEnseignant().getId();
+        Long demandeId = besoinOrdinateur.getDemande().getId();
+        ordinateurBesoinRepository.save(besoinOrdinateur);
+        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+    }
+
+    @PostMapping("/ressourceImprimante/edit")
+    public String updateImprimanteBesoin(@ModelAttribute Imprimante besoinImprimante) {
+        Long enseignantId = besoinImprimante.getEnseignant().getId();
+        Long demandeId = besoinImprimante.getDemande().getId();
+        imprimanteBesoinRepository.save(besoinImprimante);
+        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+    }
 
 
 }
