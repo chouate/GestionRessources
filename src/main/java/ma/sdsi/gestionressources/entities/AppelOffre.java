@@ -32,4 +32,14 @@ public class AppelOffre {
 
     @ManyToOne
     private Responsable responsable;
+    @Override
+    public String toString() {
+        return "AppelOffre{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", old=" + old +
+                '}';
+    }
+
 }

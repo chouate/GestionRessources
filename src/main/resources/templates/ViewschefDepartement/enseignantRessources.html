@@ -11,13 +11,24 @@
 <body>
 
 <div class="container mt-4">
-    <h1>Ressources de l'Enseignant</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2 th:text="${'Liste des besoins de '+ enseignant.prenom+ ' '+enseignant.nom} "> </h2>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <!-- Bouton pour retourner à la liste des enseignants -->
+            <a
+               th:href="@{'/consulterBesoinEnseignant?id='+${demande.getId()}}"
+               class="btn btn-secondary">Retour</a>
+        </div>
+    </div>
+
     <!-- Affichage des ressources avec des cartes (cards) -->
     <div class="row mt-4">
         <div class="col-md-12">
             <div th:each="ressource : ${ressources}">
                 <div class="card mb-3">
-                    <div class="card-header">Ressource</div>
+                    <div th:text="${ressource.getClass().simpleName == 'Ordinateur' ? 'Ordinateur' : 'Imprimante'}" class="card-header"></div>
                     <div class="card-body">
                         <!-- Affichage des propriétés spécifiques selon le type de ressource -->
                         <div th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
@@ -28,16 +39,18 @@
                         </div>
 
                         <div th:if="${ressource.getClass().simpleName == 'Imprimante'}">
-                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesseImpression}"></span><br>
+                            <strong>Vitesse d'Impression:</strong> <span th:text="${ressource.vitesse}"></span><br>
                             <strong>Résolution:</strong> <span th:text="${ressource.resolution}"></span>
                         </div>
+                        <!-- Ajouter les boutons de modification et de suppression -->
+                        <a th:href="@{/ressource/edit/{id}(id=${ressource.id})}" class="btn btn-warning">Modifier</a>
+                        <a th:href="@{/ressource/delete/{id}(id=${ressource.id})}" class="btn btn-danger">Supprimer</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Bouton pour retourner à la liste des enseignants -->
-    <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
+
 </div>
 
 

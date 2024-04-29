@@ -2,6 +2,7 @@ package ma.sdsi.gestionressources.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ma.sdsi.gestionressources.entities.Fournisseur;
 import ma.sdsi.gestionressources.entities.ListeNoir;
@@ -26,6 +27,9 @@ public class PropositionService {
     private ListeNoirRepository listeNoirRepository;
 
     // Méthode pour vérifier si le fournisseur existe déjà dans la liste noire
+    public Optional<Proposition> getById(Long id){
+        return propositionRepository.findById(id);
+    }
     public boolean verifierFournisseurDansListeNoire(Long fournisseurId) {
         return listeNoirRepository.existsByFournisseur_Id(fournisseurId);
     }
@@ -100,6 +104,10 @@ public class PropositionService {
     	        // Enregistrer la modification dans la base de données
     	        propositionRepository.save(proposition);
     	}
+    }
+    public Proposition save(Proposition p){
+        propositionRepository.save(p);
+        return p;
     }
 
 

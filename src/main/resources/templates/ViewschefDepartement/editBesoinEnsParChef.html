@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier Ressource</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+</head>
+<body>
+
+        <div class="container d-flex justify-content-center align-items-center vh-100">
+            <div class="row">
+                <div class="col-12">
+                    <form th:action="${ressource.getClass().simpleName == 'Ordinateur' ? '/ressourceOrdinateur/edit' : '/ressourceImprimante/edit'}" method="post" class="border p-4 rounded shadow-sm bg-white">
+                        <h2 class="header-bold" th:text="${'Modifier Ressource ' + ressource.getClass().simpleName}"></h2>
+
+                        <!-- Section pour Ordinateur -->
+                        <div th:if="${ressource.getClass().simpleName == 'Ordinateur'}">
+                            <!-- Champs cachés -->
+                            <input type="hidden" th:name="id" th:value="${ressource.id}">
+                            <input type="hidden" th:name="enseignant" th:value="${ressource.enseignant.id}">
+                            <input type="hidden" th:name="demande" th:value="${ressource.demande.id}">
+
+                            <!-- Champs visibles -->
+                            <div class="mb-3">
+                                <label for="cpu" class="form-label">CPU:</label>
+                                <input id="cpu" type="text" th:name="cpu" th:value="${ressource.cpu}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="ram" class="form-label">RAM (Go):</label>
+                                <input id="ram" type="number" th:name="ram" th:value="${ressource.ram}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label pour="disqueDur" class="form-label">Disque Dur (Go):</label>
+                                <input id="disqueDur" type="number" th:name="disqueDur" th:value="${ressource.disqueDur}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label pour="ecran" class="form-label">Écran (pouces):</label>
+                                <input id="ecran" type="text" th:name="ecran" th:value="${ressource.ecran}" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Section pour Imprimante -->
+                        <div th:if="${ressource.getClass().simpleName == 'Imprimante'}">
+                            <!-- Champs cachés -->
+                            <input type="hidden" th:name="id" th:value="${ressource.id}">
+                            <input type="hidden" th:name="enseignant" th:value="${ressource.enseignant.id}">
+                            <input type="hidden" th:name="demande" th:value="${ressource.demande.id}">
+
+                            <!-- Champs visibles -->
+                            <div class="mb-3">
+                                <label pour="vitesse" class="form-label">Vitesse d'Impression (ppm):</label>
+                                <input type="number" th:name="vitesse" th:value="${ressource.vitesse}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label pour="resolution" class="form-label">Résolution (dpi):</label>
+                                <input type="text" th:name="resolution" th:value="${ressource.resolution}" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-success">Sauvegarder</button>
+                            <a
+                                    th:href="@{'/enseignant/'+${ressource.getEnseignant().getId()}+'/demande/'+${ressource.getDemande().getId()}+'/ressources'}"
+                                    class="btn btn-secondary">
+                                Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

@@ -131,7 +131,7 @@
             <div th:unless="${#lists.isEmpty(enseignants)}">
                 <div class="row">
                     <!-- Itérer sur les enseignants et afficher des cartes pour chaque enseignant -->
-                    <div th:each="enseignant : ${enseignants}" class="col-md-3">
+                    <div th:each="enseignant, iterStat : ${enseignants}"  class="col-md-3">
                         <div class="card">
                             <div class="card-body d-flex flex-column align-items-center"> <!-- Utiliser align-items-center pour centrer horizontalement -->
                                 <!-- Afficher le nom et le prénom -->
@@ -142,9 +142,13 @@
                                     <h3 th:text="${enseignant.prenom[0]}"></h3> <!-- Utiliser justify-content-center et align-items-center pour centrer le contenu -->
                                 </div>
                                 <!-- Afficher le total des besoins -->
-                                <p style="color: #7c9192" th:text="'Total : '+ ${enseignant.getRessourceList().size()} "></p>
-
-                                <a th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}" class="btn btn-link">Tout afficher</a>
+                                <p style="color: #7c9192" th:text="'Total : '+ ${totalRessources[iterStat.index]} "></p>
+                                <a
+                                        th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}"
+                                        class="btn btn-link"
+                                >
+                                    Tout afficher
+                                </a>
                             </div>
                         </div>
                     </div>
