@@ -30,24 +30,29 @@ public class GestionRessourcesApplication {
             enseignant1.setNom("echeouti");
             enseignantRepository.save(enseignant1);
             Enseignant enseignant2 = new Enseignant() ;
-            enseignant1.setPrenom("hanan");
-            enseignant1.setNom("hanan");
+            enseignant2.setPrenom("hanan");
+            enseignant2.setNom("hanan");
             enseignantRepository.save(enseignant2);
+            Enseignant enseignant3 = new Enseignant() ;
+            enseignant3.setPrenom("hajar");
+            enseignant3.setNom("OZTIT");
+            enseignantRepository.save(enseignant3);
+            Enseignant enseignant4 = new Enseignant() ;
+            enseignant4.setPrenom("hatim");
+            enseignant4.setNom("el amarti");
+            enseignantRepository.save(enseignant4);
 
-            Enseignant enseignant3 = enseignantRepository.findById(2L).orElse(null);
-
-
-             demandeRepository.save(
-                     new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant3,null,null)
-             );
             demandeRepository.save(
-                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant3,null,null)
+                     new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant1,null,null)
             );
             demandeRepository.save(
-                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant3,null,null)
+                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant1,null,null)
             );
             demandeRepository.save(
-                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant3,null,null)
+                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant2,null,null)
+            );
+            demandeRepository.save(
+                    new Demande(null,new Date(),new Date(),new Date(),false,false,enseignant2,null,null)
             );
 
             demandeRepository.findAll().forEach(demande -> {

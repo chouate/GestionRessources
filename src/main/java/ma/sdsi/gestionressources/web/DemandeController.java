@@ -2,7 +2,6 @@ package ma.sdsi.gestionressources.web;
 
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
 import ma.sdsi.gestionressources.entities.Demande;
 import ma.sdsi.gestionressources.entities.Enseignant;
 import ma.sdsi.gestionressources.repositories.DemandeRepository;
@@ -14,14 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -69,7 +64,7 @@ public class DemandeController {
             model.addAttribute("listDemandes", pagesDemandes.getContent());
             model.addAttribute("pages", new int[pagesDemandes.getTotalPages()]);
             model.addAttribute("currentPage", page);
-            return "demandes"; // Retourne la même page d'index avec ou sans les détails de la demande
+            return "ViewschefDepartement/demandes"; // Retourne la même page d'index avec ou sans les détails de la demande
         }
     }
 
@@ -95,20 +90,20 @@ public class DemandeController {
         return "redirect:/index?page="+page;
     }
 
-    @GetMapping("/consulterDemande")
-    public String consulterDemande(Model model, Long id) {
-        Demande demande = demandeRepository.findById(id).orElse(null);
-        model.addAttribute("demande",demande);
-        //ici récuperer l'id de chef depuis la session
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
-        model.addAttribute("chefDepartement",enseignant);
-        return "demandeDetail";
-    }
+//    @GetMapping("/consulterDemande")
+//    public String consulterDemande(Model model, Long id) {
+//        Demande demande = demandeRepository.findById(id).orElse(null);
+//        model.addAttribute("demande",demande);
+//        //ici récuperer l'id de chef depuis la session
+//        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+//        model.addAttribute("chefDepartement",enseignant);
+//        return "demandeDetail";
+//    }
 
     @GetMapping("/formDemandes")
     public String formDemandes(Model model){
         model.addAttribute("demande",new Demande());
-        return  "formDemandes";
+        return  "ViewschefDepartement/formDemandes";
     }
 
     @GetMapping("/editDemande")
@@ -118,9 +113,20 @@ public class DemandeController {
         if(demande==null)
             throw new RuntimeException("Demande introuvable");
         model.addAttribute("demande",demande);
-        return "editDemande";
+        return "ViewschefDepartement/editDemande";
     }
 
+    @GetMapping("/envoyerResponsable")
+    public String envoyerResponsable(@RequestParam Long id) {
+        Demande demande = demandeRepository.findById(id).orElse(null);
+
+        if (demande != null && !demande.getEnvoyerResponsable()) {
+            demande.setEnvoyerResponsable(true);
+            demandeRepository.save(demande);
+        }
+
+        return "redirect:/consulterBesoinDepartement?id=" + id;
+    }
 
 
 

@@ -109,12 +109,22 @@
                                     <span>Add Imprimante</span>
                                 </a>
                                 -->
+                                <a class="btn btn-secondary" data-toggle="modal">
+                                    <i class="material-icons">&#xE30A;</i>
+                                    <!-- Afficher le nombre total d'ordinateurs -->
+                                    <span th:text="'Ordinateurs ('+${nbrOrdinateurs}+')'"></span>
+                                </a>
+
+                                <a class="btn btn-secondary" data-toggle="modal">
+                                    <i class="material-icons">&#xE3B9;</i>
+                                    <!-- Afficher le nombre total d'imprimantes -->
+                                    <span th:text="'Imprimantes ('+${nbrImprimantes}+')'"></span>
+                                </a>
+
                                 <a  class="btn btn-secondary" data-toggle="modal">
-                                    <i class="material-icons">&#xE30A;</i> <span>Ordinateur</span></a>
-                                <a  class="btn btn-secondary" data-toggle="modal">
-                                    <i class="material-icons">&#xE3B9;</i> <span>Imprimante</span></a>
-                                <a  class="btn btn-secondary" data-toggle="modal">
-                                    <i class="material-icons">&#xE2C6;</i> <span>Tous les Besoins</span></a>
+                                    <i class="material-icons">&#xE2C6;</i>
+                                    <span th:text="'Tous les Besoins ('+${ressources.size()}+')'"></span>
+                                </a>
 
                                 <a th:href="@{'/formOrdinateurBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
                                     <i class="material-icons">&#xE147;</i>
@@ -147,7 +157,7 @@
             </div>
 
             <!-- Afficher les besoins de la demande -->
-            <div th:each="besoin : ${demande.getRessourceList()}">
+            <div th:each="besoin : ${ressources}">
                 <div class="besoin row">
                     <div class="col-3">
                         <div class="besoin-image">
