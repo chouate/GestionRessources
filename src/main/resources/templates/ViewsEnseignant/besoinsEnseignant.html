@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0; /* Reste en bas de la page */
+            width: 100%; /* Prend toute la largeur de l'écran */
+            /* background-color: #f1f1f1;  Choisissez une couleur qui s'intègre avec le reste du design */
+            text-align: center;
+            padding: 10px; /* Ajouter du remplissage pour un espacement adéquat */
+            border-top: 1px solid #ddd; /* Optionnel, pour un effet de séparation */
+        }
+    </style>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+
+        /* Style pour chaque besoin */
+        .besoin {
+            margin-bottom: 20px; /* Espacement entre chaque besoin */
+            border: 1px solid #dee2e6; /* Bordure */
+            border-radius: 5px; /* Coins arrondis */
+            transition: border-color 0.3s ease; /* Transition pour le changement de couleur de la bordure */
+            cursor: pointer; /* Curseur au survol */
+        }
+
+        /* Style pour changer la bordure au survol */
+        .besoin:hover {
+            border-color: #007bff; /* Bordure bleue au survol */
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Ombre au survol */
+        }
+
+        /* Style pour l'image */
+        .besoin-image {
+            float: left; /* Alignement à gauche */
+            margin-right: 10px; /* Espacement à droite */
+        }
+
+        /* Style pour la description du besoin */
+        .besoin-description {
+            overflow: hidden; /* Pour éviter que le texte déborde */
+        }
+
+        /* Style pour le titre */
+        .besoin-title {
+            font-weight: bold;
+            margin-bottom: 5px; /* Espacement en bas */
+        }
+
+        /* Style pour les boutons Modifier et Supprimer */
+        .besoin-buttons {
+            text-align: right; /* Alignement à droite */
+            margin-top: 10px; /* Espacement en haut */
+        }
+
+        /* Style pour les boutons à l'intérieur du besoin */
+        .besoin-buttons .btn {
+            margin-left: 5px; /* Espacement entre les boutons */
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="wrapper ">
+
+        <!-------page-content start----------->
+
+        <div id="">
+
+            <!------top-navbar-start----------->
+
+            <div class="top-navbar">
+                <div class="xd-topbar">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-4 order-3 order-md-2">
+                            <div class="xp-searchbar">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="search" class="form-control"
+                                               placeholder="Chercher demande par Id"
+                                                name="id">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit" id="button-addon2">Go
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--
+                        <form method="get" th:action="${index}">
+                            <label> key word</label>
+                            <input type="text" name="keyword">
+                            <button type="submit" class="btn-info" >chercher</button>
+                        </form>
+                        -->
+                        <div  class="col-10 col-md-6 col-lg-8 order-1 order-md-3 d-flex justify-content-end">
+                            <div class="xp-profilebar text-right">
+                                <nav class="navbar p-0">
+                                    <ul class="nav navbar-nav flex-row ml-auto">
+                                        <li class="dropdown nav-item active">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <span class="material-icons">notifications</span>
+                                                <span class="notification">4</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <span class="material-icons">question_answer</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="dropdown nav-item">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <img src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
+                                                <span class="xp-user-live"></span>
+                                            </a>
+                                            <ul class="dropdown-menu small-menu">
+                                                <li><a href="#">
+                                                    <span class="material-icons">person_outline</span>
+                                                    Profile
+                                                </a></li>
+                                                <li><a href="#">
+                                                    <span class="material-icons">settings</span>
+                                                    Settings
+                                                </a></li>
+                                                <li><a href="#">
+                                                    <span class="material-icons">logout</span>
+                                                    Logout
+                                                </a></li>
+
+                                            </ul>
+                                        </li>
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="xp-breadcrumbbar text-center">
+                        <h4 class="page-title">Dashboard Enseignant</h4>
+                        <ol class="breadcrumb" th:if="${enseignant != null}" >
+                            <li th:text="${enseignant.prenom}" class="breadcrumb-item" >
+                                <a th:text="${enseignant.prenom}" href="#"></a>
+                            </li>
+                            <li th:text="${enseignant.nom}" class="breadcrumb-item active" aria-curent="page"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <!------top-navbar-end----------->
+
+
+            <!------main-content-start----------->
+
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-2 p-0 d-flex justify-content-lg-start justify-content-center">
+                                        <h2 class="ml-lg-2">Liste Besoins</h2>
+                                        <!--<span>Demande N° : <span th:text="${demande.getId()}"></span></span>-->
+                                    </div>
+                                    <div class="col-sm-10 p-0 d-flex justify-content-lg-end justify-content-center">
+                                        <a class="btn btn-secondary" data-toggle="modal">
+                                            <i class="material-icons">&#xE30A;</i>
+                                            <!-- Afficher le nombre total d'ordinateurs -->
+                                            <span th:text="'Ordinateurs ('+${nbrOrdinateurs}+')'"></span>
+                                        </a>
+                                        <a class="btn btn-secondary" data-toggle="modal">
+                                            <i class="material-icons">&#xE3B9;</i>
+                                            <!-- Afficher le nombre total d'imprimantes -->
+                                            <span th:text="'Imprimantes ('+${nbrImprimantes}+')'"></span>
+                                        </a>
+                                        <a  class="btn btn-secondary" data-toggle="modal">
+                                            <i class="material-icons">&#xE2C6;</i>
+                                            <span th:text="'Tous les Besoins ('+${ressources.size()}+')'"></span>
+                                        </a>
+
+                                        <a th:href="@{'/enseignant/formOrdinateurBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                            <i class="material-icons">&#xE147;</i>
+                                            <span>Add Ordinateur</span>
+                                        </a>
+                                        <a th:href="@{'/enseignant/formImprimanteBesoinMateriel?id=' + ${demande.getId()}}" class="btn btn-success" >
+                                            <i class="material-icons">&#xE147;</i>
+                                            <span>Add Imprimante</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+
+                    </div>
+                </div><!-- row end -->
+                <div style="margin-top: 20px" class="row">
+                    <!-- Vérifiez si la liste des enseignants est vide -->
+                    <div th:if="${#lists.isEmpty(demande.getRessourceList())}" class="col-12">
+                        <!-- Si la liste est vide, afficher une carte avec un message -->
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h1 class="card-title">Aucun Besoin trouvé</h1>
+                                <p class="card-text">Il n'y a pas du besoin associé à cette demande.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Afficher les besoins de la demande -->
+                    <div th:each="besoin : ${ressources}">
+                        <div class="besoin row">
+                            <div class="col-3">
+                                <div class="besoin-image">
+                                    <img
+                                            style="width: 100px;height: 100px;object-fit: cover;object-position: center;"
+                                            th:src="${besoin.getClass().simpleName == 'Ordinateur' ? 'img/ordinateur.png' : 'img/imprimante.png'}"
+                                            alt="Image du besoin"
+                                            class="img-fluid"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-6 besoin-description">
+                                <div th:if="${besoin.getClass().simpleName == 'Ordinateur'}" class="row">
+                                    <!-- Diviser la section en deux colonnes de largeur égale -->
+                                    <div class="col-6">
+                                        <div  class="mb-2" th:text="'CPU : ' + ${besoin.cpu}"></div>
+                                        <div class="mb-2" th:text="'RAM : ' + ${besoin.ram}"></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-2" th:text="'Disque dur : ' + ${besoin.disqueDur}"></div>
+                                        <div th:text="'Ecran : ' + ${besoin.ecran}"></div>
+                                    </div>
+                                </div>
+
+                                <div th:if="${besoin.getClass().simpleName == 'Imprimante'}">
+                                    <!-- Si c'est une imprimante, on garde les éléments originaux -->
+                                    <div class="mb-2" th:text="'Vitesse Impression : ' + ${besoin.vitesse}"></div>
+                                    <div th:text="'Résolution : ' + ${besoin.resolution}"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-3 besoin-buttons">
+                                <!-- Lien vers le formulaire de modification du besoin -->
+                                <a th:href="@{/enseignant/modifierBesoin/{id}(id=${besoin.id})}" class="btn btn-primary">
+                                    Modifier
+                                </a>
+
+                                <!-- Lien pour supprimer avec confirmation -->
+                                <a th:href="@{/supprimerBesoin/{id}(id=${besoin.id})}"
+                                   onclick="return confirm('Êtes-vous sûr de supprimer ?')"
+                                   class="btn btn-danger">
+                                    Supprimer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!------main-content-end----------->
+
+
+            <!----footer-design------------->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="footer-in">
+                        <p class="mb-0">&copy 2023/2024 Master SDSI. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+
+
+
+    <!-------complete html----------->
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+
+</body>
+</html>

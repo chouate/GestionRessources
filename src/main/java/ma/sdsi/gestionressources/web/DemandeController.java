@@ -54,7 +54,7 @@ public class DemandeController {
             model.addAttribute("chefDepartement",enseignant);
             model.addAttribute("pages", new int[pagesDemandes.getTotalPages()]);
             model.addAttribute("currentPage", page);
-            return "demandes"; // Ajoutez le modèle pour afficher les détails de la demande dans votre page d'index
+            return "ViewschefDepartement/demandes"; // Ajoutez le modèle pour afficher les détails de la demande dans votre page d'index
         } else {
             Page<Demande> pagesDemandes = demandeRepository.findByEnseignantId(1L, PageRequest.of(page, size, Sort.by("id").descending()));
             //ici récuperer l'id de chef depuis la session

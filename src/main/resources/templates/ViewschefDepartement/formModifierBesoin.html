@@ -100,7 +100,7 @@
                     <div class="d-flex justify-content-between mt-4">
                         <button type="submit" class="btn btn-success">Sauvegarder</button>
                         <a
-                           th:href="@{'consulterBesoinDepartement?id='+${besoin.getDemande().getId()}}"
+                           th:href="@{'/consulterBesoinDepartement?id='+${besoin.getDemande().getId()}}"
                            class="btn btn-secondary">Annuler</a>
                     </div>
                 </form>

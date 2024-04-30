@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="row">
+            <div class="col-12">
+                <!-- Formulaire centré au milieu de la page -->
+                <form th:action="@{/saveImprimanteBesoinForEns}" method="post" class="border p-4 rounded shadow-sm bg-white">
+                    <!-- Champs d'imprimante -->
+                    <input type="hidden" th:if="${demande != null}" th:name="id" th:value="${demande.id}" />
+
+                    <div class="mb-3">
+                        <label for="resolution" class="form-label">Résolution:</label>
+                        <input type="text" id="resolution" th:name="resolution" th:value="${imprimante.resolution}" class="form-control" />
+                        <span class="text-danger" th:errors="${imprimante.resolution}"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="vitessse" class="form-label">Vitesse d'impression:</label>
+                        <input type="text" id="vitessse" th:name="vitesse" th:value="${imprimante.vitesse}" class="form-control" />
+                        <span class="text-danger" th:errors="${imprimante.vitesse}"></span>
+                    </div>
+
+
+                    <!-- Boutons -->
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                        <a
+                           th:href="@{'/consulterBesoinsEnseignant?id='+${demande.getId()} }"
+                           class="btn btn-secondary">Annuler</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

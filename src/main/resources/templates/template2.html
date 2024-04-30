@@ -63,33 +63,19 @@
             <div class="sidebar-header">
                 <h3><img style="border: #0b2e13" src="img/logo.jpg" class="img-fluid"/>
                    <!-- <span>Géstion des ressources</span> -->
-                    <span >Demande N° : <span th:text="${demande.getId()}"></span></span>
+
+                    <span th:if="${demande != null}" >Demande N° : <span th:text="${demande.getId()}"></span></span>
                 </h3>
             </div>
-            <ul class="list-unstyled components">
-                <li  class="">
-                    <a th:href="@{/}" class="dashboard"><i class="material-icons"></i><span>Acceuil</span></a>
+            <ul  class="list-unstyled components">
+                <li>
+                    <a th:href="@{/consulterDemandes}" class="dashboard"><i class="material-icons"></i><span>Consulter Demandes</span></a>
                 </li>
-
-                <li class="">
-                    <a  th:href="@{/consulterBesoinDepartement(id=${demande.id})}"><i class="material-icons"></i><span>Besoins du département</span></a>
-                </li>
-
-                <li  class="">
-                    <a th:href="@{/consulterBesoinEnseignant(id=${demande.id})}"><i class="material-icons"></i><span>Besoin des enseignants</span></a>
-                </li>
-                <!-- Afficher le bouton "Envoyer Responsable" si le champ `EnvoyerResponsable` est false -->
-                <li th:if="${!demande.EnvoyerResponsable}">
-                    <a th:href="@{/envoyerResponsable(id=${demande.id})}"><i class="material-icons"></i><span>Envoyer Responsable</span></a>
-                </li>
-                <!-- Afficher le bouton "Désactivé" si le champ `EnvoyerResponsable` est true -->
-                <li th:if="${demande.EnvoyerResponsable}">
-                    <a href="#" class="disabled  red"><i class="material-icons"></i><span class="text-success">Demande Envoyée</span></a>
+                <li>
+                    <a th:href="@{/signalerPanne}" class="dashboard"><i class="material-icons"></i><span>Signaler Panne</span></a>
                 </li>
 
             </ul>
-
-
         </nav>
 
 
@@ -118,20 +104,7 @@
                         <!-- Start XP Col -->
 
                         <div class="col-md-5 col-lg-3 order-3 order-md-2">
-                            <!--
-                            <div class="xp-searchbar">
-                                <form>
-                                    <div class="input-group">
-                                        <input type="search" class="form-control"
-                                               placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="submit"
-                                                    id="button-addon2">GO</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                             -->
+
                         </div>
 
                         <!-- End XP Col -->
@@ -175,19 +148,13 @@
                                             </a>
                                             <ul class="dropdown-menu small-menu">
                                                 <li>
-                                                    <a href="#">
-                                                        <span class="material-icons">person_outline</span>Profile
-                                                    </a>
+                                                    <a href="#"><span class="material-icons">person_outline</span>Profile</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
-                                                        <span class="material-icons">settings</span>Settings
-                                                    </a>
+                                                    <a href="#"><span class="material-icons">settings</span>Settings</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
-                                                        <span class="material-icons">logout</span>Logout
-                                                    </a>
+                                                    <a href="#"><span class="material-icons">logout</span>Logout</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -206,10 +173,12 @@
                 </div>
 
                 <div class="xp-breadcrumbbar text-center">
-                    <h4 class="page-title">Dashboard Chef Département</h4>
-                    <ol class="breadcrumb" th:if="${chefDepartement != null}">
-                        <li th:text="${chefDepartement.prenom}" class="breadcrumb-item" ><a th:text="${chefDepartement.prenom}" href="#"></a></li>
-                        <li th:text="${chefDepartement.nom}" class="breadcrumb-item active" aria-curent="page"></li>
+                    <h4 class="page-title">Dashboard Enseignant</h4>
+                    <ol class="breadcrumb" th:if="${enseignant != null}" >
+                        <li th:text="${enseignant.prenom}" class="breadcrumb-item" >
+                            <a th:text="${enseignant.prenom}" href="#"></a>
+                        </li>
+                        <li th:text="${enseignant.nom}" class="breadcrumb-item active" aria-curent="page"></li>
                     </ol>
                 </div>
 
@@ -223,6 +192,27 @@
 
                 <section class="row" layout:fragment="content1">
                     <h1>le contenu ici</h1>
+                    <table class="table table-striped table-hover">
+                        <thead >
+                        <tr>
+                            <th style="font-weight: bold;font-size: 1.2em; ">Id</th>
+                            <th style="font-weight: bold;font-size: 1.2em; " >Date Début</th>
+                            <th style="font-weight: bold;font-size: 1.2em; ">Date Fin</th>
+                            <th style="font-weight: bold;font-size: 1.2em; ">Date Réunion</th>
+                        </tr>
+                        </thead>
+
+                        <tbody >
+                        <tr th:each="demande:${listDemandes}" th:attr="enseignant-id=${demande.enseignant.id}" >
+
+                            <td th:text="${demande.getId()}"></td>
+                            <td th:text="${demande.getDateDebut()}"></td>
+                            <td th:text="${demande.getDateFin()}"></td>
+                            <td th:text="${demande.getDateReunion()}"></td>
+                            <!-- <td type="hidden" th:text="${demande.getEnseignant().getId()}"></td>-->
+                        </tr>
+                        </tbody>
+                    </table>
                 </section>
             </div>
 
@@ -241,11 +231,6 @@
 
 
     <!----------html code compleate----------->
-
-
-
-
-
 
 
 
