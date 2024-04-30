@@ -36,10 +36,12 @@ public class GestionRessourcesApplication {
             Enseignant enseignant3 = new Enseignant() ;
             enseignant3.setPrenom("hajar");
             enseignant3.setNom("OZTIT");
+            enseignant3.setChefDepartement(enseignant1);
             enseignantRepository.save(enseignant3);
             Enseignant enseignant4 = new Enseignant() ;
             enseignant4.setPrenom("hatim");
             enseignant4.setNom("el amarti");
+            enseignant4.setChefDepartement(enseignant1);
             enseignantRepository.save(enseignant4);
 
             demandeRepository.save(

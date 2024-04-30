@@ -184,7 +184,7 @@ public class EnseignantController {
         model.addAttribute("besoin", besoin);
 
         // Retourner le nom du template à utiliser pour l'affichage
-        return "ViewsEnseignant/formModifierBesoin";
+        return "ViewsEnseignant/formModifierBesoin2";
     }
 
     //###################################################################################################
