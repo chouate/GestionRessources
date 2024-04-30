@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>espace de Fournisseur</title>
+    <style>
+        /* Style pour le menu */
+        #sidebar {
+            background-color: #333;
+            padding: 20px;
+            color: gray;
+        }
+
+        #sidebar h3 {
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        #sidebar ul li a {
+            color: gray;
+        }
+
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/toutAppelOffres">les Appels d'Offres</a>
+            </li>
+            <li>
+                <a href="#">modifier propositions</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- Page content -->
+    <div id="content" style="margin-top: 20px;">
+        <!-- Top-navbar-start -->
+        <div class="top-navbar">
+            <div class="xd-topbar">
+                <div class="row">
+                    <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                        <div class="xp-searchbar">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Chercher demande par Id" name="id">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit" id="button-addon2">Go</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                        <div class="xp-profilebar text-right">
+                            <nav class="navbar p-0">
+                                <ul class="nav navbar-nav flex-row ml-auto">
+                                    <li class="dropdown nav-item active">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <span class="material-icons">notifications</span>
+                                            <span class="notification">4</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="material-icons">question_answer</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown nav-item">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <img src="img/user.jpg" style="width:40px; border-radius:50%;"/>
+                                            <span class="xp-user-live"></span>
+                                        </a>
+                                        <ul class="dropdown-menu small-menu">
+                                            <li><a href="#">
+                                                <span class="material-icons">person_outline</span>
+                                                Profile
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">settings</span>
+                                                Settings
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Logout
+                                            </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Hanane</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Bouchouikra</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- Main-content-start -->
+        <div class="main-content" th:if="${appelOffres != null}">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">Les apples d'offre non affectee a un fournisseur :</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <table class="table">
+                                <thead >
+                                <tr>
+                                    <th scope="col" style="width:30% ">date debut</th>
+                                    <th scope="col">date fin</th>
+
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody  th:if="${appelOffres != null}">
+
+                                <tr th:each="appelOffre : ${appelOffres}">
+                                    <td th:text="${appelOffre.startDate}"></td>
+                                    <td th:text="${appelOffre.endDate}"></td>
+
+                                    <td style="width:30%">
+                                        <!-- Formulaire pour consulter la ressource -->
+                                        <form action="/consulterRessources" method="post">
+                                            <!-- Champ caché pour transmettre l'identifiant de l'appel d'offre -->
+                                            <input type="hidden" name="AppelOffreId" th:value="${appelOffre.id}">
+                                            <!-- Bouton pour consulter -->
+                                            <button type="submit" class="btn btn-primary">Consulter</button>
+                                        </form>
+                                    </td>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+
+        <!-- Main-content-end -->
+        <!-- Footer-design -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="footer-in">
+                    <p class="mb-0">&copy; 2023/2024 Master SDSI. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

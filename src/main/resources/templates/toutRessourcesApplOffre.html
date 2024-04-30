@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>espace de Fournisseur</title>
+    <style>
+        /* Style pour le menu */
+        #sidebar {
+            background-color: #333;
+            padding: 20px;
+            color: gray;
+        }
+
+        #sidebar h3 {
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        #sidebar ul li a {
+            color: gray;
+        }
+
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
+        <ul class="list-unstyled components">
+            <li>
+                <a href="/toutAppelOffres">les Appels d'Offres</a>
+            </li>
+            <li>
+                <a href="#">modifier propositions</a>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!-- Page content -->
+    <div id="content" style="margin-top: 20px;">
+        <!-- Top-navbar-start -->
+        <div class="top-navbar">
+            <div class="xd-topbar">
+                <div class="row">
+                    <div class="col-md-5 col-lg-3 order-3 order-md-2">
+                        <div class="xp-searchbar">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Chercher demande par Id" name="id">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit" id="button-addon2">Go</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                        <div class="xp-profilebar text-right">
+                            <nav class="navbar p-0">
+                                <ul class="nav navbar-nav flex-row ml-auto">
+                                    <li class="dropdown nav-item active">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <span class="material-icons">notifications</span>
+                                            <span class="notification">4</span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                            <li><a href="#">You Have 4 New Messages</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <span class="material-icons">question_answer</span>
+                                        </a>
+                                    </li>
+                                    <li class="dropdown nav-item">
+                                        <a class="nav-link" href="#" data-toggle="dropdown">
+                                            <img src="img/user.jpg" style="width:40px; border-radius:50%;"/>
+                                            <span class="xp-user-live"></span>
+                                        </a>
+                                        <ul class="dropdown-menu small-menu">
+                                            <li><a href="#">
+                                                <span class="material-icons">person_outline</span>
+                                                Profile
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">settings</span>
+                                                Settings
+                                            </a></li>
+                                            <li><a href="#">
+                                                <span class="material-icons">logout</span>
+                                                Logout
+                                            </a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="xp-breadcrumbbar text-center">
+                    <h4 class="page-title">Dashboard</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Hanane</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Bouchouikra</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- Main-content-start -->
+        <div class="main-content" >
+            <!-- Afficher un message si aucune ressource n'est trouvée -->
+            <div th:if="${ressources == null or #lists.isEmpty(ressources)}">
+                <p>Aucune ressource trouvée.</p>
+            </div>
+            <div th:unless="${ressources == null or #lists.isEmpty(ressources)}">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">faire une proposition</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <form id="proposerForm" action="/proposer" method="post" onsubmit="return validateForm()">
+                                <input th:if="${appelOffre.isPresent()}" type="hidden" th:value="${appelOffre.get().id}" name="appelOffre" >
+
+                                <div style="margin: 40px">
+                                <label>duree de garantie</label>
+                                <input type="text" id="dureeGarantie" name="dureeGarantie" placeholder="la duree en jours">
+                                <label>Date de livraison</label>
+                                <input type="date"  name="dateLivraisonFuture" id="dateLivraisonFuture" required>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Numero inventaire</th>
+                                        <th>Marque</th>
+                                        <th>CPU / Vitesse d'impression</th>
+                                        <th>RAM/Resolution</th>
+                                        <th>Proposer Un prix</th> <!-- Nouvelle colonne pour les actions -->
+                                    </tr>
+                                    </thead>
+                                    <tbody th:if="${ressources != null}">
+                                    <tr th:each="ressource : ${ressources}">
+                                        <td th:text="${ressource.getClass().simpleName}"></td>
+                                        <td th:text="${ressource.numeroInventaire}"></td>
+                                        <td>
+                                            <span th:if="${ressource != null && ressource.marque != null}" th:text="${ressource.marque}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.cpu}"></span>
+                                            <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesse != null}" th:text="${ressource.vitesse}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" th:text="${ressource.ram}"></span>
+                                            <span th:if="${ressource.getClass().simpleName == 'Imprimante' && ressource.vitesse != null}" th:text="${ressource.resolution}"></span>
+                                        </td>
+                                        ...
+                                        <td>
+                                            <input type="hidden" th:value="${ressource.id}" name="ressourceIds">
+
+                                            <input type="text" placeholder="0DHS" class="form-control prixUnitaire" name="prixUnitaire" >
+                                        </td>
+                                        ...
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Main-content-end -->
+        <!-- Footer-design -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="footer-in">
+                    <p class="mb-0">&copy; 2023/2024 Master SDSI. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+</body>
+<script>
+    // JavaScript code for dynamically generating unique IDs for each prixUnitaire field
+    function validateForm() {
+        // Récupérer les valeurs des champs
+        var dureeGarantie = document.getElementById("dureeGarantie").value;
+        var dateLivraison = document.getElementById("dateLivraisonFuture").value;
+        var prixUnitaires = document.getElementsByClassName("prixUnitaire");
+
+        // Vérifier si la durée de garantie et la date de livraison ne sont pas nulles
+        if (dureeGarantie === "" || dateLivraison === "") {
+            alert("Veuillez remplir la durée de garantie et la date de livraison.");
+            return false; // Empêcher la soumission du formulaire
+        }
+
+        var prixUnitaireFields = document.getElementsByClassName("prixUnitaire");
+
+        // Vérifier chaque champ de prix
+        for (var i = 0; i < prixUnitaireFields.length; i++) {
+            var prixUnitaire = prixUnitaireFields[i].value;
+
+            // Vérifier si le champ de prix est vide
+            if (prixUnitaire === "") {
+                alert("Veuillez remplir tous les champs de prix.");
+                return false;
+            }
+        }
+
+
+        return true; // Autoriser la soumission du formulaire
+    }
+
+</script>
+
+</html>
