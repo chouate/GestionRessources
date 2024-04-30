@@ -32,4 +32,8 @@ public class Enseignant {
 
     @OneToMany(mappedBy = "enseignant")
     private List<Ressource> ressourceList;
+
+    @OneToMany(mappedBy = "enseignant")
+    private List<Panne> pannes;
+
 }

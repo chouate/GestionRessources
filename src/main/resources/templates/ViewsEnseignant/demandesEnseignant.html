@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboord Enseignant</title>
     <style>
         .header-bold {
             font-weight: bold;
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -79,7 +79,7 @@
                                     <ul class="nav navbar-nav flex-row ml-auto">
                                         <li class="dropdown nav-item active">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
-                                                <span class="material-icons">notifications</span>
+                                                <span style="color: white" class="material-icons" data-toggle="tooltip" title="Notification">notifications</span>
                                                 <span class="notification">4</span>
                                             </a>
                                             <ul class="dropdown-menu">
@@ -91,8 +91,8 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
+                                            <a  class="nav-link " th:href="@{/signalerPanne}">
+                                                <span style="color: red" class="material-icons " data-toggle="tooltip" title="Signaler Panne">warning</span>
                                             </a>
                                         </li>
 
@@ -180,7 +180,7 @@
 
                                         <td>
                                             <!-- Consulter la demande pour exprimer les besoins -->
-                                            <a th:href="@{/consulterBesoinsEnseignant(id=${demande.id})}" style="color: #0b2e13" class=" btn btn-primary">
+                                            <a th:href="@{/consulterBesoinsEnseignant(id=${demande.id})}" style="color:white" class=" btn btn-primary">
                                                 Consulter
                                             </a>
                                         </td>

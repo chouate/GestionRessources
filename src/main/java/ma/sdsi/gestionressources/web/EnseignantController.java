@@ -3,20 +3,14 @@ package ma.sdsi.gestionressources.web;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.sdsi.gestionressources.entities.*;
-import ma.sdsi.gestionressources.repositories.BesoinMaterielRepository;
-import ma.sdsi.gestionressources.repositories.DemandeRepository;
-import ma.sdsi.gestionressources.repositories.EnseignantRepository;
-import ma.sdsi.gestionressources.repositories.RessourceRepository;
+import ma.sdsi.gestionressources.repositories.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,15 +24,25 @@ public class EnseignantController {
 
     private BesoinMaterielRepository besoinMaterielRepository;
 
+    private ImprimanteBesoinRepository imprimanteBesoinRepository;
+    private  OrdinateurBesoinRepository ordinateurBesoinRepository;
+    private  PanneRepository panneRepository;
+
     public EnseignantController(DemandeRepository demandeRepository,
                                 EnseignantRepository enseignantRepository,
                                 RessourceRepository ressourceRepository,
-                                BesoinMaterielRepository besoinMaterielRepository
+                                BesoinMaterielRepository besoinMaterielRepository,
+                                ImprimanteBesoinRepository imprimanteBesoinRepository,
+                                OrdinateurBesoinRepository ordinateurBesoinRepository,
+                                PanneRepository panneRepository
     ) {
         this.demandeRepository = demandeRepository;
         this.enseignantRepository = enseignantRepository;
         this.ressourceRepository = ressourceRepository;
         this.besoinMaterielRepository = besoinMaterielRepository;
+        this.imprimanteBesoinRepository = imprimanteBesoinRepository;
+        this.ordinateurBesoinRepository = ordinateurBesoinRepository;
+        this.panneRepository = panneRepository;
     }
 
     @GetMapping("/enseignant")
@@ -187,6 +191,52 @@ public class EnseignantController {
         return "ViewsEnseignant/formModifierBesoin2";
     }
 
+    @PostMapping("/modifierBesoinOrdinateurForEns")
+    public String modifierBesoinOrdinateur(@Valid Ordinateur besoin, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("besoin", besoin);
+            return "ViewsEnseignant/formModifierBesoin";
+        }
+
+        ordinateurBesoinRepository.save(besoin);
+
+        // Redirection après la modification
+        return "redirect:/consulterBesoinsEnseignant?id="+besoin.getDemande().getId() ;
+    }
+    @PostMapping("/modifierBesoinImprimanteForEns")
+    public String modifierBesoinImprimante(@Valid Imprimante besoin, BindingResult bindingResult, Model model) {
+        model.addAttribute("besoin",new Imprimante());
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("besoin", besoin);
+            return "ViewsEnseignant/formModifierBesoin";
+        }
+
+        imprimanteBesoinRepository.save(besoin);
+
+        // Redirection après la modification
+        return "redirect:/consulterBesoinsEnseignant?id="+besoin.getDemande().getId() ;
+    }
+
+    @GetMapping("/supprimerBesoinForEns/{id}")
+    public String supprimerBesoin(@PathVariable Long id) {
+        // Récupérer le besoin par son ID
+        Ressource besoin = besoinMaterielRepository.findById(id).orElse(null);
+
+        if (besoin == null) {
+            throw new RuntimeException("Besoin introuvable");
+        }
+
+        // Supprimer le besoin
+        besoinMaterielRepository.deleteById(id);
+
+        // Récupérer l'ID de la demande associée au besoin
+        Long demandeId = besoin.getDemande().getId();
+
+        // Rediriger vers la page de la demande après suppression
+        return "redirect:/consulterBesoinsEnseignant?id=" + demandeId;
+    }
+
     //###################################################################################################
     @GetMapping("/consulterDemandes")
     public String consulterDemandes(Model model, @RequestParam(name = "id", required = false) Long id) {
@@ -202,15 +252,23 @@ public class EnseignantController {
 
     @GetMapping("/signalerPanne")
     public String signalerPanne(Model model) {
-        // Afficher la page pour signaler une panne
-        return "signalerPanne"; // Vue pour signaler une panne
+        model.addAttribute("panne", new Panne()); // Ajoute un objet Panne au modèle
+
+        return "ViewsEnseignant/signalerPanne"; // Vue pour signaler une panne
     }
 
     @PostMapping("/signalerPanne")
-    public String enregistrerPanne(@RequestParam("description") String description, Model model) {
-        // Traiter la soumission de la panne
-        System.out.println("Panne signalée: " + description);
-        return "redirect:/consulterDemandes"; // Redirection après le signalement
+    public String enregistrerPanne(@Valid @ModelAttribute("panne") Panne panne, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "ViewsEnseignant/signalerPanne"; // Retourner la même vue en cas d'erreur
+        }
+
+        //ici recuperer l'enseignant depuis la session
+        panne.setEnseignant(enseignantRepository.findById(3L).orElse(null));
+        panneRepository.save(panne); // Enregistrer la panne
+        System.out.println("Panne signalée: " + panne.getDescription());
+
+        return "redirect:/enseignant"; // Redirection après le signalement
     }
 
 
