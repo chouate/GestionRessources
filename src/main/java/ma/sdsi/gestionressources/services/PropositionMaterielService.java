@@ -4,6 +4,7 @@ import java.util.List;
 
 import ma.sdsi.gestionressources.entities.Proposition;
 import ma.sdsi.gestionressources.entities.PropositionMateriel;
+import ma.sdsi.gestionressources.entities.Ressource;
 import ma.sdsi.gestionressources.repositories.PropositionMaterielRepository;
 import ma.sdsi.gestionressources.repositories.PropositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ public class PropositionMaterielService {
     
     @Autowired
     private PropositionMaterielRepository propositionMaterielRepository;
-
+   public List<PropositionMateriel> findRessources(){
+        return propositionMaterielRepository.findAll();
+    }
     public List<PropositionMateriel> getPropositionMaterielWithStatusOne() {
         List<PropositionMateriel> allPropositions = propositionMaterielRepository.findAll();
         System.out.println("voila size "+allPropositions.size());

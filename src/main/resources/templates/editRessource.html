@@ -83,8 +83,8 @@
                 <input type="text" class="form-control" id="marqueInput" name="marque" th:value="${ressource != null ? ressource.marque : ''}">
             </div>
             <div class="mb-3" th:if="${ressource != null and ressource.getClass().simpleName == 'Imprimante'}">
-                <label for="vitesseImpressionInput" class="form-label">Vitesse d'impression</label>
-                <input type="text" class="form-control" id="vitesseImpressionInput" name="vitesseImpression" th:value="${ressource != null ? ressource.vitesseImpression : ''}">
+                <label for="vitesseInput" class="form-label">Vitesse d'impression</label>
+                <input type="text" class="form-control" id="vitesseInput" name="vitesse" th:value="${ressource != null ? ressource.vitesse : ''}">
             </div>
             <div class="mb-3" th:if="${ressource != null}">
                 <label for="resolutionInput" class="form-label">resolution</label>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>espace de responsable</title>
+    <title>espace de Fournisseur</title>
     <style>
         /* Style pour le menu */
         #sidebar {
@@ -25,6 +25,10 @@
             font-size: 1.2em; /* Définir la taille de la police en em ou en px */
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -45,23 +49,14 @@
         <h3 id="sidebarCollapse" class="fas fa-align-left">Menu</h3>
         <ul class="list-unstyled components">
             <li>
-                <a href="/propositions">Propositions</a>
+                <a href="/toutAppelOffres">les Appels d'Offres</a>
             </li>
             <li>
-                <a href="/livraison">Livraison</a>
+                <a href="#">modifier propositions</a>
             </li>
-            <li>
-                <a href="/listeNoir">Liste Noire</a>
-            </li>
-        </ul>
-        <!-- Nouvel élément de liste -->
-        <ul >
-            <li>
-                <a href="/appelOffres">Créer un appel d'offres</a>
-            </li>
+
         </ul>
     </div>
-
 
     <!-- Page content -->
     <div id="content" style="margin-top: 20px;">
@@ -137,63 +132,55 @@
             </div>
         </div>
         <!-- Main-content-start -->
-        <div class="container">
-            <h1 class="mt-4 mb-3">Créer un nouvel appel d'offres</h1>
-            <form id="appelOffreForm" th:action="@{/createAppelOffre}" method="post" onsubmit="return validateForm()">
-                <div class="form-group">
-                    <label for="startDate">Date de début :</label>
-                    <input type="date" class="form-control" name="startDate" required />
-                </div>
-                <div class="form-group">
-                    <label for="endDate">Date de fin :</label>
-                    <input type="date" class="form-control" name="endDate" required />
-                </div>
-
-                <!-- Affichage de la liste des ressources -->
-                <div class="row">
-                    <h2 class="text-center" style="margin-left: 20px;">Liste de tous les besoins provenant de différents départements qui ne correspondent pas à une offre d'appel</h2>
-                    <div class="col-md-6" th:each="ressource, iterStat : ${ressources}">
-
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <!-- Utilisez des conditions pour afficher les détails spécifiques à chaque type de ressource -->
-                                <div th:switch="${ressource.getClass().simpleName}" class="my-4">
-                                    <!-- Si la ressource est un Ordinateur -->
-                                    <div th:case="Ordinateur" class="card p-4" th:if="${ressource != null}">
-                                        <h3 class="text-center">Ordinateur</h3>
-                                        <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
-                                        <p>
-                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
-                                            <span th:if="${ressource.cpu != null}">CPU: <span th:text="${ressource.cpu}"></span><br /></span>
-                                            <span>ram:<span th:text="${ressource.ram}"></span><br /></span>
-                                            <span>disque Dur:<span th:text="${ressource.disqueDur}"></span><br /></span>
-                                            <!-- Ajoutez d'autres détails spécifiques à l'ordinateur -->
-                                        </p>
-                                    </div>
-
-                                    <!-- Si la ressource est une Imprimante -->
-                                    <div th:case="Imprimante" class="card p-4" th:if="${ressource != null}">
-                                        <h3 class="text-center">Imprimante</h3>
-                                        <span th:if="${ressource.numeroInventaire != null}" class="text-center">Numero inventaire : <span th:text="${ressource.numeroInventaire}"></span><br /></span> <!-- Affiche le numéro d'inventaire commun à toutes les ressources -->
-                                        <p>
-                                            <span th:if="${ressource.marque != null}">Marque: <span th:text="${ressource.marque}"></span><br /></span>
-                                            <span th:if="${ressource.vitesse != null}">Vitesse d'impression: <span th:text="${ressource.vitesse}"></span><br /></span>
-                                            <!-- Ajoutez d'autres détails spécifiques à l'imprimante -->
-                                            <span>resolution:<span th:text="${ressource.resolution}"></span><br /></span>
-                                        </p>
-                                    </div>
-
-                                    <!-- Champ caché avec l'ID du département -->
-                                    <input th:if="${ressource != null && ressource.demande != null}   " type="hidden" name="demandeIds" th:value="${#lists.isEmpty(demandeIds) ? ressource.demande.id : demandeIds + ',' + ressource.demande.id}" />
+        <div class="main-content" th:if="${appelOffres != null}">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="table-wrapper">
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                    <h2 class="ml-lg-2">Les apples d'offre non affectee a un fournisseur :</h2>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                        <div class="">
+                            <table class="table">
+                                <thead >
+                                <tr>
+                                    <th scope="col" style="width:30% ">date debut</th>
+                                    <th scope="col">date fin</th>
+
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody  th:if="${appelOffres != null}">
+
+                                <tr th:each="appelOffre : ${appelOffres}">
+                                    <td th:text="${appelOffre.startDate}"></td>
+                                    <td th:text="${appelOffre.endDate}"></td>
+
+                                    <td style="width:30%">
+                                        <!-- Formulaire pour consulter la ressource -->
+                                        <form action="/consulterRessources" method="post">
+                                            <!-- Champ caché pour transmettre l'identifiant de l'appel d'offre -->
+                                            <input type="hidden" name="AppelOffreId" th:value="${appelOffre.id}">
+                                            <!-- Bouton pour consulter -->
+                                            <button type="submit" class="btn btn-primary">Consulter</button>
+                                        </form>
+                                    </td>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary mt-3">Créer l'appel d'offres</button>
-            </form>
+            </div>
         </div>
+
+
+        <!-- Modal -->
 
         <!-- Main-content-end -->
         <!-- Footer-design -->
@@ -206,5 +193,6 @@
         </footer>
     </div>
 </div>
+
 </body>
 </html>

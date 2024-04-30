@@ -1,10 +1,6 @@
 package ma.sdsi.gestionressources.controllers;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import ma.sdsi.gestionressources.entities.AppelOffre;
 import ma.sdsi.gestionressources.entities.Fournisseur;
@@ -57,8 +53,10 @@ public class PropositionController {
 		    model.addAttribute("appelOffres", appelOffres); 
 		// Modifier le statut de la proposition à 1
 	    propositionService.modifierStatutProposition(propositionId,"1");
+		Optional<Proposition> pro =propositionService.getById(propositionId);
+
         List<Proposition> propositions = propositionService.getAllPropositions(id); // Obtenez toutes les propositions depuis le service
-	    
+		appelOffreService.modifierStatutsApplOffre(pro.get(),true);
 	    // Triez les propositions par total
 	    Collections.sort(propositions, Comparator.comparingDouble(Proposition::getTotal));
 	    System.out.println("size of propositions: " + propositions.size());
@@ -70,6 +68,8 @@ public class PropositionController {
 	public String deselectionnerProposition(@RequestParam("propositionId") Long propositionId,@RequestParam("appelOffreId") Long id, Model model) {
 		// Modifier le statut de la proposition à 1
 	    propositionService.modifierStatutProposition(propositionId,"0");
+		Optional<Proposition> pro =propositionService.getById(propositionId);
+		appelOffreService.modifierStatutsApplOffre(pro.get(),false);
 	    List<AppelOffre> appelOffres = appelOffreService.getAllTenders(); // Obtenez toutes les propositions depuis le service    
 	    model.addAttribute("appelOffres", appelOffres); 
  List<Proposition> propositions = propositionService.getAllPropositions(id); // Obtenez toutes les propositions depuis le service

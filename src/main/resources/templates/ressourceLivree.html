@@ -166,7 +166,7 @@
                         <td>
                             <p>
                                 <span th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur' && ressource.cpu != null}" class="detail-info">CPU: <span th:text="${ressource.cpu}"></span><br></span>
-                                <span th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante' && ressource.vitesseImpression != null}" class="detail-info"> <span th:text="${ressource.vitesseImpression}"></span><br></span>
+                                <span th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante' && ressource.vitesse != null}" class="detail-info"> <span th:text="${ressource.vitesse}"></span><br></span>
                                 <!-- Autres conditions pour d'autres propriétés spécifiques à certaines ressources -->
                             </p>
                         </td>
