@@ -36,4 +36,11 @@ public class Enseignant {
     @OneToMany(mappedBy = "enseignant")
     private List<Panne> pannes;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToOne
+    @JoinColumn(name = "user_id") // Indique que la clé étrangère se trouve dans `Enseignant`
+    private User user; // Relation OneToOne avec `User`
+
+
 }

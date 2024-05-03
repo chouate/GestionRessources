@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import ma.sdsi.gestionressources.entities.*;
 import ma.sdsi.gestionressources.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,20 +23,33 @@ public class BesoinMaterielController {
     private ImprimanteBesoinRepository imprimanteBesoinRepository;
     private RessourceRepository ressourceRepository;
     private OrdinateurBesoinRepository ordinateurBesoinRepository;
+    private UserRepository userRepository;
+
 
     @Autowired
     public BesoinMaterielController(BesoinMaterielRepository besoinMaterielRepository, EnseignantRepository enseignantRepository,
                                     DemandeRepository demandeRepository,
                                     ImprimanteBesoinRepository imprimanteBesoinRepository,
                                     RessourceRepository ressourceRepository,
-                                    OrdinateurBesoinRepository ordinateurBesoinRepository) {
+                                    OrdinateurBesoinRepository ordinateurBesoinRepository,
+                                    UserRepository userRepository) {
         this.besoinMaterielRepository = besoinMaterielRepository;
         this.enseignantRepository =enseignantRepository;
         this.demandeRepository = demandeRepository;
         this.imprimanteBesoinRepository=imprimanteBesoinRepository;
         this.ressourceRepository = ressourceRepository;
         this.ordinateurBesoinRepository = ordinateurBesoinRepository;
+        this.userRepository = userRepository;
 
+    }
+    private Enseignant getEnseignantFromSession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getName() != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByEmail(username); // Trouver l'utilisateur par email
+            return enseignantRepository.findByUser(user); // Trouver l'enseignant par utilisateur
+        }
+        return null;
     }
 
     @PostMapping("/saveBesoin")
@@ -53,7 +68,7 @@ public class BesoinMaterielController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam Long id){
         // Récupérer l'enseignant depuis la base de données
-        Enseignant chef = enseignantRepository.findById(1L).orElse(null);
+        Enseignant chef = getEnseignantFromSession();
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
@@ -81,8 +96,8 @@ public class BesoinMaterielController {
             BindingResult bindingResult,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam Long id){
-        // Récupérer l'enseignant depuis la base de données
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+        // Récupérer l'enseignant depuis La session
+        Enseignant enseignant = getEnseignantFromSession();
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
@@ -136,10 +151,10 @@ public class BesoinMaterielController {
         Demande demande = demandeRepository.findById(id).orElse(null);
         model.addAttribute("demande",demande);
         //ici récuperer l'id de chef depuis la session
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+        //Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
 
-
-        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(1L,demande.getId());
+        Enseignant enseignantFromSession = getEnseignantFromSession(); // Récupérer l'enseignant depuis la session
+        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignantFromSession.getId(),demande.getId());
         // Compteurs pour ordinateurs et imprimantes
         int nbrOrdinateurs = 0;
         int nbrImprimantes = 0;
@@ -155,7 +170,7 @@ public class BesoinMaterielController {
         model.addAttribute("nbrOrdinateurs", nbrOrdinateurs);
         model.addAttribute("nbrImprimantes", nbrImprimantes);
         model.addAttribute("ressources",ressources);
-        model.addAttribute("chefDepartement",enseignant);
+        model.addAttribute("chefDepartement",enseignantFromSession);
         return "ViewschefDepartement/BesoinsDepartement";
     }
 
@@ -169,7 +184,7 @@ public class BesoinMaterielController {
         List<Enseignant> enseignants = enseignantRepository.findEnseignantsByDemandeIdExcludingChef(demande.getId());
 
         //ici récuperer l'id de chef depuis la session
-        Enseignant enseignant = enseignantRepository.findById(1L).orElse(null);
+        Enseignant enseignant = getEnseignantFromSession();
         model.addAttribute("chefDepartement",enseignant);
         // Pour chaque enseignant, calculez le total des besoins pour la demande
         //Map<Long, Integer> totalRessources = new HashMap<>();
@@ -196,7 +211,7 @@ public class BesoinMaterielController {
 
 
 
-    @GetMapping("/enseignant/{enseignantId}/demande/{demandeId}/ressources")
+    @GetMapping("/chefdepartement/enseignant/{enseignantId}/demande/{demandeId}/ressources")
     public String getRessourcesByEnseignantAndDemande(@PathVariable Long enseignantId, @PathVariable Long demandeId, Model model) {
         // Récupérer les ressources associées à l'enseignant et à la demande spécifiée
        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignantId, demandeId);
@@ -206,7 +221,7 @@ public class BesoinMaterielController {
         model.addAttribute("ressources", ressources);
 
         // Récupérer l'enseignant chef de département depuis la session (ici, en supposant que l'ID est 1)
-        Enseignant chefDepartement = enseignantRepository.findById(1L).orElse(null);
+        Enseignant chefDepartement = getEnseignantFromSession();
         model.addAttribute("chefDepartement", chefDepartement);
 
         // Récupérer la demande associée à l'ID spécifié
@@ -282,17 +297,17 @@ public class BesoinMaterielController {
 
 
     // Méthode de suppression
-    @GetMapping("/ressource/delete/{id}")
+    @GetMapping("/chefdepartement/ressource/delete/{id}")
     public String deleteRessource(@PathVariable Long id) {
         Ressource ressource = ressourceRepository.findById(id).orElse(null);
         Long enseignantId = ressource.getEnseignant().getId();
         Long demandeId = ressource.getDemande().getId();
         ressourceRepository.deleteById(id);
-        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+        return "redirect:/chefdepartement/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
     }
 
     // Méthode pour afficher la page de modification
-    @GetMapping("/ressource/edit/{id}")
+    @GetMapping("/chefdepartement/ressource/edit/{id}")
     public String editRessource(@PathVariable Long id, Model model) {
         Ressource ressource = ressourceRepository.findById(id).orElse(null);
         model.addAttribute("ressource", ressource);
@@ -306,7 +321,7 @@ public class BesoinMaterielController {
         Long enseignantId = besoinOrdinateur.getEnseignant().getId();
         Long demandeId = besoinOrdinateur.getDemande().getId();
         ordinateurBesoinRepository.save(besoinOrdinateur);
-        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+        return "redirect:/chefdepartement/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
     }
 
     @PostMapping("/ressourceImprimante/edit")
@@ -314,7 +329,7 @@ public class BesoinMaterielController {
         Long enseignantId = besoinImprimante.getEnseignant().getId();
         Long demandeId = besoinImprimante.getDemande().getId();
         imprimanteBesoinRepository.save(besoinImprimante);
-        return "redirect:/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
+        return "redirect:/chefdepartement/enseignant/"+enseignantId+"/demande/"+demandeId+"/ressources"; // Rediriger vers la liste des ressources
     }
 
 

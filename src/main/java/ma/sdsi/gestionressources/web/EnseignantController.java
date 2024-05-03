@@ -7,6 +7,8 @@ import ma.sdsi.gestionressources.repositories.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,7 @@ public class EnseignantController {
     private ImprimanteBesoinRepository imprimanteBesoinRepository;
     private  OrdinateurBesoinRepository ordinateurBesoinRepository;
     private  PanneRepository panneRepository;
+    private UserRepository userRepository;
 
     public EnseignantController(DemandeRepository demandeRepository,
                                 EnseignantRepository enseignantRepository,
@@ -34,7 +37,8 @@ public class EnseignantController {
                                 BesoinMaterielRepository besoinMaterielRepository,
                                 ImprimanteBesoinRepository imprimanteBesoinRepository,
                                 OrdinateurBesoinRepository ordinateurBesoinRepository,
-                                PanneRepository panneRepository
+                                PanneRepository panneRepository,
+                                UserRepository userRepository
     ) {
         this.demandeRepository = demandeRepository;
         this.enseignantRepository = enseignantRepository;
@@ -43,6 +47,17 @@ public class EnseignantController {
         this.imprimanteBesoinRepository = imprimanteBesoinRepository;
         this.ordinateurBesoinRepository = ordinateurBesoinRepository;
         this.panneRepository = panneRepository;
+        this.userRepository = userRepository;
+    }
+
+    private Enseignant getEnseignantFromSession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getName() != null) {
+            String username = authentication.getName();
+            User user = userRepository.findByEmail(username); // Trouver l'utilisateur par email
+            return enseignantRepository.findByUser(user); // Trouver l'enseignant par utilisateur
+        }
+        return null;
     }
 
     @GetMapping("/enseignant")
@@ -50,7 +65,7 @@ public class EnseignantController {
                        @RequestParam(name = "page",defaultValue = "0") int page,
                        @RequestParam(name = "size",defaultValue = "5")int size){
         //ici récuperer l'enseignant depuis la session
-        Enseignant enseignant = enseignantRepository.findById(3L).orElse(null);
+        Enseignant enseignant = getEnseignantFromSession();
         Page<Demande> pagesDemandes = demandeRepository.findByEnseignantId(enseignant.getChefDepartement().getId(), PageRequest.of(page, size, Sort.by("id").descending()));
         model.addAttribute("enseignant",enseignant);
         model.addAttribute("listDemandes",pagesDemandes.getContent());
@@ -65,10 +80,10 @@ public class EnseignantController {
         Demande demande = demandeRepository.findById(id).orElse(null);
         model.addAttribute("demande",demande);
         //ici récuperer l'id de l'enseignant depuis la session
-        Enseignant enseignant = enseignantRepository.findById(3L).orElse(null);
+        Enseignant enseignant = getEnseignantFromSession();
 
 
-        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(3L,demande.getId());
+        List<Ressource> ressources = ressourceRepository.findByEnseignantIdAndDemandeId(enseignant.getId(),demande.getId());
         // Compteurs pour ordinateurs et imprimantes
         int nbrOrdinateurs = 0;
         int nbrImprimantes = 0;
@@ -124,7 +139,7 @@ public class EnseignantController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam Long id){
         // Récupérer l'enseignant depuis la session
-        Enseignant enseignant = enseignantRepository.findById(3L).orElse(null);
+        Enseignant enseignant = getEnseignantFromSession();
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
@@ -153,7 +168,7 @@ public class EnseignantController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam Long id){
         // Récupérer l'enseignant depuis la session
-        Enseignant enseignant = enseignantRepository.findById(3L).orElse(null);
+        Enseignant enseignant = getEnseignantFromSession();
 
         // Récupérer la demande depuis la base de données en utilisant l'ID passé en paramètre
         Demande demande = demandeRepository.findById(id).orElse(null);
@@ -263,8 +278,9 @@ public class EnseignantController {
             return "ViewsEnseignant/signalerPanne"; // Retourner la même vue en cas d'erreur
         }
 
+        Enseignant enseignantFromSession = getEnseignantFromSession();
         //ici recuperer l'enseignant depuis la session
-        panne.setEnseignant(enseignantRepository.findById(3L).orElse(null));
+        panne.setEnseignant(enseignantFromSession);
         panneRepository.save(panne); // Enregistrer la panne
         System.out.println("Panne signalée: " + panne.getDescription());
 

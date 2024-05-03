@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Ajouter Demande</title>
     <style>
         .header-bold {
             font-weight: bold;
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -31,31 +31,46 @@
 </head>
 <body>
 
-    <div class="col-md-6 offset-3">
-        <form method="post" th:action="@{save}">
-            <div>
-                <label for="dateDebut" >date Début</label>
-                <input id="dateDebut" type="date" name="dateDebut" th:value="${demande.getDateDebut()}">
-                <span class="text-danger" th:errors="${demande.dateDebut}"></span>
-            </div>
-            <div>
-                <label>date fin</label>
-                <input type="date" name="dateFin" th:value="${demande.getDateFin()}">
-                <span class="text-danger" th:errors="${demande.dateFin}"></span>
-            </div>
-            <div>
-                <label>date Réunion</label>
-                <input type="date" name="dateReunion" th:value="${demande.getDateReunion()}">
-                <span class="text-danger" th:errors="${demande.dateReunion}"></span>
-            </div>
-            <div>
-                <input type="checkbox" name="" th:checked="${true}">
-                <label>Notifier Enseignants</label>
-            </div>
-            <button  type="submit" class="btn btn-primary">Ajouter</button>
-
-        </form>
+<div class="container mt-5"> <!-- Utilisez mt-5 pour ajouter de l'espace en haut -->
+    <div class="row justify-content-center"> <!-- Centrer le contenu -->
+        <div class="col-md-6"> <!-- Largeur du formulaire -->
+            <div class="card"> <!-- Cadre pour l'ensemble du formulaire -->
+                <div class="card-body"> <!-- Corps du cadre -->
+                    <h2 class="card-title text-center mb-4">Ajouter une Nouvelle Demande</h2> <!-- Titre centré -->
+                    <form method="post" th:action="@{save}">
+                        <div class="mb-3"> <!-- Marge inférieure entre les éléments -->
+                            <label for="dateDebut" class="form-label">Date Début</label> <!-- Utilisez form-label pour le style -->
+                            <input id="dateDebut" type="date" name="dateDebut" class="form-control" th:value="${demande.getDateDebut()}">
+                            <span class="text-danger" th:errors="${demande.dateDebut}"></span> <!-- Afficher les erreurs -->
+                        </div>
+                        <div class="mb-3"> <!-- Marge inférieure entre les éléments -->
+                            <label for="dateFin" class="form-label">Date Fin</label>
+                            <input type="date" id="dateFin" name="dateFin" class="form-control" th:value="${demande.getDateFin()}">
+                            <span class="text-danger" th:errors="${demande.dateFin}"></span>
+                        </div>
+                        <div class="mb-3"> <!-- Marge inférieure entre les éléments -->
+                            <label for="dateReunion" class="form-label">Date Réunion</label>
+                            <input type="date" id="dateReunion" name="dateReunion" class="form-control" th:value="${demande.getDateReunion()}">
+                            <span class="text-danger" th:errors="${demande.dateReunion}"></span>
+                        </div>
+                        <div class="mb-3 form-check"> <!-- Utilisez form-check pour les cases à cocher -->
+                            <input type="checkbox" id="notifierCheckbox" name="notifierEnseignants" class="form-check-input" th:checked="${true}">
+                            <label for="notifierCheckbox" class="form-check-label">Notifier Enseignants</label>
+                        </div>
+                        <div class="d-flex justify-content-between"> <!-- Centrer le bouton -->
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                            <a href="/index" class="btn btn-secondary">Retour</a> <!-- Bouton de retour -->
+                        </div>
+                    </form>
+                </div> <!-- Fin du corps du cadre -->
+            </div> <!-- Fin du cadre -->
+        </div>
     </div>
+</div>
+
+    <!-- JavaScript -->
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 
 
 </body>
