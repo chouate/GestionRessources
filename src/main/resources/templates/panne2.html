@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .header-bold {
+            font-weight: bold;
+            font-size: 1.2em; /* Définir la taille de la police en em ou en px */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0; /* Reste en bas de la page */
+            width: 100%; /* Prend toute la largeur de l'écran */
+            /* background-color: #f1f1f1;  Choisissez une couleur qui s'intègre avec le reste du design */
+            text-align: center;
+            padding: 10px; /* Ajouter du remplissage pour un espacement adéquat */
+            border-top: 1px solid #ddd; /* Optionnel, pour un effet de séparation */
+        }
+    </style>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>crud dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!----css3---->
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <!--google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+
+    <!--google material icon-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="wrapper ">
+
+        <!-------page-content start----------->
+
+        <div id="">
+
+            <!------top-navbar-start----------->
+
+            <div class="top-navbar">
+                <div class="xd-topbar">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-4 order-3 order-md-2">
+                            <div class="xp-searchbar">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="search" class="form-control"
+                                               placeholder="Chercher demande par Id"
+                                                name="id">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="submit" id="button-addon2">Go
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--
+                        <form method="get" th:action="${index}">
+                            <label> key word</label>
+                            <input type="text" name="keyword">
+                            <button type="submit" class="btn-info" >chercher</button>
+                        </form>
+                        -->
+                        <div  class="col-10 col-md-6 col-lg-8 order-1 order-md-3 d-flex justify-content-end">
+                            <div class="xp-profilebar text-right">
+                                <nav class="navbar p-0">
+                                    <ul class="nav navbar-nav flex-row ml-auto">
+                                        <li class="dropdown nav-item active">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <span class="material-icons">notifications</span>
+                                                <span class="notification">4</span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                                <li><a href="#">You Have 4 New Messages</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <span class="material-icons">question_answer</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="dropdown nav-item">
+                                            <a class="nav-link" href="#" data-toggle="dropdown">
+                                                <img src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
+                                                <span class="xp-user-live"></span>
+                                            </a>
+                                            <ul class="dropdown-menu small-menu">
+                                                <li><a href="#">
+                                                    <span class="material-icons">person_outline</span>
+                                                    Profile
+                                                </a></li>
+                                                <li><a href="#">
+                                                    <span class="material-icons">settings</span>
+                                                    Settings
+                                                </a></li>
+                                                <li><a href="#">
+                                                    <span class="material-icons">logout</span>
+                                                    Logout
+                                                </a></li>
+
+                                            </ul>
+                                        </li>
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="xp-breadcrumbbar text-center">
+                        <h4 class="page-title">Dashboard Technicien</h4>
+                        <ol class="breadcrumb" th:if="${chefDepartement!=null}">
+                            <li th:text="Ahmed" class="breadcrumb-item" ><a th:text="" href="#"></a></li>
+                            <li th:text="${chefDepartement.nom}" class="breadcrumb-item active" aria-curent="page"></li>
+                        </ol>
+                    </div>
+
+
+            </div>
+            <!------top-navbar-end----------->
+
+
+            <!------main-content-start----------->
+
+            <div class="main-content">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="table-wrapper">
+
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
+                                        <h2 class="ml-lg-2">Listes Des Pannes Signalées</h2>
+                                    </div>
+                                    <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
+                                        <!-- add Demande by modal-->
+                                        <a href="#addDemandeModal" class="btn btn-success" data-toggle="modal">
+                                            <i class="material-icons">&#xE147;</i>
+                                            <span>Add New Demande</span>
+                                        </a>
+                                        <!-- add Demande by formDemandes-->
+                                        <!--
+                                        <a th:href="@{/formDemandes}" class="btn btn-success" >
+                                            <i class="material-icons">&#xE147;</i>
+                                            <span>Add New Demande</span>
+                                        </a>
+                                        -->
+
+                                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                            <i class="material-icons">&#xE15C;</i>
+                                            <span>Delete</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <table class="table table-striped table-hover">
+                                <thead >
+                                    <tr>
+
+                                        <th style="font-weight: bold;font-size: 1.2em; ">IdPanne</th>
+                                        <th style="font-weight: bold;font-size: 1.2em; " >Description</th>
+                                        <th style="font-weight: bold;font-size: 1.2em; ">Enseignant</th>
+                                        <th style="font-weight: bold;font-size: 1.2em; ">Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody >
+                                <tr th:each="panne : ${pannes}">
+                                    <td th:text="${panne.id}"></td>
+                                    <td th:text="${panne.description}"></td>
+                                    <td th:text="${panne.enseignant.nom}"></td>
+
+                                    <td>
+                                        <a th:href="@{/formPannes/{id}(id=${panne.id})}" class="btn btn-success">
+                                            <span>Remplir Constat</span>
+                                        </a>
+
+
+
+
+                                        </a>
+
+                                    </td>
+                                </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-between">
+                                <div class="hint-text">showing <b th:text="${currentPage}"></b> out of <b th:text="${totalPages}"></b></div>
+                                <ul class=" nav nav-pills">
+                                    <li  th:each="page,status:${pages}">
+                                        <a th:class="${status.index==currentPage?'btn btn-info ms-1':'btn btn-outline-info ms-1' }"
+                                           th:text="${status.index}"
+                                           th:href="@{index(page=${status.index})}"
+                                        ></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Modal pour ajouter une demande -->
+                    <div class="modal fade" id="addDemandeModal" tabindex="-1" role="dialog" aria-labelledby="addDemandeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addDemandeModalLabel">Ajouter une demande</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addDemandeForm">
+                                        <div class="form-group">
+                                            <label for="dateDebut">Date Début</label>
+                                            <input type="date" class="form-control" id="dateDebut" name="dateDebut" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dateFin">Date Fin</label>
+                                            <input type="date" class="form-control" id="dateFin" name="dateFin" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dateReunion">Date Réunion</label>
+                                            <input type="date" class="form-control" id="dateReunion" name="dateReunion" required>
+                                        </div>
+                                        <div class="form-check">
+                                            <input th:checked="${true}" type="checkbox" class="form-check-input" id="notificationCheckbox" name="notificationCheckbox">
+                                            <label class="form-check-label" for="notificationCheckbox">Notifier Enseignants</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-success" id="addDemandeBtn">Ajouter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal pour ajouter une demande end -->
+
+
+
+
+
+                    <!----edit-modal start--------->
+                    <div class="modal fade" id="editDemandeModal" tabindex="-1" role="dialog" aria-labelledby="editDemandeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editDemandeModalLabel">Modifier la demande N° : <span id="demandeNumber"></span></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editDemandeForm">
+                                        <input type="hidden" id="editDemandeId">
+                                        <input type="hidden" id="editEnseignant">
+                                        <div class="form-group">
+                                            <label for="editDateDebut">Date Début</label>
+                                            <input type="date" class="form-control" id="editDateDebut" name="dateDebut" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editDateFin">Date Fin</label>
+                                            <input type="date" class="form-control" id="editDateFin" name="dateFin" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editDateReunion">Date Réunion</label>
+                                            <input type="date" class="form-control" id="editDateReunion" name="dateReunion" required>
+                                        </div>
+                                        <div class="form-check">
+                                            <input th:checked="${true}" type="checkbox" class="form-check-input" id="editNotificationCheckbox" name="notificationCheckbox">
+                                            <label class="form-check-label" for="editNotificationCheckbox">Notifier Enseignants</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-success" id="updateDemandeBtn">Enregistrer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!----edit-modal end--------->
+
+
+                    <!----delete-modal start--------->
+                    <div class="modal fade" tabindex="-1" id="deleteEmployeeModal" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete Employees</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete this Records</p>
+                                    <p class="text-warning"><small>this action Cannot be Undone,</small></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" id="confirmDeleteButton" class="btn btn-success">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!----delete-modal end--------->
+
+
+                </div>
+            </div>
+
+            <!------main-content-end----------->
+
+
+
+            <!----footer-design------------->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="footer-in">
+                        <p class="mb-0">&copy 2023/2024 Master SDSI. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </footer>
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-------complete html----------->
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+<!--
+  <script type="text/javascript">
+      $(document).ready(function(){
+          $(".xp-menubar").on('click',function(){
+              $("#sidebar").toggleClass('active');
+              $("#content").toggleClass('active');
+          });
+
+          $('.xp-menubar,.body-overlay').on('click',function(){
+              $("#sidebar,.body-overlay").toggleClass('show-nav');
+          });
+
+      });
+  </script>
+-->
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#addDemandeBtn').click(function() {
+                var dateDebut = $('#dateDebut').val();
+                var dateFin = $('#dateFin').val();
+                var dateReunion = $('#dateReunion').val();
+                //var notifierEnseignants = $('#notificationCheckbox').is(':checked');
+                //ici il faut récupere le id de l'enseignant chef departement depuis la session
+                var enseignantId = 1;
+                // Envoyer les données à votre backend pour traitement
+                $.ajax({
+                    type: 'POST',
+                    url: '/save',
+                    data: {
+                        dateDebut: dateDebut,
+                        dateFin: dateFin,
+                        dateReunion: dateReunion,
+                        EnvoyerResponsable:0,
+                        old:0,
+                        enseignant: enseignantId,
+                        //notifierEnseignants: notifierEnseignants
+                    },
+                    success: function(response) {
+                        // Traitement à effectuer en cas de succès
+                        console.log(response);
+                        window.location.href = '/index';
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Traitement à effectuer en cas d'erreur
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            // Ouvrir la modal de modification lorsque le bouton "Modifier" est cliqué
+            $('.edit').click(function() {
+                var demandeNumber = $(this).closest('tr').find('td:eq(0)').text();
+                var demandeId = $(this).closest('tr').find('td:eq(0)').text();
+                var dateDebut = $(this).closest('tr').find('td:eq(1)').text();
+                var dateFin = $(this).closest('tr').find('td:eq(2)').text();
+                var dateReunion = $(this).closest('tr').find('td:eq(3)').text();
+                var notificationCheckbox = $(this).closest('tr').find('.notificationCheckbox').is(':checked');
+                //var enseignantId = $(this).closest('tr').find('td:eq(4)').text(); // Supposons que l'ID de l'enseignant soit dans la quatrième colonne
+                //var enseignantId = $(this).closest('tr').data('enseignant-id');
+                var enseignantId = $(this).closest('tr').attr('enseignant-id');
+
+                $('#demandeNumber').text(demandeNumber);
+                $('#editDemandeId').val(demandeId);
+                $('#editDateDebut').val(dateDebut);
+                $('#editDateFin').val(dateFin);
+                $('#editDateReunion').val(dateReunion);
+                $('#editNotificationCheckbox').prop('checked', true);
+                $('#editEnseignant').val(enseignantId);
+
+                $('#editDemandeModal').modal('show');
+            });
+
+            // Envoyer une requête AJAX pour mettre à jour la demande lorsque le bouton "Enregistrer les modifications" est cliqué
+            $('#updateDemandeBtn').click(function() {
+                var demandeId = $('#editDemandeId').val();
+                var dateDebut = $('#editDateDebut').val();
+                var dateFin = $('#editDateFin').val();
+                var dateReunion = $('#editDateReunion').val();
+                var notificationCheckbox = $('#editNotificationCheckbox').is(':checked');
+                var enseignantId = $('#editEnseignant').val(); // Ajoutez cette ligne pour récupérer l'ID de l'enseignant
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/save', // Changez l'URL en fonction de votre endpoint de mise à jour de demande
+                    data: {
+                        id: demandeId,
+                        dateDebut: dateDebut,
+                        dateFin: dateFin,
+                        dateReunion: dateReunion,
+                        notificationCheckbox: notificationCheckbox,
+                        EnvoyerResponsable:0,
+                        old:0,
+                        enseignant: enseignantId // Envoyez l'ID de l'enseignant
+                    },
+                    success: function(response) {
+                        //$('#editDemandeModal').modal('hide');
+                        window.location.reload(); // Recharge la page pour afficher les mises à jour
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $('#confirmDeleteButton').click(function () {
+                var demandeId = $(this).data('data-id');
+                var page = $(this).data('data-page');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/supprimer',
+                    data: {
+                        id: demandeId,
+                        page: page
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        window.location.reload(); // Recharge la page après la suppression
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

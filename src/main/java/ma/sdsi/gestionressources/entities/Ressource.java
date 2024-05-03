@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,6 +26,7 @@ public  class Ressource {
     @ToString.Exclude
     @ManyToOne
     private Enseignant enseignant;
-
+    @OneToMany(mappedBy = "ressource")
+    private List<Panne> pannes;
 
 }

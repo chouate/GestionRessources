@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Remplir Constat</title>
+    <style>
+        /* Vos styles CSS ici */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            display: inline-block;
+        }
+
+        #modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        #modal input,
+        #modal select {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #modal input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #modal input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #modal input[type="date"] {
+            padding: 6px;
+        }
+
+        #modal input[type="submit"],
+        #modal input[type="button"] {
+            width: auto;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<h1>Liste des Pannes</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Description de la Panne</th>
+        <th>Enseignant</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Boucle sur chaque panne -->
+    <tr th:each="panne : ${pannes}">
+        <td th:text="${panne.description}"></td>
+        <td th:text="${panne.enseignant.nom}"></td>
+        <td>
+            <!-- Utilisez une classe ou un attribut de données pour identifier le formulaire -->
+            <form class="remplir-constat-form" action="/remplir-constat" method="post">
+                <input type="hidden" name="idPanne" th:value="${panne.id}">
+                <input type="hidden" name="idRessource" th:value="${panne.ressource.id}">
+                <input type="button" value="Remplir Constat" onclick="ouvrirFormulaire(this)">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Modèle de formulaire pour remplir les informations sur la panne -->
+<div id="modal" style="display: none;">
+    <form id="modal-form" action="/enregistrer-constats" method="post">
+        <!-- Ajoutez ici les champs pour les informations sur la panne -->
+        <!-- Par exemple : -->
+        <input type="hidden" name="id" th:value="${1}">
+        <label for="idMachine">ID Machine:</label>
+        <input type="number" id="idMachine" name="ressource" placeholder="ID Machine" required>
+
+        <label for="explicationPanne">Explication de la panne:</label>
+        <input type="text" id="explicationPanne" name="explicationPanne" placeholder="Explication de la panne" required>
+
+        <label for="dateApparition">Date d'apparition:</label>
+        <input type="date" id="dateApparition" name="dateApparition" required>
+
+        <label for="frequence">Fréquence:</label>
+        <select id="frequence" name="frequence" required>
+            <option value="rare">Rare</option>
+            <option value="fréquente">Fréquente</option>
+            <option value="permanente">Permanente</option>
+        </select>
+
+        <label for="ordre">Ordre:</label>
+        <select id="ordre" name="ordre" required>
+            <option value="défaut du système">Défaut du système</option>
+            <option value="d’un logiciel utilitaire">D’un logiciel utilitaire</option>
+            <option value="matériel">Matériel</option>
+        </select>
+
+        <input type="submit" value="Enregistrer">
+    </form>
+</div>
+
+
+
+    <script>
+        function ouvrirFormulaire(button) {
+            // Affiche la boîte de dialogue modale
+            document.getElementById("modal").style.display = "block";
+
+            // Intercepte la soumission du formulaire modal
+            document.getElementById("modal-form").addEventListener("submit", function(event) {
+                // Empêche la soumission par défaut du formulaire
+                event.preventDefault();
+
+                // Obtient les valeurs des champs du formulaire modal
+                var idMachine = document.getElementById("idMachine").value;
+                var explicationPanne = document.getElementById("explicationPanne").value;
+                var dateApparition = document.getElementById("dateApparition").value;
+                var frequence = document.getElementById("frequence").value;
+                var ordre = document.getElementById("ordre").value;
+
+                // Remplit les champs cachés du formulaire principal avec les valeurs obtenues
+                document.querySelector("input[name='idMachine']").value = idMachine;
+                document.querySelector("input[name='explicationPanne']").value = explicationPanne;
+                document.querySelector("input[name='dateApparition']").value = dateApparition;
+                document.querySelector("input[name='frequence']").value = frequence;
+                document.querySelector("input[name='ordre']").value = ordre;
+
+                // Soumet le formulaire principal
+                button.closest("form").submit();
+
+                // Cache le formulaire modal après la soumission
+                document.getElementById("modal").style.display = "none";
+
+                // Affiche un message de succès
+                alert("Panne enregistrée avec succès !");
+            });
+        }
+
+
+
+    </script>
+
+</body>
+</html>
