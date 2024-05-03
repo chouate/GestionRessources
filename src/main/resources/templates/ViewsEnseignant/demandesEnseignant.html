@@ -110,10 +110,14 @@
                                                     <span class="material-icons">settings</span>
                                                     Settings
                                                 </a></li>
-                                                <li><a href="#">
-                                                    <span class="material-icons">logout</span>
-                                                    Logout
-                                                </a></li>
+                                                <li>
+                                                    <form th:action="@{/logout}" method="post">
+                                                        <button type="submit"  th:onclick="'return confirm(\'Voulez-vous vraiment vous déconnecter ?\')'">
+                                                            <span class="material-icons ">logout</span>
+                                                            logout
+                                                        </button>
+                                                    </form>
+                                                </li>
 
                                             </ul>
                                         </li>
@@ -181,7 +185,7 @@
                                         <td>
                                             <!-- Consulter la demande pour exprimer les besoins -->
                                             <a th:href="@{/consulterBesoinsEnseignant(id=${demande.id})}" style="color:white" class=" btn btn-primary">
-                                                Consulter
+                                                Exprimer Besoins
                                             </a>
                                         </td>
                                     </tr>
@@ -221,13 +225,7 @@
 
     </div>
 
-
-
     <!-------complete html----------->
-
-
-
-
 
 
     <!-- Optional JavaScript -->

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Besoins Enseignant</title>
     <style>
         .header-bold {
             font-weight: bold;
@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -104,17 +104,7 @@
                     <div class="row">
                         <div class="col-md-5 col-lg-4 order-3 order-md-2">
                             <div class="xp-searchbar">
-                                <form>
-                                    <div class="input-group">
-                                        <input type="search" class="form-control"
-                                               placeholder="Chercher demande par Id"
-                                                name="id">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="submit" id="button-addon2">Go
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <h2><span >Demande N° : <span th:text="${demande.getId()}"></span></span></h2>
                             </div>
                         </div>
                         <!--
@@ -128,6 +118,11 @@
                             <div class="xp-profilebar text-right">
                                 <nav class="navbar p-0">
                                     <ul class="nav navbar-nav flex-row ml-auto">
+                                        <li class="nav-item">
+                                            <a  class="nav-link " th:href="@{/enseignant}">
+                                                <span  class="material-icons" data-toggle="tooltip" title="Acceuil">home</span>
+                                            </a>
+                                        </li>
                                         <li class="dropdown nav-item active">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
                                                 <span class="material-icons">notifications</span>
@@ -140,13 +135,11 @@
                                                 <li><a href="#">You Have 4 New Messages</a></li>
                                             </ul>
                                         </li>
-
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
+                                            <a  class="nav-link " th:href="@{/signalerPanne}">
+                                                <span style="color: red" class="material-icons " data-toggle="tooltip" title="Signaler Panne">warning</span>
                                             </a>
                                         </li>
-
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
                                                 <img src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
@@ -161,10 +154,14 @@
                                                     <span class="material-icons">settings</span>
                                                     Settings
                                                 </a></li>
-                                                <li><a href="#">
-                                                    <span class="material-icons">logout</span>
-                                                    Logout
-                                                </a></li>
+                                                <li>
+                                                    <form th:action="@{/logout}" method="post">
+                                                        <button type="submit"  th:onclick="'return confirm(\'Voulez-vous vraiment vous déconnecter ?\')'">
+                                                            <span class="material-icons ">logout</span>
+                                                            logout
+                                                        </button>
+                                                    </form>
+                                                </li>
 
                                             </ul>
                                         </li>

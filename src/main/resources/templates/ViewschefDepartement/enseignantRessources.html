@@ -4,7 +4,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Besoins Enseignant</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 
 </head>
@@ -43,8 +43,8 @@
                             <strong>Résolution:</strong> <span th:text="${ressource.resolution}"></span>
                         </div>
                         <!-- Ajouter les boutons de modification et de suppression -->
-                        <a th:href="@{/ressource/edit/{id}(id=${ressource.id})}" class="btn btn-warning">Modifier</a>
-                        <a th:href="@{/ressource/delete/{id}(id=${ressource.id})}" class="btn btn-danger">Supprimer</a>
+                        <a th:href="@{/chefdepartement/ressource/edit/{id}(id=${ressource.id})}" class="btn btn-warning">Modifier</a>
+                        <a th:href="@{/chefdepartement/ressource/delete/{id}(id=${ressource.id})}" class="btn btn-danger">Supprimer</a>
                     </div>
                 </div>
             </div>
