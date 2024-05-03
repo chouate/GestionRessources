@@ -69,7 +69,7 @@
         </form>
     </div>
     <div class="mb-3" th:if="${ressource.getClass().simpleName == 'Imprimante'}">
-        <form action="/editerImprimante" method="post">
+        <form  th:action="@{/editerImprimante}" method="post">
             <input type="hidden" name="id" th:value="${ressource != null ? ressource.id : null}">
             <div class="mb-3" th:if="${ressource != null}">
                 <label for="typeInput" class="form-label">Editer Imprimante</label>

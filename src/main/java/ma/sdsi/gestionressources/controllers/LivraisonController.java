@@ -31,23 +31,30 @@ public class LivraisonController {
 		 DepartementService departementService;
 		 @Autowired
 		 AffectResouDeparteService affectResouDeparteService;
-		    @GetMapping("/livraison")
-		    public String afficherRessourcesStatut1(Model model) {
-		        // Récupérer les ressources avec le statut 1 dans la proposition correspondante depuis le service
-		    	List<PropositionMateriel> ressourcesStatut1 = propositionMaterielService.getPropositionMaterielWithStatusOne();
-		    	Long id=ressourcesStatut1.get(0).getProposition().getFournisseur().getId();
-		    	Fournisseur f=fournisseurService.findById(id);
-		        
-		        model.addAttribute("fournisseur", f);
-		        // Ajouter les ressources au modèle pour les transmettre à la vue
-		        model.addAttribute("propositionMateriels", ressourcesStatut1);
-		      
-		      for(int i=0; i<ressourcesStatut1.size();i++) {
-		    	  String o= ressourcesStatut1.get(i).getProposition().getStatus();
-		      }
-		        // Renvoyer le nom de la vue Thymeleaf
-		        return "livraison";
-		    }
+	@GetMapping("/livraison")
+	public String afficherRessourcesStatut1(Model model) {
+		// Récupérer les ressources avec le statut 1 dans la proposition correspondante depuis le service
+		List<PropositionMateriel> ressourcesStatut1 = propositionMaterielService.getPropositionMaterielWithStatusOne();
+
+		// Vérifier si la liste n'est pas vide avant d'accéder à son premier élément
+		if (!ressourcesStatut1.isEmpty()) {
+			Long id = ressourcesStatut1.get(0).getProposition().getFournisseur().getId();
+			Fournisseur f = fournisseurService.findById(id);
+
+			model.addAttribute("fournisseur", f);
+		}
+
+		// Ajouter les ressources au modèle pour les transmettre à la vue
+		model.addAttribute("propositionMateriels", ressourcesStatut1);
+
+		for (int i = 0; i < ressourcesStatut1.size(); i++) {
+			String o = ressourcesStatut1.get(i).getProposition().getStatus();
+		}
+
+		// Renvoyer le nom de la vue Thymeleaf
+		return "livraison";
+	}
+
 		    @PostMapping("/attribuerCodeBarre")
 		    public String attribuerCodeBarre(@RequestParam("ressourceId") Long ressourceId, @RequestParam("codeBarre") String codeBarre) {
 		    	System.out.println(ressourceId);

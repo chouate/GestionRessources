@@ -5,7 +5,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Liste Enseignants</title>
     <style>
         .header-bold {
             font-weight: bold;
@@ -144,7 +144,7 @@
                                 <!-- Afficher le total des besoins -->
                                 <p style="color: #7c9192" th:text="'Total : '+ ${totalRessources[iterStat.index]} "></p>
                                 <a
-                                        th:href="@{/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}"
+                                        th:href="@{/chefdepartement/enseignant/{enseignantId}/demande/{demandeId}/ressources(enseignantId=${enseignant.id}, demandeId=${demande.id})}"
                                         class="btn btn-link"
                                 >
                                     Tout afficher

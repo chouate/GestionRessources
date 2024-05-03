@@ -206,7 +206,7 @@
                     <div class="modal-body">
                         <!-- Formulaire pour éditer un ordinateur -->
                         <form th:if="${ressource != null && ressource.getClass().simpleName == 'Ordinateur'}"
-                              action="/editerOrdinateur" method="post">
+                               th:action="@{/editerOrdinateur}" method="post">
                             <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
                             <!-- Autres champs pour éditer un ordinateur -->
                             <div class="mb-3">
@@ -226,7 +226,7 @@
 
                         <!-- Formulaire pour éditer une imprimante -->
                         <form th:if="${ressource != null && ressource.getClass().simpleName == 'Imprimante'}"
-                              action="/editerImprimante" method="post">
+                               th:action="@{/editerImprimante}" method="post">
                             <input type="hidden" id="editRessourceId" name="id" th:value="${ressource != null ? ressource.id : null}">
                             <!-- Autres champs pour éditer une imprimante -->
                             <div class="mb-3">

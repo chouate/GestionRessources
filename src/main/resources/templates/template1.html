@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Demande</title>
     <style>
         .header-bold {
             font-weight: bold;
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <title>crud dashboard</title>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!----css3---->
@@ -68,7 +68,7 @@
             </div>
             <ul class="list-unstyled components">
                 <li  class="">
-                    <a th:href="@{/}" class="dashboard"><i class="material-icons"></i><span>Acceuil</span></a>
+                    <a th:href="@{/index}" class="dashboard"><i class="material-icons"></i><span>Acceuil</span></a>
                 </li>
 
                 <li class="">
@@ -162,12 +162,7 @@
 
                                             </ul>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
 
-                                            </a>
-                                        </li>
                                         <li class="nav-item dropdown">
                                             <a style="" class="nav-link" href="#" data-toggle="dropdown">
                                                 <img  src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
@@ -185,9 +180,12 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">
-                                                        <span class="material-icons">logout</span>Logout
-                                                    </a>
+                                                    <form th:action="@{/logout}" method="post">
+                                                        <button type="submit"  th:onclick="'return confirm(\'Voulez-vous vraiment vous déconnecter ?\')'">
+                                                            <span class="material-icons ">logout</span>
+                                                            logout
+                                                        </button>
+                                                    </form>
                                                 </li>
                                             </ul>
                                         </li>

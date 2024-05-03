@@ -29,9 +29,9 @@ public class Demande {
     private Date dateFin;
     @NotNull
     @Temporal(TemporalType.DATE)
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateReunion;
+
     private Boolean EnvoyerResponsable ;
     private Boolean old;
 

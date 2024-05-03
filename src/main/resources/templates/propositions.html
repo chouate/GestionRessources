@@ -139,7 +139,7 @@
         <!-- Main-content-start -->
         <div class="container mt-5">
             <h3>Rechercher les Propostions par ID d'appel d'offre Correspond</h3>
-            <form action="/propositions" method="post">
+            <form  th:action="@{/propositions}" method="post">
                 <div class="mb-3">
                     <label for="selectOption" class="form-label">Choisissez une option :</label>
                     <select class="form-select" id="selectOption" name="appelOffreId"> <!-- Utilisez le nom "appelOffreId" -->
@@ -185,14 +185,14 @@
                                 <td th:text="${proposition.total}"></td>
                                 <td th:text="${proposition.fournisseur.name}"></td>
                                 <td th:if="${proposition.status.equals('0')}">
-                                    <form action="/selectionnerProposition" method="post" onsubmit="return confirmSelection()">
+                                    <form  th:action="@{/selectionnerProposition}"  method="post" onsubmit="return confirmSelection()">
                                         <input type="hidden" name="propositionId" th:value="${proposition.id}">
                                         <input type="hidden" name="appelOffreId" th:value="${proposition.appelOffre.id}">
                                         <button type="submit" class="btn btn-danger">sélectionner</button>
                                     </form>
                                 </td>
                                 <td th:if="${proposition.status.equals('1')}">
-                                    <form action="/deselectionnerProposition" method="post" onsubmit="return confirmSelection()">
+                                    <form th:action="@{/deselectionnerProposition}"  method="post" onsubmit="return confirmSelection()">
                                         <input type="hidden" name="propositionId" th:value="${proposition.id}">
                                         <input type="hidden" name="appelOffreId" th:value="${proposition.appelOffre.id}">
                                         <button type="submit" class="btn btn-primary">désélectionner</button>

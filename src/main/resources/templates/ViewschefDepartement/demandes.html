@@ -2,7 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Acceuil chef département</title>
+
+    <!-- Meta-tags CSRF -->
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
     <style>
         .header-bold {
             font-weight: bold;
@@ -36,6 +41,9 @@
 
     <!--google material icon-->
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+
+
+
 
 </head>
 <body>
@@ -82,6 +90,7 @@
                                                 <span class="material-icons">notifications</span>
                                                 <span class="notification">4</span>
                                             </a>
+
                                             <ul class="dropdown-menu">
                                                 <li><a href="#">You Have 4 New Messages</a></li>
                                                 <li><a href="#">You Have 4 New Messages</a></li>
@@ -89,32 +98,45 @@
                                                 <li><a href="#">You Have 4 New Messages</a></li>
                                             </ul>
                                         </li>
-
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">
-                                                <span class="material-icons">question_answer</span>
+                                            <a  class="nav-link " th:href="@{/signalerPanneChef}">
+                                                <span style="color: red" class="material-icons " data-toggle="tooltip" title="Signaler Panne">warning</span>
                                             </a>
                                         </li>
-
                                         <li class="dropdown nav-item">
                                             <a class="nav-link" href="#" data-toggle="dropdown">
                                                 <img src="img/user.png" style="width:40px; border-radius:50%;background-color: white;"/>
                                                 <span class="xp-user-live"></span>
                                             </a>
                                             <ul class="dropdown-menu small-menu">
-                                                <li><a href="#">
-                                                    <span class="material-icons">person_outline</span>
-                                                    Profile
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <span class="material-icons">settings</span>
-                                                    Settings
-                                                </a></li>
-                                                <li><a href="#">
-                                                    <span class="material-icons">logout</span>
-                                                    Logout
-                                                </a></li>
-
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="material-icons">person_outline</span>
+                                                        Profile
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="material-icons">settings</span>
+                                                        Settings
+                                                    </a>
+                                                </li>
+                                                <!--
+                                                <li>
+                                                    <a th:action="@{/logout}" th:method="post" th:onclick="'return confirm(\'Êtes-vous sûr de vouloir vous déconnecter ?\')'">
+                                                        <span class="material-icons">logout</span>
+                                                        Déconnexion
+                                                    </a>
+                                                </li>
+                                                -->
+                                                <li>
+                                                    <form th:action="@{/logout}" method="post">
+                                                        <button type="submit"  th:onclick="'return confirm(\'Voulez-vous vraiment vous déconnecter ?\')'">
+                                                            <span class="material-icons ">logout</span>
+                                                            logout
+                                                        </button>
+                                                    </form>
+                                                </li>
                                             </ul>
                                         </li>
 
@@ -215,17 +237,18 @@
                                     </div>
                                     <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
                                         <!-- add Demande by modal-->
+                                        <!--
                                         <a href="#addDemandeModal" class="btn btn-success" data-toggle="modal">
                                             <i class="material-icons">&#xE147;</i>
                                             <span>Add New Demande</span>
                                         </a>
+                                        -->
                                         <!-- add Demande by formDemandes-->
-                                        <!--
-                                        <a th:href="@{/formDemandes}" class="btn btn-success" >
+                                        <a th:href="@{/chefdepartement/formDemandes}" class="btn btn-success" >
                                             <i class="material-icons">&#xE147;</i>
                                             <span>Add New Demande</span>
                                         </a>
-                                        -->
+
 
                                         <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
                                             <i class="material-icons">&#xE15C;</i>
@@ -265,16 +288,16 @@
 
                                         <td>
                                             <!-- edit by modal -->
+                                            <!--
                                             <a href="#editDemandeModal" class="edit" data-toggle="modal">
                                                 <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                             </a>
-
+                                            -->
                                             <!-- edit by view -->
-                                            <!--
-                                            <a th:href="@{/editDemande(id=${demande.id}, page=${currentPage})}"  class="edit" >
+                                            <a th:href="@{/chefdepartement/editDemande(id=${demande.id}, page=${currentPage})}"  class="edit" >
                                                 <i class="material-icons" data-toggle="tooltip" title="edit">&#xE254;</i>
                                             </a>
-                                            -->
+
 
                                             <!-- delete by modal  -->
                                             <!--
@@ -341,6 +364,8 @@
                                             <input th:checked="${true}" type="checkbox" class="form-check-input" id="notificationCheckbox" name="notificationCheckbox">
                                             <label class="form-check-label" for="notificationCheckbox">Notifier Enseignants</label>
                                         </div>
+                                        <meta name="_csrf" content="${_csrf.token}"/>
+                                        <meta name="_csrf_header" content="${_csrf.headerName}"/>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -484,6 +509,7 @@
 
     <script type="text/javascript">
 
+        /*
         $(document).ready(function() {
             $('#addDemandeBtn').click(function() {
                 var dateDebut = $('#dateDebut').val();
@@ -518,6 +544,42 @@
                 });
             });
         });
+        */
+        $(document).ready(function() {
+            var csrfToken = $('meta[name="_csrf"]').attr('content');
+            var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+            $('#addDemandeBtn').click(function() {
+                var dateDebut = $('#dateDebut').val();
+                var dateFin = $('#dateFin').val();
+                var dateReunion = $('#dateReunion').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/save',
+                    data: {
+                        dateDebut: dateDebut,
+                        dateFin: dateFin,
+                        dateReunion: dateReunion,
+                        enseignant: 1,
+                        EnvoyerResponsable: 0,
+                        old: 0
+                    },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken); // Ajoutez le jeton CSRF
+                    },
+                    success: function(response) {
+                        console.log("Demande ajoutée avec succès:", response);
+                        window.location.href = '/index';
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Erreur lors de l'ajout de la demande:", error);
+                    }
+                });
+            });
+        });
+
+
 
         $(document).ready(function() {
             // Ouvrir la modal de modification lorsque le bouton "Modifier" est cliqué

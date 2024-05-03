@@ -140,7 +140,7 @@
                 <h2 class="text-center">Modifier les Affectations des ressources avec les départements</h2>
             </div>
 
-            <form action="/modifierAffectation" method="post">
+            <form th:action="@{/modifierAffectation}" method="post">
                 <!-- Utilisation de la grille pour organiser les affectations -->
                 <div class="row row-cols-1 row-cols-md-2">
                     <!-- Boucle sur toutes les affectations -->

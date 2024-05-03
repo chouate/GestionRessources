@@ -246,7 +246,7 @@
     <div style="background-color: white; width: 50%; margin: 50px auto; padding: 20px; border-radius: 10px; position: relative;" class="modal-content">
         <!-- Ajoutez position: relative; ici -->
         <h2>Modifier les détails du fournisseur et de la société</h2>
-        <form action="/editerFournisseur" method="post">
+        <form th:action="@{/editerFournisseur}" method="post">
             <input type="hidden" name="id" th:value="${fournisseur.id}">
             <div class="modal-content"> <!-- Ajoutez une classe modal-content ici -->
                 <div class="mb-3">

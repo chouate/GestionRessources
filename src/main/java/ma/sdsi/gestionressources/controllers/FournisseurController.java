@@ -50,37 +50,27 @@ public class FournisseurController {
 		model.addAttribute("appelOffres", appelOffres);
 		return "toutAppelOffres";
 	}
-	@PostMapping("/consulterRessources")
+	@GetMapping("/consulterRessources")
 	public String appelOffre(Model model, @RequestParam("AppelOffreId") Long appelOffreId, HttpServletRequest request) {
-		System.out.println(appelOffreId);
 		Optional<AppelOffre> ap = appelOffreService.findById(appelOffreId);
 		List<Demande> listed = ap.get().getDemandeList();
 		HttpSession session = request.getSession();
 		Long userId = (Long) session.getAttribute("sessionId");
 		Set<Ressource> ressources = new HashSet<>(); // Utilisation d'un ensemble au lieu d'une liste
 		List<PropositionMateriel> ressPro = propositionMaterielService.findRessources();
+
 		for (Demande d : listed) {
 			List<Ressource> r = d.getRessourceList();
 			for (Ressource rr : r) {
 				boolean found = false;
 				// Vérifier si la ressource est déjà incluse dans les propositions de matériel
 				for (PropositionMateriel pm : ressPro) {
-					if (rr.getId().equals(pm.getRessource().getId())) {
+					if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null && pm.getProposition().getFournisseur() != null && pm.getProposition().getFournisseur().getId().equals(userId)) {
 						found = true;
 						break;
 					}
 				}
-				// Vérifier si le fournisseur est déjà inclus dans les propositions de matériel
-				if (!found) {
-					for (PropositionMateriel pm : ressPro) {
-						if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null && pm.getProposition().getFournisseur() != null && pm.getProposition().getFournisseur().getId().equals(userId)) {
-							found = true;
-							break;
-						}
-					}
-
-				}
-				// Si la ressource n'est pas trouvée dans les propositions de matériel et que le fournisseur n'est pas inclus, l'ajouter à l'ensemble
+				// Si la ressource n'est pas trouvée dans les propositions de matériel, l'ajouter à l'ensemble
 				if (!found) {
 					ressources.add(rr);
 				}

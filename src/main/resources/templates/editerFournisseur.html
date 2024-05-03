@@ -59,7 +59,7 @@
 <div class="container">
     <div class="mb-3">
         <h2>Modifier les détails du fournisseur et de la société</h2>
-        <form action="/editerFournisseur" method="post">
+        <form  th:action="@{/editerFournisseur}" method="post">
             <input type="hidden" name="id" th:value="${fournisseur.id}">
             <div class="mb-3">
                 <label for="nameInput" class="form-label">Nom du Fournisseur</label>

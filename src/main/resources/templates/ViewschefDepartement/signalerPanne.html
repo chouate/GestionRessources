@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Signaler Panne</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card" style="width: 18rem;">
+        <img src="img/signal.png" class="card-img-top" alt="Signaler Panne">
+        <form th:action="@{signalerPanneChef}" method="post">
+            <div class="card-body">
+                <h5 class="card-title text-center">Signaler Panne</h5>
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="5" th:value="${panne.description}"></textarea> <!-- Correction ici -->
+                <span class="text-danger" th:errors="${panne.description}"></span> <!-- Correction ici -->
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-primary">Signaler</button>
+                    <a href="/index" class="btn btn-secondary">Annuler</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Modifier Ressource</title>
+    <title>Modifier Besion Enseignant</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
 </head>
 <body>
@@ -60,7 +60,7 @@
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="btn btn-success">Sauvegarder</button>
                             <a
-                                    th:href="@{'/enseignant/'+${ressource.getEnseignant().getId()}+'/demande/'+${ressource.getDemande().getId()}+'/ressources'}"
+                                    th:href="@{'/chefdepartement/enseignant/'+${ressource.getEnseignant().getId()}+'/demande/'+${ressource.getDemande().getId()}+'/ressources'}"
                                     class="btn btn-secondary">
                                 Annuler</a>
                         </div>

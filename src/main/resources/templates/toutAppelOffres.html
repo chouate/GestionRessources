@@ -161,7 +161,7 @@
 
                                     <td style="width:30%">
                                         <!-- Formulaire pour consulter la ressource -->
-                                        <form action="/consulterRessources" method="post">
+                                        <form  th:action="@{/consulterRessources}" method="get">
                                             <!-- Champ caché pour transmettre l'identifiant de l'appel d'offre -->
                                             <input type="hidden" name="AppelOffreId" th:value="${appelOffre.id}">
                                             <!-- Bouton pour consulter -->
