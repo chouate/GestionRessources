@@ -36,7 +36,10 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/consulterBesoinDepartement/**").hasAuthority("CHEF DEPARTEMENT")
                                 .requestMatchers("/consulterBesoinEnseignant/**").hasAuthority("CHEF DEPARTEMENT")
                                 .requestMatchers("/enseignant/**").hasAuthority("ENSEIGNANT") // Accès pour les enseignants
-                                .requestMatchers("/technicien/**").hasAuthority("TECHNICIEN") // Accès pour les techniciens
+                                .requestMatchers("/technicien/remplir-constat").hasAuthority("TECHNICIEN") // Accès pour les techniciens
+                                .requestMatchers("/remplir-constat").hasAuthority("TECHNICIEN")
+                                .requestMatchers("/consulterRessources/**").hasAuthority("FOURNISSEUR") // Accès pour les fournisseurs
+                                .requestMatchers("/proposer/**").hasAuthority("FOURNISSEUR") // Accès pour les fournisseurs
                                 .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
                 )
                 .formLogin(form ->

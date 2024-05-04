@@ -87,28 +87,28 @@
 </head>
 <body>
 <h1>Formulaire de Saisie des Pannes</h1>
-<form action="/enregistrer-constats" method="post">
-  <!-- Ajoutez ici les champs pour les informations sur la panne -->
-  <input type="hidden" name="idPanne" th:value="${panne.id}" />
-  <label for="idMachine">ID de la machine:</label>
-  <input type="number" id="idMachine" name="idMachine" placeholder="ID de la machine" required>
-  <label for="explicationPanne">Explication de la panne:</label>
-  <input type="text" id="explicationPanne" name="explicationPanne" placeholder="Explication de la panne" required>
-  <label for="dateApparition">Date d'apparition:</label>
-  <input type="date" id="dateApparition" name="dateApparition" required>
-  <label for="frequence">Fréquence:</label>
-  <select id="frequence" name="frequence" required>
-    <option value="rare">Rare</option>
-    <option value="fréquente">Fréquente</option>
-    <option value="permanente">Permanente</option>
-  </select>
-  <label for="ordre">Ordre:</label>
-  <select id="ordre" name="ordre" required>
-    <option value="défaut du système">Défaut du système</option>
-    <option value="d’un logiciel utilitaire">D’un logiciel utilitaire</option>
-    <option value="matériel">Matériel</option>
-  </select>
-  <input type="submit" value="Enregistrer">
+<form th:action="@{/enregistrer-constats}" method="post">
+    <!-- Ajoutez ici les champs pour les informations sur la panne -->
+    <input type="hidden" name="idPanne" th:value="${panne.id}" />
+    <label for="ressource">ID de la machine:</label>
+    <input type="number" id="ressource" name="ressource" placeholder="ID de la machine" required>
+    <label for="explicationPanne">Explication de la panne:</label>
+    <input type="text" id="explicationPanne" name="explicationPanne" placeholder="Explication de la panne" required>
+    <label for="dateApparition">Date d'apparition:</label>
+    <input type="date" id="dateApparition" name="dateApparition" required>
+    <label for="frequence">Fréquence:</label>
+    <select id="frequence" name="frequence" required>
+      <option value="rare">Rare</option>
+      <option value="fréquente">Fréquente</option>
+      <option value="permanente">Permanente</option>
+    </select>
+    <label for="ordre">Ordre:</label>
+    <select id="ordre" name="ordre" required>
+      <option value="défaut du système">Défaut du système</option>
+      <option value="d’un logiciel utilitaire">D’un logiciel utilitaire</option>
+      <option value="matériel">Matériel</option>
+    </select>
+    <input type="submit" value="Enregistrer">
 </form>
 <footer class="footer">
   <div class="container-fluid">

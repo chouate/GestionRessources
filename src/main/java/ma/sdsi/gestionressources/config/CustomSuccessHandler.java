@@ -33,7 +33,11 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 break;
             }
             else if (grantedAuthority.getAuthority().equals("TECHNICIEN")) {
-                redirectUrl = "/dashboard";
+                redirectUrl = "/remplir-constat";
+                break;
+            }
+            else if (grantedAuthority.getAuthority().equals("FOURNISSEUR")) {
+                redirectUrl = "/toutAppelOffres";
                 break;
             }
         }

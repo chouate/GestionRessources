@@ -111,10 +111,14 @@
                                                 <span class="material-icons">settings</span>
                                                 Settings
                                             </a></li>
-                                            <li><a href="#">
-                                                <span class="material-icons">logout</span>
-                                                Logout
-                                            </a></li>
+                                            <li>
+                                                <form th:action="@{/logout}" method="post">
+                                                    <button type="submit"  th:onclick="'return confirm(\'Voulez-vous vraiment vous déconnecter ?\')'">
+                                                        <span class="material-icons ">logout</span>
+                                                        logout
+                                                    </button>
+                                                </form>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -161,7 +165,7 @@
 
                                     <td style="width:30%">
                                         <!-- Formulaire pour consulter la ressource -->
-                                        <form action="/consulterRessources" method="post">
+                                        <form action="/consulterRessources" method="get">
                                             <!-- Champ caché pour transmettre l'identifiant de l'appel d'offre -->
                                             <input type="hidden" name="AppelOffreId" th:value="${appelOffre.id}">
                                             <!-- Bouton pour consulter -->

@@ -2,6 +2,7 @@ package ma.sdsi.gestionressources.controllers;
 
 import jakarta.validation.constraints.NotNull;
 import ma.sdsi.gestionressources.entities.Panne;
+import ma.sdsi.gestionressources.entities.Ressource;
 import ma.sdsi.gestionressources.repositories.RessourceRepository;
 import ma.sdsi.gestionressources.services.PanneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class PanneController {
     @Autowired
     private PanneService panneService;
 
+
     @Autowired
     private RessourceRepository ressourceRepository; // Injectez le repository de la ressource
 
@@ -34,13 +36,14 @@ public class PanneController {
 
     @PostMapping("/enregistrer-constats")
     public String enregistrerConstatPanne(@RequestParam Long idPanne,
-                                          @RequestParam Long idMachine,
+                                          @RequestParam Long ressource,
                                           @RequestParam String explicationPanne,
                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull Date dateApparition,
                                           @RequestParam String frequence,
                                           @RequestParam String ordre) {
         // Votre code de traitement ici
-        panneService.remplirConstat(idPanne, idMachine, explicationPanne, dateApparition, frequence, ordre);
+        Ressource ressource1 = ressourceRepository.findById(ressource).orElse(null);
+        panneService.remplirConstat(idPanne, ressource1, explicationPanne, dateApparition, frequence, ordre);
         // Rediriger vers la page de liste des pannes
         return "redirect:/remplir-constat";
     }

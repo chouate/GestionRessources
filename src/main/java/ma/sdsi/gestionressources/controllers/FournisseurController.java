@@ -50,7 +50,7 @@ public class FournisseurController {
 		model.addAttribute("appelOffres", appelOffres);
 		return "toutAppelOffres";
 	}
-	@PostMapping("/consulterRessources")
+	@GetMapping("/consulterRessources")
 	public String appelOffre(Model model, @RequestParam("AppelOffreId") Long appelOffreId, HttpServletRequest request) {
 		System.out.println(appelOffreId);
 		Optional<AppelOffre> ap = appelOffreService.findById(appelOffreId);
@@ -73,7 +73,9 @@ public class FournisseurController {
 				// Vérifier si le fournisseur est déjà inclus dans les propositions de matériel
 				if (!found) {
 					for (PropositionMateriel pm : ressPro) {
-						if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null && pm.getProposition().getFournisseur() != null && pm.getProposition().getFournisseur().getId().equals(userId)) {
+						if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null
+								&& pm.getProposition().getFournisseur() != null
+								&& pm.getProposition().getFournisseur().getId().equals(userId)) {
 							found = true;
 							break;
 						}
@@ -131,9 +133,8 @@ public class FournisseurController {
 			propositionMaterielService.saveOrUpdate(propositionMateriel);
 
 		}
-		return "toutRessourcesApplOffre";
+		return "redirect:/toutAppelOffres";
 	}
-
 
 }
 
