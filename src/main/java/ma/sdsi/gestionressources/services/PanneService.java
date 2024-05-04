@@ -3,6 +3,7 @@ package ma.sdsi.gestionressources.services;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import ma.sdsi.gestionressources.entities.Panne;
+import ma.sdsi.gestionressources.entities.Ressource;
 import ma.sdsi.gestionressources.repositories.PanneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,14 +35,14 @@ public class PanneService {
         panneRepository.deleteById(id);
     }
     @Transactional
-    public void remplirConstat(Long idPanne, Long idMachine, String explicationPanne, @NotNull Date dateApparition, String frequence, String ordre) {
+    public void remplirConstat(Long idPanne, Ressource idMachine, String explicationPanne, @NotNull Date dateApparition, String frequence, String ordre) {
         // Récupérer l'objet Panne correspondant à l'ID spécifié
         Optional<Panne> panneOptional = panneRepository.findById(idPanne);
 
         // Vérifier si l'objet Panne existe
         if (panneOptional.isPresent()) {
             Panne panne = panneOptional.get();
-            panne.setIdMachine(idMachine);
+            panne.setRessource(idMachine);
             // Mettre à jour les champs avec les nouvelles valeurs
 
             panne.setExplicationPanne(explicationPanne);

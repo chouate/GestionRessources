@@ -18,6 +18,8 @@ import java.util.Date;
 public class Panne {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     private Long idMachine;
 
     @NotBlank(message = "La description ne peut pas être vide")
@@ -27,21 +29,20 @@ public class Panne {
 
     @ManyToOne
     private Enseignant enseignant;
-    @NotNull
+
+//    @NotNull
     @Temporal(TemporalType.DATE)
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-
     private Date dateApparition;
 
-    @NotNull
+//    @NotNull
     //@Enumerated(EnumType.STRING)
     private String frequence;
 
-    @NotNull
+//    @NotNull
     //@Enumerated(EnumType.STRING)
     private String ordre;
-    @NotNull
+//    @NotNull
     @ManyToOne
     private Ressource ressource;
 
@@ -55,17 +56,17 @@ public class Panne {
     private String explicationPanne; // Ajout du champ explicationPanne
 
 
-    @Override
-    public String toString() {
-        return "ConstatPanne{" +
-                "id=" + id +
-                ", dateApparition=" + dateApparition +
-                ", frequence=" + frequence +
-                ", ordre=" + ordre +
-                ", decisonResonsable=" + decisonResponsable +
-                ", explicationPanne='" + explicationPanne + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ConstatPanne{" +
+//                "id=" + id +
+//                ", dateApparition=" + dateApparition +
+//                ", frequence=" + frequence +
+//                ", ordre=" + ordre +
+//                ", decisonResonsable=" + decisonResponsable +
+//                ", explicationPanne='" + explicationPanne + '\'' +
+//                '}';
+//    }
 
 
 }
