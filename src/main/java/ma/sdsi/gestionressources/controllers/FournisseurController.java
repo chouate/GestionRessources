@@ -1,11 +1,15 @@
 package ma.sdsi.gestionressources.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import ma.sdsi.gestionressources.repositories.FournisseurRepository;
+import ma.sdsi.gestionressources.repositories.UserRepository;
 import ma.sdsi.gestionressources.services.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import ma.sdsi.gestionressources.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +29,20 @@ public class FournisseurController {
 	RessourceService ressourceService;
 	@Autowired
 	PropositionMaterielService propositionMaterielService;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	FournisseurRepository fournisseurRepository;
+
+	private Fournisseur getFournisseurFromSession() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.getName() != null) {
+			String username = authentication.getName();
+			User user = userRepository.findByEmail(username); // Trouver l'utilisateur par email
+			return fournisseurRepository.findByUser(user); // Trouver le fournisseur par utilisateur
+		}
+		return null;
+	}
 	@PostMapping("/editerFournisseur")
 	public String editerFournisseur(@ModelAttribute("fournisseur") Fournisseur fournisseur) {
 		System.out.println(fournisseur.getSociete());
@@ -35,9 +53,10 @@ public class FournisseurController {
 	@GetMapping("/toutAppelOffres")
 	public String getTout(Model model, HttpServletRequest request){
 		Long id = 1L;
+		Fournisseur fournisseur = getFournisseurFromSession();
 		// Définir la variable de session avec l'ID généré
 		HttpSession session = request.getSession();
-		session.setAttribute("sessionId", id);
+		session.setAttribute("sessionId", fournisseur.getId());
 		List<AppelOffre> liste = appelOffreService.findAll();
 		List<AppelOffre> appelOffres = new ArrayList<>();
 
@@ -65,7 +84,9 @@ public class FournisseurController {
 				boolean found = false;
 				// Vérifier si la ressource est déjà incluse dans les propositions de matériel
 				for (PropositionMateriel pm : ressPro) {
-					if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null && pm.getProposition().getFournisseur() != null && pm.getProposition().getFournisseur().getId().equals(userId)) {
+					if (rr.getId().equals(pm.getRessource().getId()) && pm.getProposition() != null
+							&& pm.getProposition().getFournisseur() != null
+							&& pm.getProposition().getFournisseur().getId().equals(userId)) {
 						found = true;
 						break;
 					}

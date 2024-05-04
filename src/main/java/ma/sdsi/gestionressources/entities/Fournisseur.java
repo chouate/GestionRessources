@@ -1,9 +1,7 @@
 package ma.sdsi.gestionressources.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Entity
@@ -24,4 +22,10 @@ public class Fournisseur {
     @ManyToOne
     @JoinColumn(name = "societe_societeId")
     private Societe societe;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToOne
+    @JoinColumn(name = "user_id") // Indique que la clé étrangère se trouve dans `Enseignant`
+    private User user; // Relation OneToOne avec `User`
 }

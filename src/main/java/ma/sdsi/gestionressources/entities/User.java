@@ -33,6 +33,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Enseignant enseignant; // Relation OneToOne inverse
 
+    @OneToOne(mappedBy = "user")
+    private Fournisseur fournisseur; // Relation OneToOne inverse
+
     public int getId() {
         return id;
     }
